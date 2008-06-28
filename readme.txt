@@ -40,6 +40,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. minimize header after activate
 1. configure-area for user
 1. configure-area for user/admin; options for metaboxes, areas in write-area and menu
+1. Adminimize Theme how in WordPress 2.3
 
 == Other Notes ==
 = Acknowledgements =
