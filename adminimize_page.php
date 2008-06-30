@@ -99,6 +99,16 @@ function _mw_adminimize_options() {
 								</select> <?php _e('Automatisches Scrollen zum Editor beim Aufruf der Seite Schreiben in Beitr&auml;ge und Seite.', 'adminimize'); ?>
 						</td>
 					</tr>
+					<tr valign="top">
+						<td><?php _e('Thickbox FullScreen', 'adminimize'); ?></td>
+						<td>
+							<?php $_mw_adminimize_tb_window = get_option('_mw_adminimize_tb_window'); ?>
+							<select name="_mw_adminimize_tb_window">
+								<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
+								<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>>Aktiv</option>
+								</select> <?php _e('Alle Thickbox-Funktionen werden nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			

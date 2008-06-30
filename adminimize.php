@@ -4,8 +4,8 @@ Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface. <strong>Compatible with WordPress 2.5 or later. Configuration: <a href="options-general.php?page=adminimize/adminimize.php">Options &raquo; Adminimize</a></strong>
 Author: <a href="http://meyerweb.com/">Eric A. Meyer</a> and <a href="http://bueltge.de/">Frank B&uuml;ltge</a>
-Version: 0.7
-Date: 28.06.2008 11:42:00
+Version: 0.7.1
+Date: 30.06.2008 14:59:46
 */ 
 
 
@@ -106,7 +106,6 @@ function _mw_adminimize_init() {
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 			add_action('admin_head', '_mw_adminimize_remove_box', 99);
 			add_action('admin_head', '_mw_adminimize_remove_tb_window');
-			add_action('admin_head', '_mw_adminimize_tb_window');
 			
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			
@@ -120,7 +119,6 @@ function _mw_adminimize_init() {
 
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 			add_action('admin_head', '_mw_adminimize_remove_tb_window');
-			add_action('admin_head', '_mw_adminimize_tb_window');
 			
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 
@@ -136,6 +134,12 @@ function _mw_adminimize_init() {
 		switch ($_mw_adminimize_writescroll) {
 		case 1:
 			add_action('admin_head', '_mw_adminimize_writescroll');
+			break;
+		}
+		$_mw_adminimize_tb_window = get_option('_mw_adminimize_tb_window');
+		switch ($_mw_adminimize_tb_window) {
+		case 1:
+			add_action('admin_head', '_mw_adminimize_tb_window');
 			break;
 		}
 		// set user option in edit-area
@@ -714,6 +718,7 @@ function _mw_adminimize_update() {
 	_mw_adminimize_get_update('_mw_adminimize_user_info');
 	_mw_adminimize_get_update('_mw_adminimize_footer');
 	_mw_adminimize_get_update('_mw_adminimize_writescroll');
+	_mw_adminimize_get_update('_mw_adminimize_tb_window');
 	
 	// wp menu, submenu
 	update_option('mw_adminimize_default_menu', $menu);
@@ -765,6 +770,7 @@ function _mw_adminimize_deinstall() {
 	delete_option('_mw_adminimize_user_info');
 	delete_option('_mw_adminimize_footer');
 	delete_option('_mw_adminimize_writescroll');
+	delete_option('_mw_adminimize_tb_window');
 	
 	delete_option('mw_adminimize_default_menu');
 	delete_option('mw_adminimize_default_submenu');
