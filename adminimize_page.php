@@ -47,6 +47,10 @@ function _mw_adminimize_options() {
 		<h2><?php _e('Adminimize', 'adminimize'); ?></h2>
 		<form name="backend_option" method="post" id="_mw_adminimize_options" action="<?php echo $location; ?>" >
 			<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
+			<p class="tablenav" id="submitbutton">
+				<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Einstellungen aktualisieren', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+			</p>
+			<br class="clear" />
 			<table summary="config" class="widefat">
 				<thead>
 					<tr>
@@ -104,8 +108,8 @@ function _mw_adminimize_options() {
 						<td>
 							<?php $_mw_adminimize_tb_window = get_option('_mw_adminimize_tb_window'); ?>
 							<select name="_mw_adminimize_tb_window">
-								<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-								<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>>Aktiv</option>
+								<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
+								<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>>Aktiv</option>
 								</select> <?php _e('Alle Thickbox-Funktionen werden nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
 						</td>
 					</tr>

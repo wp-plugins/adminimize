@@ -4,8 +4,8 @@ Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface. <strong>Compatible with WordPress 2.5 or later. Configuration: <a href="options-general.php?page=adminimize/adminimize.php">Options &raquo; Adminimize</a></strong>
 Author: <a href="http://meyerweb.com/">Eric A. Meyer</a> and <a href="http://bueltge.de/">Frank B&uuml;ltge</a>
-Version: 0.7.1
-Date: 30.06.2008 14:59:46
+Version: 0.7.2
+Date: 30.06.2008 21:46:55
 */ 
 
 
