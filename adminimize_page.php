@@ -78,8 +78,8 @@ function _mw_adminimize_options() {
 							<?php $_mw_adminimize_user_info = get_option('_mw_adminimize_user_info'); ?>
 							<select name="_mw_adminimize_user_info">
 								<option value="0"<?php if ($_mw_adminimize_user_info == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-								<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>>Ausblenden</option>
-								<option value="2"<?php if ($_mw_adminimize_user_info == '2') { echo ' selected="selected"'; } ?>>nur Logout</option>
+								<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
+								<option value="2"<?php if ($_mw_adminimize_user_info == '2') { echo ' selected="selected"'; } ?>><?php _e('nur Logout', 'adminimize'); ?></option>
 								</select> <?php _e('Der User-Info-Bereich ist im oberen rechten Bereich zu finden und kann ausgeblendet oder reduziert dargestellt werden.', 'adminimize'); ?>
 						</td>
 					</tr>
@@ -89,7 +89,7 @@ function _mw_adminimize_options() {
 							<?php $_mw_adminimize_footer = get_option('_mw_adminimize_footer'); ?>
 							<select name="_mw_adminimize_footer">
 								<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-								<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>>Ausblenden</option>
+								<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
 								</select> <?php _e('Der Footer-Bereich kann deaktiviert werden, inklusive aller Links und Hinweise.', 'adminimize'); ?>
 						</td>
 					</tr>
@@ -99,7 +99,7 @@ function _mw_adminimize_options() {
 							<?php $_mw_adminimize_writescroll = get_option('_mw_adminimize_writescroll'); ?>
 							<select name="_mw_adminimize_writescroll">
 								<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-								<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>>Aktiv</option>
+								<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
 								</select> <?php _e('Automatisches Scrollen zum Editor beim Aufruf der Seite Schreiben in Beitr&auml;ge und Seite.', 'adminimize'); ?>
 						</td>
 					</tr>
@@ -109,10 +109,42 @@ function _mw_adminimize_options() {
 							<?php $_mw_adminimize_tb_window = get_option('_mw_adminimize_tb_window'); ?>
 							<select name="_mw_adminimize_tb_window">
 								<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-								<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>>Aktiv</option>
+								<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
 								</select> <?php _e('Alle Thickbox-Funktionen werden nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
 						</td>
 					</tr>
+					<?php
+					// when remove dashboard
+					$disabled_menu        = get_option('mw_adminimize_disabled_menu');
+					$disabled_submenu     = get_option('mw_adminimize_disabled_submenu');
+					$disabled_menu_adm    = get_option('mw_adminimize_disabled_menu_adm');
+					$disabled_submenu_adm = get_option('mw_adminimize_disabled_submenu_adm');
+
+					if ($disabled_menu != '') {
+						if ( in_array('index.php', $disabled_menu) ||
+								 in_array('index.php', $disabled_submenu) ||
+								 in_array('index.php', $disabled_menu_adm) ||
+								 in_array('index.php', $disabled_submenu_adm)
+							 ) {
+					?>
+					<tr valign="top">
+						<td><?php _e('Dashboard inaktiv, Weiterleitung nach', 'adminimize'); ?></td>
+						<td>
+							<?php $_mw_adminimize_db_redirect = get_option('_mw_adminimize_db_redirect'); ?>
+							<select name="_mw_adminimize_db_redirect">
+								<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?> (profile.php)</option>
+								<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Verwalten Beitr&auml;ge', 'adminimize'); ?> (edit.php)</option>
+								<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Verwalten Seiten', 'adminimize'); ?> (edit-pages.php)</option>
+								<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Schreiben Beitrag', 'adminimize'); ?> (post-new.php)</option>
+								<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Schreiben Seite', 'adminimize'); ?> (page-new.php)</option>
+								<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Kommentare', 'adminimize'); ?> (edit-comments.php)</option>
+								</select> <?php _e('Du hast das Dashboard deaktivert, wohin soll der Nutzer weitergeleitet werden?', 'adminimize'); ?>
+						</td>
+					</tr>
+					<?php
+						}
+					}
+					?>
 				</tbody>
 			</table>
 			

@@ -2,10 +2,10 @@
 /*
 Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
-Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface. <strong>Compatible with WordPress 2.5 or later. Configuration: <a href="options-general.php?page=adminimize/adminimize.php">Options &raquo; Adminimize</a></strong>
-Author: <a href="http://meyerweb.com/">Eric A. Meyer</a> and <a href="http://bueltge.de/">Frank B&uuml;ltge</a>
-Version: 0.7.2
-Date: 30.06.2008 21:46:55
+Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
+Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
+Version: 0.7.3
+Date: 01.07.2008 09:29:48
 */ 
 
 
@@ -152,12 +152,13 @@ function _mw_adminimize_init() {
 	// set metabox option
 	add_action('admin_head', '_mw_adminimize_set_metabox_option', 1);
 
-	add_submenu_page('options-general.php', __('Adminimize Einstellungen', 'adminimize'), __('Adminimize', 'adminimize'), 8, __FILE__, '_mw_adminimize_options');
-
+	add_action('in_admin_footer', '_mw_adminimize_admin_footer');
+	
 	update_option('mw_adminimize_default_menu', $menu);
 	update_option('mw_adminimize_default_submenu', $submenu);
 }
 
+add_action('admin_menu', '_mw_adminimize_add_settings_page');
 add_action('admin_menu', '_mw_adminimize_remove_dashboard');
 add_action('admin_init', '_mw_adminimize_init', 1);
 add_action('admin_init', '_mw_adminimize_admin_styles', 1);
@@ -478,11 +479,33 @@ function _mw_adminimize_remove_dashboard() {
 
 	// remove dashboard
 	if ($disabled_menu != '') {
-		if (  ( in_array('index.php', $disabled_menu) && !current_user_can('level_10') ) ||
-			    ( in_array('index.php', $disabled_submenu) && !current_user_can('level_10') ) ||
-			    ( in_array('index.php', $disabled_menu_adm) && current_user_can('level_10') ) ||
-			    ( in_array('index.php', $disabled_submenu_adm) && current_user_can('level_10') )
+		if ( ( in_array('index.php', $disabled_menu) && !current_user_can('level_10') ) ||
+					( in_array('index.php', $disabled_submenu) && !current_user_can('level_10') ) ||
+					( in_array('index.php', $disabled_menu_adm) && current_user_can('level_10') ) ||
+					( in_array('index.php', $disabled_submenu_adm) && current_user_can('level_10') )
 			 ) {
+	
+			$_mw_adminimize_db_redirect = get_option('_mw_adminimize_db_redirect');
+			switch ($_mw_adminimize_db_redirect) {
+			case 0:
+				$_mw_adminimize_db_redirect = 'profile.php';
+				break;
+			case 1:
+				$_mw_adminimize_db_redirect = 'edit.php';
+				break;
+			case 2:
+				$_mw_adminimize_db_redirect = 'edit-pages.php';
+				break;
+			case 3:
+				$_mw_adminimize_db_redirect = 'post-new.php';
+				break;
+			case 4:
+				$_mw_adminimize_db_redirect = 'page-new.php';
+				break;
+			case 5:
+				$_mw_adminimize_db_redirect = 'edit-comments.php';
+				break;
+			}
 
 			$the_user = new WP_User($user_ID);
 			reset($menu); $page = key($menu);
@@ -497,13 +520,11 @@ function _mw_adminimize_remove_dashboard() {
 			while ( !$the_user->has_cap($menu[$page][1]) && next($menu) )
 				$page = key($menu);
 				
-			//if ( preg_match('#wp-admin/?(index.php)?$#', $_SERVER['REQUEST_URI']) && ('index.php' != $menu[$page][2]) ) {
 			if ( preg_match('#wp-admin/?(index.php)?$#', $_SERVER['REQUEST_URI'])) {
 				if (function_exists('admin_url')) {
-					wp_redirect( admin_url('edit.php') );
+					wp_redirect( admin_url($_mw_adminimize_db_redirect) );
 				} else {
-					wp_redirect( get_option('siteurl') . '/wp-admin/edit.php' );
-				//wp_redirect(get_option('siteurl') . '/wp-admin/' . $menu[$page][2]);
+					wp_redirect( get_option('siteurl') . '/wp-admin/' . $_mw_adminimize_db_redirect );
 				}
 			}
 		}
@@ -700,6 +721,46 @@ require_once('adminimize_page.php');
 
 
 /**
+ * credit in wp-footer
+ */
+function _mw_adminimize_admin_footer() {
+	if( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
+		$plugin_data = get_plugin_data( __FILE__ );
+		printf('%1$s plugin | Version %2$s | Author %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+	}
+}
+
+
+/**
+ * Add action link(s) to plugins page
+ * Thanks Dion Hulse -- http://dd32.id.au/wordpress-plugins/?configure-link
+ */
+function _mw_adminimize_filter_plugin_actions($links, $file){
+	static $this_plugin;
+
+	if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
+
+	if( $file == $this_plugin ){
+		$settings_link = '<a href="options-general.php?page=adminimize/adminimize.php">' . __('Settings') . '</a>';
+		$links = array_merge( array($settings_link), $links); // before other links
+//	$links[] = $settings_link; // ... or after other links
+	}
+	return $links;
+}
+
+
+/**
+ * settings in plugin-admin-page
+ */
+function _mw_adminimize_add_settings_page() {
+	if( current_user_can('switch_themes') ) {
+		add_submenu_page('options-general.php', __('Adminimize Einstellungen', 'adminimize'), __('Adminimize', 'adminimize'), 8, __FILE__, '_mw_adminimize_options');
+		add_filter('plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2);
+	}
+}
+
+
+/**
  * Update options in database
  */
 function _mw_adminimize_update() {
@@ -719,6 +780,7 @@ function _mw_adminimize_update() {
 	_mw_adminimize_get_update('_mw_adminimize_footer');
 	_mw_adminimize_get_update('_mw_adminimize_writescroll');
 	_mw_adminimize_get_update('_mw_adminimize_tb_window');
+	_mw_adminimize_get_update('_mw_adminimize_db_redirect');
 	
 	// wp menu, submenu
 	update_option('mw_adminimize_default_menu', $menu);
@@ -771,6 +833,7 @@ function _mw_adminimize_deinstall() {
 	delete_option('_mw_adminimize_footer');
 	delete_option('_mw_adminimize_writescroll');
 	delete_option('_mw_adminimize_tb_window');
+	delete_option('_mw_adminimize_db_redirect');
 	
 	delete_option('mw_adminimize_default_menu');
 	delete_option('mw_adminimize_default_submenu');
