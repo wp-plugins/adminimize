@@ -42,12 +42,40 @@ function _mw_adminimize_options() {
 			wp_die($myErrors);
 		}
 	}
+	
+	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_set_theme') && $_POST['_mw_adminimize_save'] ) {
+		if ( function_exists('current_user_can') && current_user_can('edit_users') ) {
+			check_admin_referer($_mw_adminimize_nonce);
+			
+			_mw_adminimize_set_theme();
+			
+			$myErrors = new _mw_adminimize_message_class();
+			$myErrors = '<div id="message" class="updated fade"><p>' . $myErrors->get_error('_mw_adminimize_set_theme') . '</p></div>';
+			echo $myErrors;
+		} else {
+			$myErrors = new _mw_adminimize_message_class();
+			$myErrors = '<div id="message" class="error"><p>' . $myErrors->get_error('_mw_adminimize_access_denied') . '</p></div>';
+			wp_die($myErrors);
+		}
+	}
 ?>
 	<div class="wrap">
 		<h2><?php _e('Adminimize', 'adminimize'); ?></h2>
+		<h3><?php _e('Adminimize MiniMenu', 'adminimize'); ?></h3>
+		<ul>
+			<li><a href="#backend_config" ><?php _e('Backend Einstellungen', 'adminimize'); ?></a></li>
+			<li><a href="#config_menu" ><?php _e('Menu Einstellungen', 'adminimize'); ?></a></li>
+			<li><a href="#config_edit" ><?php _e('Schreiben Einstellungen', 'adminimize'); ?></a></li>
+			<li><a href="#set_theme" ><?php _e('Theme setzen', 'adminimize'); ?></a></li>
+			<li><a href="#uninstall" ><?php _e('Deinstallieren', 'adminimize'); ?></a></li>
+		</ul>
+		
+		<br class="clear" />
+		
+		<h3 id="backend_config"><?php _e('Backend Einstellungen', 'adminimize'); ?></h3>
 		<form name="backend_option" method="post" id="_mw_adminimize_options" action="<?php echo $location; ?>" >
 			<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
-			<p class="tablenav" id="submitbutton">
+			<p id="submitbutton">
 				<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Einstellungen aktualisieren', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 			</p>
 			<br class="clear" />
@@ -148,8 +176,12 @@ function _mw_adminimize_options() {
 				</tbody>
 			</table>
 			
-			<br style="clear: both;" />
+			<div class="tablenav">
+				<div style="float: right"><a href="#wphead"><?php _e('Top', 'adminimize'); ?></a></div>
+			</div>
+			<br class="clear" />
 
+			<h3 id="config_menu"><?php _e('Menu Einstellungen', 'adminimize'); ?></h3>
 			<table summary="config_menu" class="widefat">
 				<thead>
 					<tr>
@@ -258,6 +290,7 @@ function _mw_adminimize_options() {
 					if ($menu != '') {
 						
 						$i = 0;
+						$x = 0;
 						foreach ($menu as $item) {
 						
 							// menu items
@@ -284,13 +317,13 @@ function _mw_adminimize_options() {
 							
 							echo '<tr class="form-invalid">' . "\n";
 							echo '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $item[2] . ')</span> </th>';
-							echo '<td><input type="checkbox"' . $disabled_item . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
-							echo '<td><input type="checkbox"' . $disabled_item . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
+							echo '<td><input id="check_menu'. $x .'" type="checkbox"' . $disabled_item . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
+							echo '<td><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_item . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
 							echo '</tr>';
-							
+							$x++;
 							if ( !isset($submenu[$item[2]]) )
 								continue;
-						
+
 							// submenu items
 							foreach ($submenu[ $item[2] ] as $subitem) {
 							
@@ -308,14 +341,20 @@ function _mw_adminimize_options() {
 								$checked_adm = (in_array($subitem[2], $disabled_submenu_adm)) ? ' checked="checked"' : '';
 								
 								echo '<td> &mdash; ' . $subitem[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $subitem[2] . ')</span> </td>' . "\n";
-								echo '<td><input type="checkbox"' . $checked . ' name="mw_adminimize_disabled_submenu_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
-								echo '<td><input type="checkbox"' . $disabled_subitem_adm . $checked_adm . ' name="mw_adminimize_disabled_submenu_adm_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+								echo '<td><input id="check_menu'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_submenu_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+								echo '<td><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_subitem_adm . $checked_adm . ' name="mw_adminimize_disabled_submenu_adm_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
 								echo '</tr>' . "\n";
+								$x++;
 							}
-						
 							$i++;
+							$x++;
 						}
-						
+							echo '<tr>' . "\n";
+							echo '<th>' . __('Alle w&auml;hlen', 'adminimize') . '</th>';
+							echo '<td><input type="checkbox" id="ctoggleCheckboxes_menu" onClick="toggleCheckboxes_menu();"><a id="atoggleCheckboxes_menu" href="javascript:toggleCheckboxes_menu();"> All</a></td>';
+							echo '<td><input type="checkbox" id="ctoggleCheckboxes_menuadm" onClick="toggleCheckboxes_menuadm();"><a id="atoggleCheckboxes_menuadm" href="javascript:toggleCheckboxes_menuadm();"> All</a></td>';
+							echo '</tr>' . "\n";
+							
 					} else {
 						$myErrors = new _mw_adminimize_message_class();
 						$myErrors = '<tr><td style="color: red;">' . $myErrors->get_error('_mw_adminimize_get_option') . '</td></tr>';
@@ -324,8 +363,12 @@ function _mw_adminimize_options() {
 				</tbody>
 			</table>
 
-			<br style="clear: both;" />
-
+			<div class="tablenav">
+				<div style="float: right"><a href="#wphead"><?php _e('Top', 'adminimize'); ?></a></div>
+			</div>
+			<br class="clear" />
+			
+			<h3 id="config_edit"><?php _e('Schreiben Einstellungen', 'adminimize'); ?></h3>
 			<table summary="config_edit" class="widefat">
 				<thead>
 					<tr>
@@ -392,15 +435,84 @@ function _mw_adminimize_options() {
 				</tbody>
 			</table>
 			
-			<p class="tablenav" id="submitbutton">
+			<p id="submitbutton">
 				<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
 				<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Einstellungen aktualisieren', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 			</p>
 		</form>
 
-		<br style="clear: both;" />
-		
-		<h3><?php _e('Deinstallation der Einstellungen', 'adminimize') ?></h3>
+		<div class="tablenav">
+			<div style="float: right"><a href="#wphead"><?php _e('Top', 'adminimize'); ?></a></div>
+		</div>
+		<br class="clear" />
+
+		<h3 id="set_theme"><?php _e('Theme setzen', 'adminimize') ?></h3>
+		<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="<?php echo $location; ?>" >
+			<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
+			<table class="widefat">
+				<thead>
+					<tr class="thead">
+						<th>&nbsp;</th>
+						<th class="num"><?php _e('User-ID') ?></th>
+						<th><?php _e('Benutzername') ?></th>
+						<th><?php _e('Name im Blog') ?></th>
+						<th><?php _e('Aktuelles Theme') ?></th>
+					</tr>
+				</thead>
+				<tbody id="users" class="list:user user-list">
+					<?php
+					global $wpdb, $_wp_admin_css_colors;;
+					
+					$wp_user_search = $wpdb->get_results("SELECT ID, user_login, display_name FROM $wpdb->users ORDER BY ID");
+					
+					$style = '';
+					foreach ( $wp_user_search as $userid ) {
+						$user_id = (int) $userid->ID;
+						$user_login = stripslashes($userid->user_login);
+						$display_name = stripslashes($userid->display_name);
+						$current_color = get_user_option('admin_color', $user_id);
+					
+						$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
+						$return  = '';
+						$return .= '<tr>';
+						$return .= '<td><input type="checkbox" name="mw_adminimize_theme_items[]" value="' . $user_id . '" /></td>';
+						$return .= '<td class="num">'. $user_id .'</td>';
+						$return .= '<td>'. $user_login .'</td>';
+						$return .= '<td>'. $display_name .'</td>';
+						$return .= '<td>'. $current_color . '</td>';
+						$return .= '</tr>';
+
+						print($return);
+					}
+					?>
+						<tr valign="top">
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>
+								<select name="_mw_adminimize_set_theme">
+									<?php foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
+										<option value="<?php echo $color; ?>"><?php echo $color_info->name . ' (' . $color . ')' ?></option>
+									<?php endforeach; ?>
+									</select>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+			<p id="submitbutton">
+				<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_set_theme" />
+				<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Theme zuweisen', 'adminimize'); ?> &raquo;" />
+				<input type="hidden" name="page_options" value="'dofollow_timeout'" />
+			</p>
+		</form>
+
+		<div class="tablenav">
+			<div style="float: right"><a href="#wphead"><?php _e('Top', 'adminimize'); ?></a></div>
+		</div>
+		<br class="clear" />
+
+		<h3 id="uninstall"><?php _e('Deinstallation der Einstellungen', 'adminimize') ?></h3>
 		<p><?php _e('Nutze diese Option, um die Datenbank von den Eintr&auml;gen des Plugins zu entfernen. Das Plugin entfernt die Eintr&auml;ge auch, wenn es deaktiviert wird!', 'adminimize'); ?></p>
 		<form name="form2" method="post" id="_mw_adminimize_options_deinstall" action="<?php echo $location; ?>">
 			<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
@@ -411,7 +523,7 @@ function _mw_adminimize_options() {
 			</p>
 		</form>
 
-		<br style="clear: both;" />
+		<br class="clear" />
 
 		<p><small><?php _e('Weitere Information: Besuche die <a href=\'http://bueltge.de/wordpress-admin-theme-adminimize/674/\'>Plugin Webseite</a> f&uuml;r weitere Informationen oder hole die aktuelle Version des Plugins.', 'adminimize'); ?><br />&copy; Copyright 2008 - <?php echo date("Y"); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php _e('Du willst Danke sagen? Besuche meine <a href=\'http://bueltge.de/wunschliste/\'>Wunschliste</a>.', 'adminimize'); ?></small></p>
 

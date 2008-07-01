@@ -4,8 +4,8 @@ Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
-Version: 0.7.4
-Date: 01.07.2008 13:55:47
+Version: 0.7.5
+Last Update: 01.07.2008 22:55:12
 */ 
 
 
@@ -66,6 +66,7 @@ class _mw_adminimize_message_class {
 		$this->errors->add('_mw_adminimize_deinstall', __('Die Einstellungen wurde gel&ouml;scht!', $myLocalizationName));
 		$this->errors->add('_mw_adminimize_deinstall_yes', __('Checkbox setzen, wenn wirklich deinstalliert werden soll!', $myLocalizationName));
 		$this->errors->add('_mw_adminimize_get_option', __('Menu und Submenu k&ouml;nnen nicht geladen werden!', $myLocalizationName));
+		$this->errors->add('_mw_adminimize_set_theme', __('Backend-Theme wurde zugewiesen!', $myLocalizationName));
 	}
 }
 
@@ -613,6 +614,8 @@ function _mw_adminimize_set_menu_option() {
 		break;
 	}
 
+	$_mw_adminimize_admin_head .= '<script type="text/javascript" src="' . get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js"></script>';
+
 	// set menu
 	if ($disabled_menu != '') {
 	
@@ -757,6 +760,23 @@ function _mw_adminimize_add_settings_page() {
 	if( current_user_can('switch_themes') ) {
 		add_submenu_page('options-general.php', __('Adminimize Einstellungen', 'adminimize'), __('Adminimize', 'adminimize'), 8, __FILE__, '_mw_adminimize_options');
 		add_filter('plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2);
+	}
+}
+
+
+/**
+ * Set theme for users y user_level 10
+ */
+function _mw_adminimize_set_theme() {
+
+	if ( !current_user_can('edit_users') )
+		wp_die(__('Cheatin&#8217; uh?'));
+
+	$user_ids = $_POST[mw_adminimize_theme_items];
+	$admin_color = htmlspecialchars( stripslashes( $_POST[_mw_adminimize_set_theme] ) );
+	foreach( $user_ids as $user_id) {
+		$user_id = (int) $user_id;
+		update_usermeta($user_id, 'admin_color', $admin_color);
 	}
 }
 
