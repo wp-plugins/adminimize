@@ -2,9 +2,9 @@
 	max-width: 99%;
 }
 
-body {
+html {
 	height: 100%;
-	margin-bottom: 1px;	
+	margin-bottom: 1px;
 }
 
 #newcat {
@@ -13,21 +13,4 @@ body {
 
 #category-add select, #newtag {
 	width: 75% !important;
-}
-
-#small_user_info {
-	position: absolute;
-	right: 15px;
-	top: 11px;
-	font-size: 11px;
-	color: #999;
-}
-
-#small_user_info a {
-	color: #ccc;
-}
-
-#small_user_info p {
-	margin: 0;
-	padding: 0;
 }

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Adminimize\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-18 12:58+0100\n"
-"PO-Revision-Date: 2008-07-01 12:07+0100\n"
+"PO-Revision-Date: 2008-07-01 14:01+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: Frank Bueltge <frank@bueltge.de>\n"
 "MIME-Version: 1.0\n"
@@ -101,20 +101,20 @@ msgstr "Grey"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: adminimize.php:601
-#: adminimize.php:711
+#: adminimize.php:602
+#: adminimize.php:712
 msgid "Log Out"
 msgstr "Log Out"
 
-#: adminimize.php:744
+#: adminimize.php:745
 msgid "Settings"
 msgstr "Settings"
 
-#: adminimize.php:757
+#: adminimize.php:758
 msgid "Adminimize Einstellungen"
 msgstr "Asminimize Options"
 
-#: adminimize.php:757
+#: adminimize.php:758
 #: adminimize_page.php:47
 msgid "Adminimize"
 msgstr "Adminimize"

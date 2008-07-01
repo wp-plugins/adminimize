@@ -4,8 +4,8 @@ Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
-Version: 0.7.3
-Date: 01.07.2008 09:29:48
+Version: 0.7.4
+Date: 01.07.2008 13:55:47
 */ 
 
 
@@ -596,6 +596,7 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
 	case 2:
+		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
 		$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
