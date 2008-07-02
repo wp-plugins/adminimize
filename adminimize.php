@@ -4,16 +4,26 @@ Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
-Version: 0.7.5
-Last Update: 01.07.2008 22:55:12
+Version: 0.7.6
+Last Update: 02.07.2008 10:32:46
 */ 
 
 
-if (function_exists('load_plugin_textdomain')) {
-	if ( !defined('WP_PLUGIN_DIR') ) {
-		load_plugin_textdomain('adminimize', str_replace( ABSPATH, '', dirname(__FILE__) ) . '/languages');
-	} else {
-		load_plugin_textdomain('adminimize', false, dirname(plugin_basename(__FILE__)) . '/languages');
+// Pre-2.6 compatibility
+if ( !defined('WP_CONTENT_URL') )
+	define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
+if ( !defined('WP_CONTENT_DIR') )
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+
+
+function _mw_adminimize_textdomain() {
+
+	if (function_exists('load_plugin_textdomain')) {
+		if ( !defined('WP_PLUGIN_DIR') ) {
+			load_plugin_textdomain('adminimize', str_replace( ABSPATH, '', dirname(__FILE__) ) . '/languages');
+		} else {
+			load_plugin_textdomain('adminimize', false, dirname(plugin_basename(__FILE__)) . '/languages');
+		}
 	}
 }
 
@@ -159,6 +169,7 @@ function _mw_adminimize_init() {
 	update_option('mw_adminimize_default_submenu', $submenu);
 }
 
+add_action('init', '_mw_adminimize_textdomain');
 add_action('admin_menu', '_mw_adminimize_add_settings_page');
 add_action('admin_menu', '_mw_adminimize_remove_dashboard');
 add_action('admin_init', '_mw_adminimize_init', 1);
@@ -380,7 +391,7 @@ function _mw_adminimize_adminmenu($file) {
  */
 function _mw_adminimize_admin_styles($file) {
 	
-	$_mw_adminimize_path = get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
+	$_mw_adminimize_path = WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
 	// MW Adminimize Classic
 	$styleName = 'MW Adminimize:' . ' ' . __('Classic');
@@ -546,7 +557,7 @@ function _mw_adminimize_disable_flash_uploader() {
  */
 function _mw_adminimize_set_user_option_edit() {
 	
-	$_mw_adminimize_path = get_option('siteurl') . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
+	$_mw_adminimize_path = WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 	
 	$_mw_adminimize_sidecat_admin_head = '';
 	$_mw_adminimize_sidebar_wight = get_option('_mw_adminimize_sidebar_wight');
@@ -614,7 +625,7 @@ function _mw_adminimize_set_menu_option() {
 		break;
 	}
 
-	$_mw_adminimize_admin_head .= '<script type="text/javascript" src="' . get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js"></script>';
+	$_mw_adminimize_admin_head .= '<script type="text/javascript" src="' . WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js"></script>';
 
 	// set menu
 	if ($disabled_menu != '') {
@@ -742,7 +753,7 @@ function _mw_adminimize_admin_footer() {
 function _mw_adminimize_filter_plugin_actions($links, $file){
 	static $this_plugin;
 
-	if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
+	if( !$this_plugin ) $this_plugin = plugin_basename(__FILE__);
 
 	if( $file == $this_plugin ){
 		$settings_link = '<a href="options-general.php?page=adminimize/adminimize.php">' . __('Settings') . '</a>';

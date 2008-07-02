@@ -138,7 +138,7 @@ function _mw_adminimize_options() {
 							<select name="_mw_adminimize_tb_window">
 								<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 								<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
-								</select> <?php _e('Alle Thickbox-Funktionen werden nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
+								</select> <?php _e('Alle Thickbox-Funktionen nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
 						</td>
 					</tr>
 					<?php
@@ -391,17 +391,26 @@ function _mw_adminimize_options() {
 								
 								<tbody>
 								<?php
+									$x = 0;
 									foreach ($metaboxes as $index => $metabox) {
 										$checked = (in_array($metabox, $disabled_metaboxes_post)) ? ' checked="checked"' : '';
 										$checked_adm = (in_array($metabox, $disabled_metaboxes_post_adm)) ? ' checked="checked"' : '';
 										
 										echo '<tr>' . "\n";
 										echo '<td>' . $metaboxes_names[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
-										echo '<td><input type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_post_items[]" value="' . $metabox . '" /></td>' . "\n";
-										echo '<td><input type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_post_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td><input id="check_post'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_post_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td><input id="check_postadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_post_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
 										echo '</tr>' . "\n";
+										$x++;
 									}
 								?>
+									<tr>
+										<th><?php _e('Alle w&auml;hlen', 'adminimize'); ?></th>
+										<?php
+											echo '<td><input type="checkbox" id="ctoggleCheckboxes_post" onClick="toggleCheckboxes_post();"><a id="atoggleCheckboxes_post" href="javascript:toggleCheckboxes_post();"> All</a></td>';
+											echo '<td><input type="checkbox" id="ctoggleCheckboxes_postadm" onClick="toggleCheckboxes_postadm();"><a id="atoggleCheckboxes_postadm" href="javascript:toggleCheckboxes_postadm();"> All</a></td>';
+										?>
+									</tr>
 								</tbody>
 							</table>
 						</td>
@@ -417,17 +426,26 @@ function _mw_adminimize_options() {
 								
 								<tbody>
 								<?php
+									$x = 0;
 									foreach ($metaboxes_page as $index => $metabox) {
 										$checked = (in_array($metabox, $disabled_metaboxes_page)) ? ' checked="checked"' : '';
 										$checked_adm = (in_array($metabox, $disabled_metaboxes_page_adm)) ? ' checked="checked"' : '';
 										
 										echo '<tr>' . "\n";
 										echo '<td>' . $metaboxes_names_page[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
-										echo '<td><input type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_page_items[]" value="' . $metabox . '" /></td>' . "\n";
-										echo '<td><input type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_page_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td><input id="check_page'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_page_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td><input id="check_pageadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_page_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
 										echo '</tr>' . "\n";
+										$x++;
 									}
 								?>
+									<tr>
+										<th><?php _e('Alle w&auml;hlen', 'adminimize'); ?></th>
+										<?php
+											echo '<td><input type="checkbox" id="ctoggleCheckboxes_page" onClick="toggleCheckboxes_page();"><a id="atoggleCheckboxes_page" href="javascript:toggleCheckboxes_page();"> All</a></td>';
+											echo '<td><input type="checkbox" id="ctoggleCheckboxes_pageadm" onClick="toggleCheckboxes_pageadm();"><a id="atoggleCheckboxes_pageadm" href="javascript:toggleCheckboxes_pageadm();"> All</a></td>';
+										?>
+									</tr>
 								</tbody>
 							</table>
 						</td>

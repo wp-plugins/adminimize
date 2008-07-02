@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adminimize\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-01 22:58+0100\n"
-"PO-Revision-Date: 2008-07-01 22:58+0100\n"
+"POT-Creation-Date: 2008-07-02 10:28+0100\n"
+"PO-Revision-Date: 2008-07-02 10:29+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: Frank Bueltge <frank@bueltge.de>\n"
 "MIME-Version: 1.0\n"
@@ -14,116 +14,116 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: adminimize.php:57
+#: adminimize.php:67
 msgid "Unbekannter Fehler."
 msgstr "Unknown error."
 
-#: adminimize.php:64
+#: adminimize.php:74
 msgid "Die Einstellungen wurden gespeichert."
 msgstr "The updates was saved."
 
-#: adminimize.php:65
+#: adminimize.php:75
 msgid "Du hast nicht ausreichend Rechte um diese Aktion durchzuf&uuml;hren!"
 msgstr "You have not enough rights for edit entries in the database."
 
-#: adminimize.php:66
+#: adminimize.php:76
 msgid "Die Einstellungen wurde gel&ouml;scht!"
 msgstr "All entries in the database was delleted."
 
-#: adminimize.php:67
+#: adminimize.php:77
 msgid "Checkbox setzen, wenn wirklich deinstalliert werden soll!"
 msgstr "Set the checkbox on deinstall-button."
 
-#: adminimize.php:68
+#: adminimize.php:78
 msgid "Menu und Submenu k&ouml;nnen nicht geladen werden!"
 msgstr "Can't load menu and submenu."
 
-#: adminimize.php:69
+#: adminimize.php:79
 msgid "Backend-Theme wurde zugewiesen!"
 msgstr "Backend-Theme was activated!"
 
-#: adminimize.php:285
+#: adminimize.php:296
 msgid "Categories"
 msgstr "Categories"
 
-#: adminimize.php:291
 #: adminimize.php:302
+#: adminimize.php:313
 msgid "+ Add New Category"
 msgstr "+ Add New Category"
 
-#: adminimize.php:293
 #: adminimize.php:304
+#: adminimize.php:315
 msgid "New category name"
 msgstr "New category name"
 
-#: adminimize.php:294
-#: adminimize.php:306
+#: adminimize.php:305
+#: adminimize.php:317
 msgid "Parent category"
 msgstr "Parent category"
 
-#: adminimize.php:295
-#: adminimize.php:307
+#: adminimize.php:306
+#: adminimize.php:318
 msgid "Add"
 msgstr "Add"
 
-#: adminimize.php:304
+#: adminimize.php:315
 msgid "Add New Category"
 msgstr "Add New Category"
 
-#: adminimize.php:328
-#: adminimize.php:329
+#: adminimize.php:339
+#: adminimize.php:340
 #: adminimize_page.php:231
 msgid "Tags"
 msgstr "Tags"
 
-#: adminimize.php:386
-#: adminimize.php:428
-#: adminimize.php:451
+#: adminimize.php:397
+#: adminimize.php:439
+#: adminimize.php:462
 msgid "Classic"
 msgstr "Classic"
 
-#: adminimize.php:393
-#: adminimize.php:435
-#: adminimize.php:458
+#: adminimize.php:404
+#: adminimize.php:446
+#: adminimize.php:469
 msgid "Fresh"
 msgstr "Fresh"
 
-#: adminimize.php:400
+#: adminimize.php:411
 msgid "WordPress 2.3"
 msgstr "WordPress 2.3"
 
-#: adminimize.php:407
+#: adminimize.php:418
 msgid "Maybe i'm colorblind"
 msgstr "Maybe i'm colorblind"
 
-#: adminimize.php:414
+#: adminimize.php:425
 msgid "Grey"
 msgstr "Grey"
 
-#: adminimize.php:514
-#: adminimize.php:517
+#: adminimize.php:525
+#: adminimize.php:528
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: adminimize.php:603
-#: adminimize.php:715
+#: adminimize.php:614
+#: adminimize.php:726
 msgid "Log Out"
 msgstr "Log Out"
 
-#: adminimize.php:748
+#: adminimize.php:759
 msgid "Settings"
 msgstr "Settings"
 
-#: adminimize.php:761
+#: adminimize.php:772
 msgid "Adminimize Einstellungen"
 msgstr "Adminimize Options"
 
-#: adminimize.php:761
+#: adminimize.php:772
 #: adminimize_page.php:63
 msgid "Adminimize"
 msgstr "Adminimize"
 
-#: adminimize.php:773
+#: adminimize.php:784
 msgid "Cheatin&#8217; uh?"
 msgstr "Cheatin&#8217; uh?"
 
@@ -148,7 +148,7 @@ msgid "Schreiben Einstellungen"
 msgstr "Write options"
 
 #: adminimize_page.php:69
-#: adminimize_page.php:449
+#: adminimize_page.php:467
 msgid "Theme setzen"
 msgstr "Set Theme"
 
@@ -157,7 +157,7 @@ msgid "Deinstallieren"
 msgstr "Deinstall"
 
 #: adminimize_page.php:79
-#: adminimize_page.php:440
+#: adminimize_page.php:458
 msgid "Einstellungen aktualisieren"
 msgstr "Update options"
 
@@ -221,7 +221,8 @@ msgid "Thickbox FullScreen"
 msgstr "Thickbox FullScreen"
 
 #: adminimize_page.php:141
-msgid "Alle Thickbox-Funktionen werden nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern."
+#, fuzzy
+msgid "Alle Thickbox-Funktionen nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern."
 msgstr "All Thickbox-function use the full area of the browser. Thickbox is for examble in upload media-files."
 
 #: adminimize_page.php:159
@@ -254,8 +255,8 @@ msgstr "You have deaktivate the Dashboard, please select a page for redirect. "
 
 #: adminimize_page.php:180
 #: adminimize_page.php:367
-#: adminimize_page.php:445
-#: adminimize_page.php:511
+#: adminimize_page.php:463
+#: adminimize_page.php:529
 msgid "Top"
 msgstr "Top"
 
@@ -368,6 +369,8 @@ msgid "Page Revisions"
 msgstr "Page Revisions"
 
 #: adminimize_page.php:353
+#: adminimize_page.php:408
+#: adminimize_page.php:443
 #, fuzzy
 msgid "Alle w&auml;hlen"
 msgstr "All items"
@@ -381,53 +384,53 @@ msgid "Schreiben Einstellungen - Seiten"
 msgstr "Write options - Page"
 
 #: adminimize_page.php:387
-#: adminimize_page.php:413
+#: adminimize_page.php:422
 msgid "&lt; Admin (Level 10)"
 msgstr "&lt; Admin (Level 10)"
 
 #: adminimize_page.php:388
-#: adminimize_page.php:414
+#: adminimize_page.php:423
 msgid "Admin (Level 10)"
 msgstr "Admin (Level 10)"
 
-#: adminimize_page.php:456
+#: adminimize_page.php:474
 msgid "User-ID"
 msgstr "User-ID"
 
-#: adminimize_page.php:457
+#: adminimize_page.php:475
 msgid "Benutzername"
 msgstr "Username"
 
-#: adminimize_page.php:458
+#: adminimize_page.php:476
 msgid "Name im Blog"
 msgstr "Display name publicly as"
 
-#: adminimize_page.php:459
+#: adminimize_page.php:477
 msgid "Aktuelles Theme"
 msgstr "Admin Color Scheme"
 
-#: adminimize_page.php:505
+#: adminimize_page.php:523
 msgid "Theme zuweisen"
 msgstr "Set Theme"
 
-#: adminimize_page.php:515
+#: adminimize_page.php:533
 msgid "Deinstallation der Einstellungen"
 msgstr "Deinstall options"
 
-#: adminimize_page.php:516
+#: adminimize_page.php:534
 msgid "Nutze diese Option, um die Datenbank von den Eintr&auml;gen des Plugins zu entfernen. Das Plugin entfernt die Eintr&auml;ge auch, wenn es deaktiviert wird!"
 msgstr "Use this option for clean your database from all entries of this plugin. When you deactivate the plugin, the deinstall the plugin automaticly all entries in the database."
 
-#: adminimize_page.php:521
+#: adminimize_page.php:539
 msgid "Einstellungen l&ouml;schen"
 msgstr "Delete options"
 
-#: adminimize_page.php:528
+#: adminimize_page.php:546
 #, fuzzy
 msgid "Weitere Information: Besuche die <a href='http://bueltge.de/wordpress-admin-theme-adminimize/674/'>Plugin Webseite</a> f&uuml;r weitere Informationen oder hole die aktuelle Version des Plugins."
 msgstr "Further information: Visit the <a href='http://bueltge.de/wordpress-admin-theme-adminimize/674/''>plugin homepage</a> for further information or to grab the latest version of this plugin."
 
-#: adminimize_page.php:528
+#: adminimize_page.php:546
 msgid "Du willst Danke sagen? Besuche meine <a href='http://bueltge.de/wunschliste/'>Wunschliste</a>."
 msgstr "You want to thank me? Visit my <a href='http://bueltge.de/wunschliste/'>wishlist</a>."
 
