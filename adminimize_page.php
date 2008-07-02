@@ -250,7 +250,7 @@ function _mw_adminimize_options() {
 
 					$metaboxes_page = array(
 						'#pageslugdiv',
-						'#pagecustomdiv',
+						'#pagepostcustom, #pagecustomdiv',
 						'#pagecommentstatusdiv',
 						'#pagepassworddiv',
 						'#pageparentdiv',
