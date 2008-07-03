@@ -22,7 +22,7 @@ Configure all metaboxes and other areas in the write-area. The new theme move th
 
 Please visit [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize") for further details and the latest information on this plugin.
 
-== What does this plugin do? ==
+= What does this plugin do? =
 The plugin changes the administration backend and gives you the power to assign rights on certain parts. Admins can activate/deactivate every part of the menu and even parts of the submenu. Meta fields can be administered separately for posts and pages. Certain parts of the write menu can be deactivated separately for admins or non-admins. The header of the backend is minimized and optimized to give you more space and the structure of the menu gets changed to make it more logical - this can all be done per user so each user can have his own settings.
 
 = Details =
