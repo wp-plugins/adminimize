@@ -114,7 +114,7 @@ function _mw_adminimize_options() {
 					<?php
 					if ($_mw_adminimize_user_info == '2') {
 					?>
-					<tr valign="top">
+					<tr valign="top" class="form-invalid">
 						<td><?php _e('User Info ge&auml;ndert, Weiterleitung nach', 'adminimize'); ?></td>
 						<td>
 							<?php $_mw_adminimize_ui_redirect = get_option('_mw_adminimize_ui_redirect'); ?>
@@ -171,7 +171,7 @@ function _mw_adminimize_options() {
 								 in_array('index.php', $disabled_submenu_adm)
 							 ) {
 					?>
-					<tr valign="top">
+					<tr valign="top" class="form-invalid">
 						<td><?php _e('Dashboard inaktiv, Weiterleitung nach', 'adminimize'); ?></td>
 						<td>
 							<?php $_mw_adminimize_db_redirect = get_option('_mw_adminimize_db_redirect'); ?>
