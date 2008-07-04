@@ -4,7 +4,7 @@ Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
-Version: 0.7.9
+Version: 0.8
 Last Update: 03.07.2008 15:46:22
 */ 
 
@@ -599,8 +599,9 @@ function _mw_adminimize_set_menu_option() {
 	$disabled_menu_adm    = get_option('mw_adminimize_disabled_menu_adm');
 	$disabled_submenu_adm = get_option('mw_adminimize_disabled_submenu_adm');
 
-	$_mw_adminimize_admin_head = "\n";
-	$_mw_adminimize_user_info = get_option('_mw_adminimize_user_info');
+	$_mw_adminimize_admin_head  = "\n";
+	$_mw_adminimize_user_info   = get_option('_mw_adminimize_user_info');
+	$_mw_adminimize_ui_redirect = get_option('_mw_adminimize_ui_redirect');
 	switch ($_mw_adminimize_user_info) {
 	case 1:
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
@@ -611,7 +612,11 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
-		$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+		if ($_mw_adminimize_ui_redirect == '1') {
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout&amp;redirect_to=') . get_option('siteurl') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+		} else {
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+		}
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
 	}
@@ -741,7 +746,7 @@ require_once('adminimize_page.php');
 function _mw_adminimize_admin_footer() {
 	if( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
 		$plugin_data = get_plugin_data( __FILE__ );
-		printf('%1$s plugin | ' . __('Version') . ' %2$s | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+		printf('%1$s ' . __('plugin') . ' | ' . __('Version') . ' <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie" title="' . __('Historie', 'adminimize') . '">%2$s</a> | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
 	}
 }
 
@@ -813,6 +818,7 @@ function _mw_adminimize_update() {
 	_mw_adminimize_get_update('_mw_adminimize_writescroll');
 	_mw_adminimize_get_update('_mw_adminimize_tb_window');
 	_mw_adminimize_get_update('_mw_adminimize_db_redirect');
+	_mw_adminimize_get_update('_mw_adminimize_ui_redirect');
 	
 	// wp menu, submenu
 	update_option('mw_adminimize_default_menu', $menu);
@@ -866,6 +872,7 @@ function _mw_adminimize_deinstall() {
 	delete_option('_mw_adminimize_writescroll');
 	delete_option('_mw_adminimize_tb_window');
 	delete_option('_mw_adminimize_db_redirect');
+	delete_option('_mw_adminimize_ui_redirect');
 	
 	delete_option('mw_adminimize_default_menu');
 	delete_option('mw_adminimize_default_submenu');

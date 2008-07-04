@@ -111,6 +111,22 @@ function _mw_adminimize_options() {
 								</select> <?php _e('Der User-Info-Bereich ist im oberen rechten Bereich zu finden und kann ausgeblendet oder reduziert dargestellt werden.', 'adminimize'); ?>
 						</td>
 					</tr>
+					<?php
+					if ($_mw_adminimize_user_info == '2') {
+					?>
+					<tr valign="top">
+						<td><?php _e('User Info ge&auml;ndert, Weiterleitung nach', 'adminimize'); ?></td>
+						<td>
+							<?php $_mw_adminimize_ui_redirect = get_option('_mw_adminimize_ui_redirect'); ?>
+							<select name="_mw_adminimize_ui_redirect">
+								<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
+								<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Startseite des Blog', 'adminimize'); ?> 
+								</select> <?php _e('Du hast den User-Info-Bereich ge&auml;ndert, wohin soll der Nutzer weitergeleitet werden?', 'adminimize'); ?>
+						</td>
+					</tr>
+					<?php
+					}
+					?>
 					<tr valign="top">
 						<td><?php _e('Footer', 'adminimize'); ?></td>
 						<td>
