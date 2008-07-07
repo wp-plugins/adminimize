@@ -101,32 +101,27 @@ function _mw_adminimize_options() {
 						</td>
 					</tr>
 					<tr valign="top">
-						<td><?php _e('User Info', 'adminimize'); ?></td>
+						<td><?php _e('User-Info', 'adminimize'); ?></td>
 						<td>
 							<?php $_mw_adminimize_user_info = get_option('_mw_adminimize_user_info'); ?>
 							<select name="_mw_adminimize_user_info">
 								<option value="0"<?php if ($_mw_adminimize_user_info == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 								<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
 								<option value="2"<?php if ($_mw_adminimize_user_info == '2') { echo ' selected="selected"'; } ?>><?php _e('nur Logout', 'adminimize'); ?></option>
-								</select> <?php _e('Der User-Info-Bereich ist im oberen rechten Bereich zu finden und kann ausgeblendet oder reduziert dargestellt werden.', 'adminimize'); ?>
+							</select> <?php _e('Der &quot;User-Info-Bereich&quot; ist im oberen rechten Bereich zu finden und kann ausgeblendet oder reduziert dargestellt werden.', 'adminimize'); ?>
 						</td>
 					</tr>
-					<?php
-					if ($_mw_adminimize_user_info == '2') {
-					?>
-					<tr valign="top" class="form-invalid">
+					<?php if ($_mw_adminimize_user_info != '2') $disabled_item = ' disabled="disabled"' ?>
+					<tr valign="top">
 						<td><?php _e('User Info ge&auml;ndert, Weiterleitung nach', 'adminimize'); ?></td>
 						<td>
 							<?php $_mw_adminimize_ui_redirect = get_option('_mw_adminimize_ui_redirect'); ?>
-							<select name="_mw_adminimize_ui_redirect">
+							<select name="_mw_adminimize_ui_redirect" <?php echo $disabled_item ?>>
 								<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 								<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Startseite des Blog', 'adminimize'); ?> 
-								</select> <?php _e('Du hast den User-Info-Bereich ge&auml;ndert, wohin soll der Nutzer weitergeleitet werden?', 'adminimize'); ?>
+							</select> <?php _e('Wenn der &quot;User-Info-Bereich&quot; ge&auml;ndert wird, dann kann die die Weiterleitung nach einem Logout ge&auml;ndert werden.', 'adminimize'); ?>
 						</td>
 					</tr>
-					<?php
-					}
-					?>
 					<tr valign="top">
 						<td><?php _e('Footer', 'adminimize'); ?></td>
 						<td>
@@ -134,7 +129,7 @@ function _mw_adminimize_options() {
 							<select name="_mw_adminimize_footer">
 								<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 								<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
-								</select> <?php _e('Der Footer-Bereich kann deaktiviert werden, inklusive aller Links und Hinweise.', 'adminimize'); ?>
+							</select> <?php _e('Der Footer-Bereich kann deaktiviert werden, inklusive aller Links und Hinweise.', 'adminimize'); ?>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -144,7 +139,7 @@ function _mw_adminimize_options() {
 							<select name="_mw_adminimize_writescroll">
 								<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 								<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
-								</select> <?php _e('Automatisches Scrollen zum Editor beim Aufruf der Seite Schreiben in Beitr&auml;ge und Seite.', 'adminimize'); ?>
+							</select> <?php _e('Automatisches Scrollen zum Editor beim Aufruf der Seite Schreiben in Beitr&auml;ge und Seite.', 'adminimize'); ?>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -154,7 +149,18 @@ function _mw_adminimize_options() {
 							<select name="_mw_adminimize_tb_window">
 								<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 								<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
-								</select> <?php _e('Alle Thickbox-Funktionen nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
+							</select> <?php _e('Alle Thickbox-Funktionen nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
+						</td>
+					</tr>
+					<tr valign="top">
+						<td><?php _e('Hinweis im Footer', 'adminimize'); ?></td>
+						<td>
+							<?php $_mw_adminimize_advice = get_option('_mw_adminimize_advice'); ?>
+							<select name="_mw_adminimize_advice">
+								<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
+								<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
+							</select>
+							<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(get_option('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('Im Footer kann ein Hinweis auf die aktive Ver&auml;nderung des Standard-Layout gesetzt werden, (x)HTML erlaubt.', 'adminimize'); ?>
 						</td>
 					</tr>
 					<?php
@@ -549,7 +555,7 @@ function _mw_adminimize_options() {
 		<br class="clear" />
 
 		<h3 id="uninstall"><?php _e('Deinstallation der Einstellungen', 'adminimize') ?></h3>
-		<p><?php _e('Nutze diese Option, um die Datenbank von den Eintr&auml;gen des Plugins zu entfernen. Das Plugin entfernt die Eintr&auml;ge auch, wenn es deaktiviert wird!', 'adminimize'); ?></p>
+		<p><?php _e('Nutze diese Option, um die Einstellungen f&uuml;r das Plugin in der Datenbank zu l&ouml;schen. Das Plugin entfernt die Eintr&auml;ge <strong>nicht</strong>, wenn es deaktiviert wird!', 'adminimize'); ?></p>
 		<form name="form2" method="post" id="_mw_adminimize_options_deinstall" action="<?php echo $location; ?>">
 			<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
 			<p class="tablenav">

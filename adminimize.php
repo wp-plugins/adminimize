@@ -4,8 +4,8 @@ Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
-Version: 0.8
-Last Update: 03.07.2008 15:46:22
+Version: 0.8.1
+Last Update: 07.07.2008 17:51:56
 */ 
 
 
@@ -176,7 +176,7 @@ add_action('admin_init', '_mw_adminimize_init', 1);
 add_action('admin_init', '_mw_adminimize_admin_styles', 1);
 
 register_activation_hook(__FILE__, '_mw_adminimize_install');
-register_deactivation_hook(__FILE__, '_mw_adminimize_deinstall');
+//register_deactivation_hook(__FILE__, '_mw_adminimize_deinstall');
 
 
 /**
@@ -744,9 +744,13 @@ require_once('adminimize_page.php');
  * credit in wp-footer
  */
 function _mw_adminimize_admin_footer() {
-	if( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
+	if ( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
 		$plugin_data = get_plugin_data( __FILE__ );
 		printf('%1$s ' . __('plugin') . ' | ' . __('Version') . ' <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie" title="' . __('Historie', 'adminimize') . '">%2$s</a> | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+	}
+	if ( get_option('_mw_adminimize_advice') == 1 && basename($_SERVER['REQUEST_URI']) != 'adminimize.php' ) {
+		$plugin_data = get_plugin_data( __FILE__ );
+		printf('%1$s ' . __('plugin aktiv', 'adminimize') . ' | ' . stripslashes( get_option('_mw_adminimize_advice_txt') ) . '<br />', $plugin_data['Title']);
 	}
 }
 
@@ -819,6 +823,8 @@ function _mw_adminimize_update() {
 	_mw_adminimize_get_update('_mw_adminimize_tb_window');
 	_mw_adminimize_get_update('_mw_adminimize_db_redirect');
 	_mw_adminimize_get_update('_mw_adminimize_ui_redirect');
+	_mw_adminimize_get_update('_mw_adminimize_advice');
+	_mw_adminimize_get_update('_mw_adminimize_advice_txt');
 	
 	// wp menu, submenu
 	update_option('mw_adminimize_default_menu', $menu);
@@ -873,6 +879,8 @@ function _mw_adminimize_deinstall() {
 	delete_option('_mw_adminimize_tb_window');
 	delete_option('_mw_adminimize_db_redirect');
 	delete_option('_mw_adminimize_ui_redirect');
+	delete_option('_mw_adminimize_advice');
+	delete_option('_mw_adminimize_advice_txt');
 	
 	delete_option('mw_adminimize_default_menu');
 	delete_option('mw_adminimize_default_submenu');
