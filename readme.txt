@@ -74,8 +74,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 
 == Other Notes ==
 = Acknowledgements =
-Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend.
+Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend and thanks to [Alphawolf](http://www.schloebe.de/ "Alphawolf") for write a smaller javascript with jQuery.
 Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english.
+
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishliste and Donate") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
