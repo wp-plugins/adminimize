@@ -771,24 +771,24 @@ body {
 	margin: 0 2px -8px 2px !important;
 }
 
-#adminmenu .comment-count {
+#adminmenu .comment-count, #sidemenu .plugin-count {
 	font-size: 11px !important;
 }
 
-#adminmenu li a #awaiting-mod {
+#adminmenu li a #awaiting-mod, #sidemenu li a #update-plugins {
 	position: absolute !important;
-	background: url(../../../../wp-admin/images/comment-stalk-classic.gif) 0 bottom no-repeat !important;
+	background-image: url(../../../../wp-admin/images/comment-stalk-classic.gif) 0 bottom no-repeat !important;
 	height: 0.9em !important;
 	width: 1em !important;
 	margin-top: -0.4em !important;
 	margin-left: -0.4em !important;
 }
 
-#adminmenu li a:hover #awaiting-mod {
+#adminmenu li a:hover #awaiting-mod, #sidemenu li a:hover #update-plugins {
 	background-position: -80px bottom !important;
 }
 
-#adminmenu li a #awaiting-mod span {
+#adminmenu li a #awaiting-mod span, #sidemenu li a #update-plugins span {
 	position: absolute !important;
 	top: -0.5em !important;
 	right: 0 !important;
@@ -804,7 +804,7 @@ body {
 	border-radius: 3px !important;
 }
 
-#adminmenu li a:hover #awaiting-mod span {
+#adminmenu li a:hover #awaiting-mod span, #sidemenu li a:hover #update-plugins span {
 	background-color: #07273E !important;
 }
 

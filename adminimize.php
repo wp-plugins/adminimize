@@ -1,11 +1,12 @@
 <?php
+
 /*
 Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
-Version: 1.0
-Last Update: 11.07.2008 07:31:59
+Version: 1.1
+Last Update: 29.07.2008 12:49:11
 */ 
 
 
@@ -744,12 +745,15 @@ require_once('adminimize_page.php');
  * credit in wp-footer
  */
 function _mw_adminimize_admin_footer() {
+	$plugin_data = get_plugin_data( __FILE__ );
+	$plugin_data['Title'] = $plugin_data['Name'];
+	if ( !empty($plugin_data['PluginURI']) && !empty($plugin_data['Name']) )
+		$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="'.__( 'Visit plugin homepage' ).'">' . $plugin_data['Name'] . '</a>';
+	
 	if ( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
-		$plugin_data = get_plugin_data( __FILE__ );
 		printf('%1$s ' . __('plugin') . ' | ' . __('Version') . ' <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie" title="' . __('Historie', 'adminimize') . '">%2$s</a> | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
 	}
 	if ( get_option('_mw_adminimize_advice') == 1 && basename($_SERVER['REQUEST_URI']) != 'adminimize.php' ) {
-		$plugin_data = get_plugin_data( __FILE__ );
 		printf('%1$s ' . __('plugin aktiv', 'adminimize') . ' | ' . stripslashes( get_option('_mw_adminimize_advice_txt') ) . '<br />', $plugin_data['Title']);
 	}
 }
@@ -794,6 +798,10 @@ function _mw_adminimize_set_theme() {
 
 	$user_ids = $_POST[mw_adminimize_theme_items];
 	$admin_color = htmlspecialchars( stripslashes( $_POST[_mw_adminimize_set_theme] ) );
+
+	if ( !$user_ids )
+		return false;
+
 	foreach( $user_ids as $user_id) {
 		$user_id = (int) $user_id;
 		update_usermeta($user_id, 'admin_color', $admin_color);

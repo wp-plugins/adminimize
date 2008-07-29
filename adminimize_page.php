@@ -58,6 +58,7 @@ function _mw_adminimize_options() {
 			wp_die($myErrors);
 		}
 	}
+
 ?>
 	<div class="wrap">
 		<h2><?php _e('Adminimize', 'adminimize'); ?></h2>
@@ -248,6 +249,8 @@ function _mw_adminimize_options() {
 						array_push($metaboxes, '#suggestedtags');
 					if (function_exists('tc_post'))
 						array_push($metaboxes, '#textcontroldiv');
+					if (class_exists('HTMLSpecialCharactersHelper'))
+						array_push($metaboxes, '#htmlspecialchars');
 					
 					$metaboxes_names = array(
 						__('Permalink', 'adminimize'),
@@ -261,17 +264,19 @@ function _mw_adminimize_options() {
 						__('Diesen Artikel durch ein Passwort sch&uuml;tzen', 'adminimize'),
 						__('Autor', 'adminimize'),
 						__('Post Revisions', 'adminimize'),
-						__('Siehe auch', 'adminimize'),
+						__('Siehe auch, Tastaturk&uuml;rzel', 'adminimize'),
 						__('Mitteilungen', 'adminimize'),
 						__('h2: Erweiterte Einstellungen', 'adminimize'),
 						__('Media Buttons (alle)', 'adminimize')
 					);
 					
 					if (class_exists('SimpleTagsAdmin'))
-						array_push($metaboxes_names, __('Suggested tags from', 'adminimize'));
+						array_push($metaboxes_names, __('Suggested tags from'));
 					if (function_exists('tc_post'))
-						array_push($metaboxes_names, __('Text Control', 'adminimize'));
-
+						array_push($metaboxes_names, __('Text Control'));
+					if (class_exists('HTMLSpecialCharactersHelper'))
+						array_push($metaboxes_names, __('HTML Special Characters'));
+						
 					$metaboxes_page = array(
 						'#pageslugdiv',
 						'#pagepostcustom, #pagecustomdiv',
@@ -290,7 +295,9 @@ function _mw_adminimize_options() {
 					
 					if (class_exists('SimpleTagsAdmin'))
 						array_push($metaboxes_page, '#suggestedtags');
-					
+					if (class_exists('HTMLSpecialCharactersHelper'))
+						array_push($metaboxes_page, '#htmlspecialchars');
+						
 					$metaboxes_names_page = array(
 						__('Permalink', 'adminimize'),
 						__('Benutzerdefinierte Felder', 'adminimize'),
@@ -309,6 +316,8 @@ function _mw_adminimize_options() {
 
 					if (class_exists('SimpleTagsAdmin'))
 						array_push($metaboxes_names_page, __('Suggested tags from', 'adminimize'));
+					if (class_exists('HTMLSpecialCharactersHelper'))
+						array_push($metaboxes_names_page, __('HTML Special Characters'));
 					
 					// print menu, submenu
 					if ($menu != '') {
@@ -319,7 +328,7 @@ function _mw_adminimize_options() {
 						
 							// menu items
 							// items disabled for user
-							if ($item[2] == 'post-new.php' || $item[2] == 'edit.php') {
+							if ( $item[2] == 'examble.php' ) {
 								$disabled_item = ' disabled="disabled"';
 							} else {
 								$disabled_item = '';
@@ -341,19 +350,19 @@ function _mw_adminimize_options() {
 							
 							echo '<tr class="form-invalid">' . "\n";
 							echo '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $item[2] . ')</span> </th>';
-							echo '<td><input id="check_menu'. $x .'" type="checkbox"' . $disabled_item . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
-							echo '<td><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_item . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
+							echo '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $disabled_item . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
+							echo '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_item . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
 							echo '</tr>';
 							$x++;
 							if ( !isset($submenu[$item[2]]) )
 								continue;
 
 							// submenu items
-							foreach ($submenu[ $item[2] ] as $subitem) {
+							foreach ( $submenu[ $item[2] ] as $subitem ) {
 							
 								// submenu items
 								// items disabled for adm
-								if ($subitem[2] == 'adminimize/adminimize.php') {
+								if ( $subitem[2] == 'adminimize/adminimize.php' ) {
 									$disabled_subitem_adm = ' disabled="disabled"';
 								} else {
 									$disabled_subitem_adm = '';
@@ -365,8 +374,8 @@ function _mw_adminimize_options() {
 								$checked_adm = (in_array($subitem[2], $disabled_submenu_adm)) ? ' checked="checked"' : '';
 								
 								echo '<td> &mdash; ' . $subitem[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $subitem[2] . ')</span> </td>' . "\n";
-								echo '<td><input id="check_menu'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_submenu_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
-								echo '<td><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_subitem_adm . $checked_adm . ' name="mw_adminimize_disabled_submenu_adm_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_submenu_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_subitem_adm . $checked_adm . ' name="mw_adminimize_disabled_submenu_adm_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
 								echo '</tr>' . "\n";
 								$x++;
 							}
@@ -375,8 +384,8 @@ function _mw_adminimize_options() {
 						}
 							echo '<tr>' . "\n";
 							echo '<th>' . __('Alle w&auml;hlen', 'adminimize') . '</th>';
-							echo '<td><input type="checkbox" id="ctoggleCheckboxes_menu" onClick="toggleCheckboxes_menu();"><a id="atoggleCheckboxes_menu" href="javascript:toggleCheckboxes_menu();"> All</a></td>';
-							echo '<td><input type="checkbox" id="ctoggleCheckboxes_menuadm" onClick="toggleCheckboxes_menuadm();"><a id="atoggleCheckboxes_menuadm" href="javascript:toggleCheckboxes_menuadm();"> All</a></td>';
+							echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menu" onClick="toggleCheckboxes_menu();"><a id="atoggleCheckboxes_menu" href="javascript:toggleCheckboxes_menu();"> All</a></td>';
+							echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menuadm" onClick="toggleCheckboxes_menuadm();"><a id="atoggleCheckboxes_menuadm" href="javascript:toggleCheckboxes_menuadm();"> All</a></td>';
 							echo '</tr>' . "\n";
 							
 					} else {
@@ -422,8 +431,8 @@ function _mw_adminimize_options() {
 										
 										echo '<tr>' . "\n";
 										echo '<td>' . $metaboxes_names[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
-										echo '<td><input id="check_post'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_post_items[]" value="' . $metabox . '" /></td>' . "\n";
-										echo '<td><input id="check_postadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_post_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td class="num"><input id="check_post'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_post_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td class="num"><input id="check_postadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_post_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
 										echo '</tr>' . "\n";
 										$x++;
 									}
@@ -431,8 +440,8 @@ function _mw_adminimize_options() {
 									<tr>
 										<th><?php _e('Alle w&auml;hlen', 'adminimize'); ?></th>
 										<?php
-											echo '<td><input type="checkbox" id="ctoggleCheckboxes_post" onClick="toggleCheckboxes_post();"><a id="atoggleCheckboxes_post" href="javascript:toggleCheckboxes_post();"> All</a></td>';
-											echo '<td><input type="checkbox" id="ctoggleCheckboxes_postadm" onClick="toggleCheckboxes_postadm();"><a id="atoggleCheckboxes_postadm" href="javascript:toggleCheckboxes_postadm();"> All</a></td>';
+											echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_post" onClick="toggleCheckboxes_post();"><a id="atoggleCheckboxes_post" href="javascript:toggleCheckboxes_post();"> All</a></td>';
+											echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postadm" onClick="toggleCheckboxes_postadm();"><a id="atoggleCheckboxes_postadm" href="javascript:toggleCheckboxes_postadm();"> All</a></td>';
 										?>
 									</tr>
 								</tbody>
@@ -457,8 +466,8 @@ function _mw_adminimize_options() {
 										
 										echo '<tr>' . "\n";
 										echo '<td>' . $metaboxes_names_page[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
-										echo '<td><input id="check_page'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_page_items[]" value="' . $metabox . '" /></td>' . "\n";
-										echo '<td><input id="check_pageadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_page_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td class="num"><input id="check_page'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_page_items[]" value="' . $metabox . '" /></td>' . "\n";
+										echo '<td class="num"><input id="check_pageadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_page_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
 										echo '</tr>' . "\n";
 										$x++;
 									}
@@ -466,8 +475,8 @@ function _mw_adminimize_options() {
 									<tr>
 										<th><?php _e('Alle w&auml;hlen', 'adminimize'); ?></th>
 										<?php
-											echo '<td><input type="checkbox" id="ctoggleCheckboxes_page" onClick="toggleCheckboxes_page();"><a id="atoggleCheckboxes_page" href="javascript:toggleCheckboxes_page();"> All</a></td>';
-											echo '<td><input type="checkbox" id="ctoggleCheckboxes_pageadm" onClick="toggleCheckboxes_pageadm();"><a id="atoggleCheckboxes_pageadm" href="javascript:toggleCheckboxes_pageadm();"> All</a></td>';
+											echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_page" onClick="toggleCheckboxes_page();"><a id="atoggleCheckboxes_page" href="javascript:toggleCheckboxes_page();"> All</a></td>';
+											echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pageadm" onClick="toggleCheckboxes_pageadm();"><a id="atoggleCheckboxes_pageadm" href="javascript:toggleCheckboxes_pageadm();"> All</a></td>';
 										?>
 									</tr>
 								</tbody>
@@ -499,6 +508,8 @@ function _mw_adminimize_options() {
 						<th><?php _e('Benutzername') ?></th>
 						<th><?php _e('Name im Blog') ?></th>
 						<th><?php _e('Aktuelles Theme') ?></th>
+						<th><?php _e('User Level') ?></th>
+						<th><?php _e('Rolle') ?></th>
 					</tr>
 				</thead>
 				<tbody id="users" class="list:user user-list">
@@ -509,10 +520,14 @@ function _mw_adminimize_options() {
 					
 					$style = '';
 					foreach ( $wp_user_search as $userid ) {
-						$user_id = (int) $userid->ID;
-						$user_login = stripslashes($userid->user_login);
-						$display_name = stripslashes($userid->display_name);
+						$user_id       = (int) $userid->ID;
+						$user_login    = stripslashes($userid->user_login);
+						$display_name  = stripslashes($userid->display_name);
 						$current_color = get_user_option('admin_color', $user_id);
+						$user_level    = (int) get_user_option($table_prefix . 'user_level', $user_id);
+						$user_object   = new WP_User($user_id);
+						$roles         = $user_object->roles;
+						$role          = array_shift($roles);
 					
 						$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 						$return  = '';
@@ -522,6 +537,8 @@ function _mw_adminimize_options() {
 						$return .= '<td>'. $user_login .'</td>';
 						$return .= '<td>'. $display_name .'</td>';
 						$return .= '<td>'. $current_color . '</td>';
+						$return .= '<td class="num">'. $user_level . '</td>';
+						$return .= '<td>'. $role . '</td>';
 						$return .= '</tr>';
 
 						print($return);
@@ -539,6 +556,8 @@ function _mw_adminimize_options() {
 									<?php endforeach; ?>
 									</select>
 							</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
 						</tr>
 				</tbody>
 			</table>
