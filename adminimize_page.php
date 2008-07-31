@@ -144,6 +144,16 @@ function _mw_adminimize_options() {
 						</td>
 					</tr>
 					<tr valign="top">
+						<td><?php _e('Timestamp', 'adminimize'); ?></td>
+						<td>
+							<?php $_mw_adminimize_timestamp = get_option('_mw_adminimize_timestamp'); ?>
+							<select name="_mw_adminimize_timestamp">
+								<option value="0"<?php if ($_mw_adminimize_timestamp == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
+								<option value="1"<?php if ($_mw_adminimize_timestamp == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
+							</select> <?php _e('Das Feld zum &Auml;ndern des Ver&ouml;ffentlichungsdatum ist immer ge&ouml;ffnet.', 'adminimize'); ?>
+						</td>
+					</tr>
+					<tr valign="top">
 						<td><?php _e('Thickbox FullScreen', 'adminimize'); ?></td>
 						<td>
 							<?php $_mw_adminimize_tb_window = get_option('_mw_adminimize_tb_window'); ?>

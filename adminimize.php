@@ -4,15 +4,10 @@
 Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
-Author: Frank B&uuml;ltge
-Author URI: http://bueltge.de/
-Version: 1.1
-Last Update: 29.07.2008 12:49:11
+Author: <a href="http://bueltge.de/">Frank B&uuml;ltge</a> and <a href="http://meyerweb.com/">Eric A. Meyer</a>
+Version: 1.2
+Last Update: 31.07.2008 09:18:22
 */ 
-
-/**
-The stylesheet and the initial idea is from Eric A. Meyer (http://meyerweb.com/) and i have written a plugin with many options on the basis of differently user-right and a user-friendly range in admin-area.
-*/
 
 
 // Pre-2.6 compatibility
@@ -636,6 +631,16 @@ function _mw_adminimize_set_menu_option() {
 		break;
 	}
 
+	// timestamp open
+	$_mw_adminimize_timestamp = get_option('_mw_adminimize_timestamp');
+	switch ($_mw_adminimize_timestamp) {
+	case 1:
+		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+		$_mw_adminimize_admin_head .= "\t" . 'addLoadEvent(function(){jQuery(\'.edit-timestamp\').click();});' . "\n";
+		$_mw_adminimize_admin_head .= '</script>' . "\n";
+		break;
+	}
+
 	$_mw_adminimize_admin_head .= '<script type="text/javascript" src="' . WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js"></script>';
 
 	// set menu
@@ -838,6 +843,7 @@ function _mw_adminimize_update() {
 	_mw_adminimize_get_update('_mw_adminimize_ui_redirect');
 	_mw_adminimize_get_update('_mw_adminimize_advice');
 	_mw_adminimize_get_update('_mw_adminimize_advice_txt');
+	_mw_adminimize_get_update('_mw_adminimize_timestamp');
 	
 	// wp menu, submenu
 	update_option('mw_adminimize_default_menu', $menu);
@@ -894,6 +900,7 @@ function _mw_adminimize_deinstall() {
 	delete_option('_mw_adminimize_ui_redirect');
 	delete_option('_mw_adminimize_advice');
 	delete_option('_mw_adminimize_advice_txt');
+	delete_option('_mw_adminimize_timestamp');
 	
 	delete_option('mw_adminimize_default_menu');
 	delete_option('mw_adminimize_default_submenu');
