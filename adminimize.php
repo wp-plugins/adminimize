@@ -3,17 +3,20 @@
 /*
 Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
-Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the Wordpress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
+Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.2
-Last Update: 31.07.2008 11:51:21
+Version: 1.3
+Last Update: 01.08.2008 08:35:48
 */ 
 
 /**
- * The stylesheet and the initial idea is from Eric A. Meyer
+ * The stylesheet and the initial idea is from Eric A. Meyer, http://meyerweb.com/
  * and i have written a plugin with many options on the basis
  * of differently user-right and a user-friendly range in admin-area.
+ *
+ * The javascript for de/activate ist by Oliver Schlöbe, http://www.schloebe.de
+ * - many thanks
  */
 
 
@@ -79,12 +82,12 @@ class _mw_adminimize_message_class {
 	
 	// Initializes all the error messages
 	function initialize_errors() {
-		$this->errors->add('_mw_adminimize_update', __('Die Einstellungen wurden gespeichert.', $myLocalizationName));
-		$this->errors->add('_mw_adminimize_access_denied', __('Du hast nicht ausreichend Rechte um diese Aktion durchzuf&uuml;hren!', $myLocalizationName));
-		$this->errors->add('_mw_adminimize_deinstall', __('Die Einstellungen wurde gel&ouml;scht!', $myLocalizationName));
-		$this->errors->add('_mw_adminimize_deinstall_yes', __('Checkbox setzen, wenn wirklich deinstalliert werden soll!', $myLocalizationName));
-		$this->errors->add('_mw_adminimize_get_option', __('Menu und Submenu k&ouml;nnen nicht geladen werden!', $myLocalizationName));
-		$this->errors->add('_mw_adminimize_set_theme', __('Backend-Theme wurde zugewiesen!', $myLocalizationName));
+		$this->errors->add('_mw_adminimize_update', __('Die Einstellungen wurden gespeichert.', 'adminimize'));
+		$this->errors->add('_mw_adminimize_access_denied', __('Du hast nicht ausreichend Rechte um diese Aktion durchzuf&uuml;hren!', 'adminimize'));
+		$this->errors->add('_mw_adminimize_deinstall', __('Die Einstellungen wurde gel&ouml;scht!', 'adminimize'));
+		$this->errors->add('_mw_adminimize_deinstall_yes', __('Checkbox setzen, wenn wirklich deinstalliert werden soll!', 'adminimize'));
+		$this->errors->add('_mw_adminimize_get_option', __('Menu und Submenu k&ouml;nnen nicht geladen werden!', 'adminimize'));
+		$this->errors->add('_mw_adminimize_set_theme', __('Backend-Theme wurde zugewiesen!', 'adminimize'));
 	}
 }
 
@@ -648,6 +651,13 @@ function _mw_adminimize_set_menu_option() {
 		break;
 	}
 
+	$_mw_adminimize_admin_head .= '<script type="text/javascript">
+	/* <![CDATA[ */
+	adminimizeL10n = {
+		all: "' . __('Alle', 'adminimize') . '", none: "' . __('Keine', 'adminimize') . '"
+	}
+	/* ]]> */
+	</script>';
 	$_mw_adminimize_admin_head .= '<script type="text/javascript" src="' . WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js"></script>';
 
 	// set menu
