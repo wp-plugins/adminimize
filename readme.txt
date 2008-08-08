@@ -3,7 +3,7 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 2.6
+Tested up to: 2.7beta
 Stable tag: 0.5
 
 At first: Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
@@ -63,6 +63,9 @@ final directory tree should look like `/wp-content/plugins/adminimize/adminimize
 4. Colour Scheme and Theme selection in Your Profile Go to your User Profile (under ‘Users’ > ‘Your Profile’ or by clicking on your name at the top right corner of the administration panel).
 
 4. Administrator can go to ‘Options‘ > ‘Adminimize‘ menu and configure the plugin (Menu, Submenu, Metaboxes, ...)
+
+= Advice =
+Please use the `Deinstall-Funktion` in the option-area bevor update to version 1.4! Version 1.4 and bigger has only one databas entry and the `Deinstall-Option` desinatll the old entrys. 
 
 See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize").
 

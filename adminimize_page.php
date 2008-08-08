@@ -68,7 +68,7 @@ function _mw_adminimize_options() {
 				<h3><?php _e('Backend Einstellungen', 'adminimize'); ?></h3>
 				<div class="inside">
 		
-				<form name="backend_option" method="post" id="_mw_adminimize_options" action="<?php echo $location; ?>" >
+				<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
 					<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
 					<br class="clear" />
 					<table summary="config" class="widefat">
@@ -82,7 +82,7 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('Sidebar Width', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_sidebar_wight = get_option('_mw_adminimize_sidebar_wight'); ?>
+									<?php $_mw_adminimize_sidebar_wight = _mw_adminimize_getOptionValue('_mw_adminimize_sidebar_wight'); ?>
 									<select name="_mw_adminimize_sidebar_wight">
 										<option value="0"<?php if ($_mw_adminimize_sidebar_wight == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="300"<?php if ($_mw_adminimize_sidebar_wight == '300') { echo ' selected="selected"'; } ?>>300px</option>
@@ -95,7 +95,7 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('User-Info', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_user_info = get_option('_mw_adminimize_user_info'); ?>
+									<?php $_mw_adminimize_user_info = _mw_adminimize_getOptionValue('_mw_adminimize_user_info'); ?>
 									<select name="_mw_adminimize_user_info">
 										<option value="0"<?php if ($_mw_adminimize_user_info == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
@@ -107,7 +107,7 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('User Info ge&auml;ndert, Weiterleitung nach', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_ui_redirect = get_option('_mw_adminimize_ui_redirect'); ?>
+									<?php $_mw_adminimize_ui_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect'); ?>
 									<select name="_mw_adminimize_ui_redirect" <?php echo $disabled_item ?>>
 										<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Startseite des Blog', 'adminimize'); ?> 
@@ -117,7 +117,7 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('Footer', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_footer = get_option('_mw_adminimize_footer'); ?>
+									<?php $_mw_adminimize_footer = _mw_adminimize_getOptionValue('_mw_adminimize_footer'); ?>
 									<select name="_mw_adminimize_footer">
 										<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
@@ -127,7 +127,7 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('WriteScroll', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_writescroll = get_option('_mw_adminimize_writescroll'); ?>
+									<?php $_mw_adminimize_writescroll = _mw_adminimize_getOptionValue('_mw_adminimize_writescroll'); ?>
 									<select name="_mw_adminimize_writescroll">
 										<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
@@ -137,7 +137,7 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('Timestamp', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_timestamp = get_option('_mw_adminimize_timestamp'); ?>
+									<?php $_mw_adminimize_timestamp = _mw_adminimize_getOptionValue('_mw_adminimize_timestamp'); ?>
 									<select name="_mw_adminimize_timestamp">
 										<option value="0"<?php if ($_mw_adminimize_timestamp == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_timestamp == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
@@ -147,7 +147,7 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('Thickbox FullScreen', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_tb_window = get_option('_mw_adminimize_tb_window'); ?>
+									<?php $_mw_adminimize_tb_window = _mw_adminimize_getOptionValue('_mw_adminimize_tb_window'); ?>
 									<select name="_mw_adminimize_tb_window">
 										<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
@@ -157,20 +157,20 @@ function _mw_adminimize_options() {
 							<tr valign="top">
 								<td><?php _e('Hinweis im Footer', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_advice = get_option('_mw_adminimize_advice'); ?>
+									<?php $_mw_adminimize_advice = _mw_adminimize_getOptionValue('_mw_adminimize_advice'); ?>
 									<select name="_mw_adminimize_advice">
 										<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
 									</select>
-									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(get_option('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('Im Footer kann ein Hinweis auf die aktive Ver&auml;nderung des Standard-Layout gesetzt werden, (x)HTML erlaubt.', 'adminimize'); ?>
+									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('Im Footer kann ein Hinweis auf die aktive Ver&auml;nderung des Standard-Layout gesetzt werden, (x)HTML erlaubt.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<?php
 							// when remove dashboard
-							$disabled_menu        = get_option('mw_adminimize_disabled_menu');
-							$disabled_submenu     = get_option('mw_adminimize_disabled_submenu');
-							$disabled_menu_adm    = get_option('mw_adminimize_disabled_menu_adm');
-							$disabled_submenu_adm = get_option('mw_adminimize_disabled_submenu_adm');
+							$disabled_menu        = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
+							$disabled_submenu     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
+							$disabled_menu_adm    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
+							$disabled_submenu_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
 		
 							if ($disabled_menu != '') {
 								if ( in_array('index.php', $disabled_menu) ||
@@ -182,7 +182,7 @@ function _mw_adminimize_options() {
 							<tr valign="top" class="form-invalid">
 								<td><?php _e('Dashboard inaktiv, Weiterleitung nach', 'adminimize'); ?></td>
 								<td>
-									<?php $_mw_adminimize_db_redirect = get_option('_mw_adminimize_db_redirect'); ?>
+									<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
 									<select name="_mw_adminimize_db_redirect">
 										<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?> (profile.php)</option>
 										<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Verwalten Beitr&auml;ge', 'adminimize'); ?> (edit.php)</option>
@@ -222,18 +222,14 @@ function _mw_adminimize_options() {
 						</thead>
 						<tbody>
 							<?php
-							$menu                 = get_option('mw_adminimize_default_menu');
-							$submenu              = get_option('mw_adminimize_default_submenu');
-							$disabled_menu        = get_option('mw_adminimize_disabled_menu');
-							$disabled_submenu     = get_option('mw_adminimize_disabled_submenu');
-							$disabled_menu_adm    = get_option('mw_adminimize_disabled_menu_adm');
-							$disabled_submenu_adm = get_option('mw_adminimize_disabled_submenu_adm');
+							$menu = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
+							$submenu = _mw_adminimize_getOptionValue('mw_adminimize_default_submenu');
 							
-							$disabled_metaboxes_post = get_option('mw_adminimize_disabled_metaboxes_post');
-							$disabled_metaboxes_page = get_option('mw_adminimize_disabled_metaboxes_page');
-							$disabled_metaboxes_post_adm = get_option('mw_adminimize_disabled_metaboxes_post_adm');
-							$disabled_metaboxes_page_adm = get_option('mw_adminimize_disabled_metaboxes_page_adm');
-							
+							$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+							$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+							$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
+							$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
+						
 							$metaboxes = array(
 								'#pageslugdiv',
 								'#tagsdiv,#tagsdivsb',
@@ -514,7 +510,7 @@ function _mw_adminimize_options() {
 				<h3 id="set_theme"><?php _e('Theme setzen', 'adminimize') ?></h3>
 				<div class="inside">
 					<br class="clear" />
-					<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="<?php echo $location; ?>" >
+					<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="?page=<?php echo $_GET['page'];?>" >
 						<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
 						<table class="widefat">
 							<thead>
@@ -579,8 +575,7 @@ function _mw_adminimize_options() {
 						</table>
 						<p id="submitbutton">
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_set_theme" />
-							<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Theme zuweisen', 'adminimize'); ?> &raquo;" />
-							<input type="hidden" name="page_options" value="'dofollow_timeout'" />
+							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Theme zuweisen', 'adminimize'); ?> &raquo;" class="button" />
 						</p>
 					</form>
 
@@ -594,12 +589,12 @@ function _mw_adminimize_options() {
 				<div class="inside">
 					
 					<p><?php _e('Nutze diese Option, um die Einstellungen f&uuml;r das Plugin in der Datenbank zu l&ouml;schen. Das Plugin entfernt die Eintr&auml;ge <strong>nicht</strong>, wenn es deaktiviert wird!', 'adminimize'); ?></p>
-					<form name="form2" method="post" id="_mw_adminimize_options_deinstall" action="<?php echo $location; ?>">
+					<form name="deinstall_options" method="post" id="_mw_adminimize_options_deinstall" action="?page=<?php echo $_GET['page'];?>">
 						<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
-						<p id="submitbutton>
+						<p id="submitbutton">
+							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Einstellungen l&ouml;schen', 'adminimize'); ?> &raquo;" class="button-secondary" /> 
+							<input type="checkbox" name="_mw_adminimize_deinstall_yes" value="_mw_adminimize_deinstall" />
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_deinstall" />
-							<input class="button-secondary" type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Einstellungen l&ouml;schen', 'adminimize'); ?> &raquo;" /> 
-							<input name="_mw_adminimize_deinstall_yes" value="_mw_adminimize_deinstall" type="checkbox" />
 						</p>
 					</form>
 
@@ -613,7 +608,7 @@ function _mw_adminimize_options() {
 				<div class="inside">
 
 					<p><?php _e('Weitere Information: Besuche die <a href=\'http://bueltge.de/wordpress-admin-theme-adminimize/674/\'>Plugin Webseite</a> f&uuml;r weitere Informationen oder hole die aktuelle Version des Plugins.', 'adminimize'); ?><br />&copy; Copyright 2008 - <?php echo date("Y"); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php _e('Du willst Danke sagen? Besuche meine <a href=\'http://bueltge.de/wunschliste/\'>Wunschliste</a>.', 'adminimize'); ?></p>
-
+					<p class="textright"><?php echo $wpdb->num_queries; ?>q, <?php timer_stop(1); ?>s</p>
 				</div>
 			</div>
 		</div>
@@ -628,6 +623,7 @@ function _mw_adminimize_options() {
 		});
 		//-->
 		</script>
+		
 	</div>
 <?php
 }

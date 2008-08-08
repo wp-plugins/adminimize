@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.3
-Last Update: 01.08.2008 08:35:48
+Version: 1.4
+Last Update: 08.08.2008 08:46:48
 */ 
 
 /**
@@ -97,12 +97,14 @@ class _mw_adminimize_message_class {
  * @uses $pagenow
  */
 function _mw_adminimize_init() {
-	global $pagenow, $menu, $submenu;
+	global $pagenow, $menu, $submenu, $adminimizeoptions;
 
-	$disabled_metaboxes_post = get_option('mw_adminimize_disabled_metaboxes_post');
-	$disabled_metaboxes_page = get_option('mw_adminimize_disabled_metaboxes_page');
-	$disabled_metaboxes_post_adm = get_option('mw_adminimize_disabled_metaboxes_post_adm');
-	$disabled_metaboxes_page_adm = get_option('mw_adminimize_disabled_metaboxes_page_adm');
+	$adminimizeoptions = get_option('mw_adminimize');
+
+	$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+	$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+	$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
+	$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
 
 	$_mw_admin_color = get_user_option('admin_color');
 
@@ -152,13 +154,13 @@ function _mw_adminimize_init() {
 
 	if ( ('post-new.php' == $pagenow) || ('page-new.php' == $pagenow) || ('page.php' == $pagenow) || ('post.php' == $pagenow) ) {
 		
-		$_mw_adminimize_writescroll = get_option('_mw_adminimize_writescroll');
+		$_mw_adminimize_writescroll = _mw_adminimize_getOptionValue('_mw_adminimize_writescroll');
 		switch ($_mw_adminimize_writescroll) {
 		case 1:
 			add_action('admin_head', '_mw_adminimize_writescroll');
 			break;
 		}
-		$_mw_adminimize_tb_window = get_option('_mw_adminimize_tb_window');
+		$_mw_adminimize_tb_window = _mw_adminimize_getOptionValue('_mw_adminimize_tb_window');
 		switch ($_mw_adminimize_tb_window) {
 		case 1:
 			add_action('admin_head', '_mw_adminimize_tb_window');
@@ -180,11 +182,13 @@ function _mw_adminimize_init() {
 	update_option('mw_adminimize_default_submenu', $submenu);
 }
 
-add_action('init', '_mw_adminimize_textdomain');
-add_action('admin_menu', '_mw_adminimize_add_settings_page');
-add_action('admin_menu', '_mw_adminimize_remove_dashboard');
-add_action('admin_init', '_mw_adminimize_init', 1);
-add_action('admin_init', '_mw_adminimize_admin_styles', 1);
+if ( is_admin() ) {
+	add_action('init', '_mw_adminimize_textdomain');
+	add_action('admin_menu', '_mw_adminimize_add_settings_page');
+	add_action('admin_menu', '_mw_adminimize_remove_dashboard');
+	add_action('admin_init', '_mw_adminimize_init', 1);
+	add_action('admin_init', '_mw_adminimize_admin_styles', 1);
+}
 
 register_activation_hook(__FILE__, '_mw_adminimize_install');
 //register_deactivation_hook(__FILE__, '_mw_adminimize_deinstall');
@@ -495,10 +499,10 @@ function _mw_adminimize_admin_styles($file) {
 function _mw_adminimize_remove_dashboard() {
 	global $menu, $submenu, $user_ID;
 
-	$disabled_menu        = get_option('mw_adminimize_disabled_menu');
-	$disabled_submenu     = get_option('mw_adminimize_disabled_submenu');
-	$disabled_menu_adm    = get_option('mw_adminimize_disabled_menu_adm');
-	$disabled_submenu_adm = get_option('mw_adminimize_disabled_submenu_adm');
+	$disabled_menu        = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
+	$disabled_submenu     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
+	$disabled_menu_adm    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
+	$disabled_submenu_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
 
 	// remove dashboard
 	if ($disabled_menu != '') {
@@ -508,7 +512,7 @@ function _mw_adminimize_remove_dashboard() {
 					( in_array('index.php', $disabled_submenu_adm) && current_user_can('level_10') )
 			 ) {
 	
-			$_mw_adminimize_db_redirect = get_option('_mw_adminimize_db_redirect');
+			$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect');
 			switch ($_mw_adminimize_db_redirect) {
 			case 0:
 				$_mw_adminimize_db_redirect = 'profile.php';
@@ -571,7 +575,7 @@ function _mw_adminimize_set_user_option_edit() {
 	$_mw_adminimize_path = WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 	
 	$_mw_adminimize_sidecat_admin_head = '';
-	$_mw_adminimize_sidebar_wight = get_option('_mw_adminimize_sidebar_wight');
+	$_mw_adminimize_sidebar_wight = _mw_adminimize_getOptionValue('_mw_adminimize_sidebar_wight');
 	switch ($_mw_adminimize_sidebar_wight) {
 	case 300:
 		$_mw_adminimize_sidecat_admin_head .= '<link rel="stylesheet" href="' . "\n";
@@ -605,14 +609,14 @@ function _mw_adminimize_set_user_option_edit() {
 function _mw_adminimize_set_menu_option() {
 	global $pagenow, $menu, $submenu;
 	
-	$disabled_menu        = get_option('mw_adminimize_disabled_menu');
-	$disabled_submenu     = get_option('mw_adminimize_disabled_submenu');
-	$disabled_menu_adm    = get_option('mw_adminimize_disabled_menu_adm');
-	$disabled_submenu_adm = get_option('mw_adminimize_disabled_submenu_adm');
-
+	$disabled_menu        = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
+	$disabled_submenu     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
+	$disabled_menu_adm    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
+	$disabled_submenu_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
+	
 	$_mw_adminimize_admin_head  = "\n";
-	$_mw_adminimize_user_info   = get_option('_mw_adminimize_user_info');
-	$_mw_adminimize_ui_redirect = get_option('_mw_adminimize_ui_redirect');
+	$_mw_adminimize_user_info   = _mw_adminimize_getOptionValue('_mw_adminimize_user_info');
+	$_mw_adminimize_ui_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect');
 	switch ($_mw_adminimize_user_info) {
 	case 1:
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
@@ -632,7 +636,7 @@ function _mw_adminimize_set_menu_option() {
 		break;
 	}
 
-	$_mw_adminimize_footer = get_option('_mw_adminimize_footer');
+	$_mw_adminimize_footer = _mw_adminimize_getOptionValue('_mw_adminimize_footer');
 	switch ($_mw_adminimize_footer) {
 	case 1:
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
@@ -642,7 +646,7 @@ function _mw_adminimize_set_menu_option() {
 	}
 
 	// timestamp open
-	$_mw_adminimize_timestamp = get_option('_mw_adminimize_timestamp');
+	$_mw_adminimize_timestamp = _mw_adminimize_getOptionValue('_mw_adminimize_timestamp');
 	switch ($_mw_adminimize_timestamp) {
 	case 1:
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
@@ -717,8 +721,8 @@ function _mw_adminimize_set_metabox_option() {
 	if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
 
-		$disabled_metaboxes_post = get_option('mw_adminimize_disabled_metaboxes_post');
-		$disabled_metaboxes_post_adm = get_option('mw_adminimize_disabled_metaboxes_post_adm');
+		$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+		$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
 		
 		if ( current_user_can('level_10') ) {
 			$metaboxes = implode(',', $disabled_metaboxes_post_adm); // for admins
@@ -780,8 +784,8 @@ function _mw_adminimize_admin_footer() {
 	if ( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
 		printf('%1$s ' . __('plugin') . ' | ' . __('Version') . ' <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie" title="' . __('Historie', 'adminimize') . '">%2$s</a> | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
 	}
-	if ( get_option('_mw_adminimize_advice') == 1 && basename($_SERVER['REQUEST_URI']) != 'adminimize.php' ) {
-		printf('%1$s ' . __('plugin aktiv', 'adminimize') . ' | ' . stripslashes( get_option('_mw_adminimize_advice_txt') ) . '<br />', $plugin_data['Title']);
+	if ( _mw_adminimize_getOptionValue('_mw_adminimize_advice') == 1 && basename($_SERVER['REQUEST_URI']) != 'adminimize.php' ) {
+		printf('%1$s ' . __('plugin aktiv', 'adminimize') . ' | ' . stripslashes( _mw_adminimize_getOptionValue('_mw_adminimize_advice_txt') ) . '<br />', $plugin_data['Title']);
 	}
 }
 
@@ -837,66 +841,135 @@ function _mw_adminimize_set_theme() {
 
 
 /**
+ * read otpions
+ */
+function _mw_adminimize_getOptionValue($key) {
+	global $adminimizeoptions;
+	
+	return ($adminimizeoptions[$key]);
+}
+
+
+/**
  * Update options in database
  */
 function _mw_adminimize_update() {
-	global $menu, $submenu;
+	global $menu, $submenu, $adminimizeoptions;
 	
-	// for a smaller database
-	function _mw_adminimize_get_update($option) {
-		if ( ($_POST[$option] == '0') || $_POST[$option] == '') {
-			delete_option($option);
-		} else {
-			update_option($option , $_POST[$option]);
-		}
+	if (isset($_POST['_mw_adminimize_user_info'])) {
+		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes($_POST['_mw_adminimize_user_info']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_user_info'] = 0;
+	}
+
+	if (isset($_POST['_mw_adminimize_sidebar_wight'])) {
+		$adminimizeoptions['_mw_adminimize_sidebar_wight'] = strip_tags(stripslashes($_POST['_mw_adminimize_sidebar_wight']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_sidebar_wight'] = 0;
 	}
 	
-	_mw_adminimize_get_update('_mw_adminimize_sidebar_wight');
-	_mw_adminimize_get_update('_mw_adminimize_user_info');
-	_mw_adminimize_get_update('_mw_adminimize_footer');
-	_mw_adminimize_get_update('_mw_adminimize_writescroll');
-	_mw_adminimize_get_update('_mw_adminimize_tb_window');
-	_mw_adminimize_get_update('_mw_adminimize_db_redirect');
-	_mw_adminimize_get_update('_mw_adminimize_ui_redirect');
-	_mw_adminimize_get_update('_mw_adminimize_advice');
-	_mw_adminimize_get_update('_mw_adminimize_advice_txt');
-	_mw_adminimize_get_update('_mw_adminimize_timestamp');
+	if (isset($_POST['_mw_adminimize_footer'])) {
+		$adminimizeoptions['_mw_adminimize_footer'] = strip_tags(stripslashes($_POST['_mw_adminimize_footer']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_footer'] = 0;
+	}
 	
-	// wp menu, submenu
-	update_option('mw_adminimize_default_menu', $menu);
-	update_option('mw_adminimize_default_submenu', $submenu);
+	if (isset($_POST['_mw_adminimize_writescroll'])) {
+		$adminimizeoptions['_mw_adminimize_writescroll'] = strip_tags(stripslashes($_POST['_mw_adminimize_writescroll']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_writescroll'] = 0;
+	}
 	
-	// disabled wp menu, submenu
-	update_option('mw_adminimize_disabled_menu', 
-		isset($_POST['mw_adminimize_disabled_menu_items']) ? $_POST['mw_adminimize_disabled_menu_items'] : array()
-	);
-	update_option('mw_adminimize_disabled_submenu', 
-		isset($_POST['mw_adminimize_disabled_submenu_items']) ? $_POST['mw_adminimize_disabled_submenu_items'] : array()
-	);
-	update_option('mw_adminimize_disabled_menu_adm', 
-		isset($_POST['mw_adminimize_disabled_menu_adm_items']) ? $_POST['mw_adminimize_disabled_menu_adm_items'] : array()
-	);
-	update_option('mw_adminimize_disabled_submenu_adm', 
-		isset($_POST['mw_adminimize_disabled_submenu_adm_items']) ? $_POST['mw_adminimize_disabled_submenu_adm_items'] : array()
-	);
+	if (isset($_POST['_mw_adminimize_tb_window'])) {
+		$adminimizeoptions['_mw_adminimize_tb_window'] = strip_tags(stripslashes($_POST['_mw_adminimize_tb_window']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_tb_window'] = 0;
+	}
 	
-	// disabled meta boxes post
-	update_option('mw_adminimize_disabled_metaboxes_post', 
-		isset($_POST['mw_adminimize_disabled_metaboxes_post_items']) ? $_POST['mw_adminimize_disabled_metaboxes_post_items'] : array()
-	);
-	// disabled meta boxes page
-	update_option('mw_adminimize_disabled_metaboxes_page', 
-		isset($_POST['mw_adminimize_disabled_metaboxes_page_items']) ? $_POST['mw_adminimize_disabled_metaboxes_page_items'] : array()
-	);
-	// disabled meta boxes post Admin
-	update_option('mw_adminimize_disabled_metaboxes_post_adm', 
-		isset($_POST['mw_adminimize_disabled_metaboxes_post_adm_items']) ? $_POST['mw_adminimize_disabled_metaboxes_post_adm_items'] : array()
-	);
-	// disabled meta boxes page Admin
-	update_option('mw_adminimize_disabled_metaboxes_page_adm', 
-		isset($_POST['mw_adminimize_disabled_metaboxes_page_adm_items']) ? $_POST['mw_adminimize_disabled_metaboxes_page_adm_items'] : array()
-	);
+	if (isset($_POST['_mw_adminimize_db_redirect'])) {
+		$adminimizeoptions['_mw_adminimize_db_redirect'] = strip_tags(stripslashes($_POST['_mw_adminimize_db_redirect']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_db_redirect'] = 0;
+	}
+	
+	if (isset($_POST['_mw_adminimize_ui_redirect'])) {
+		$adminimizeoptions['_mw_adminimize_ui_redirect'] = strip_tags(stripslashes($_POST['_mw_adminimize_ui_redirect']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_ui_redirect'] = 0;
+	}
+	
+	if (isset($_POST['_mw_adminimize_advice'])) {
+		$adminimizeoptions['_mw_adminimize_advice'] = strip_tags(stripslashes($_POST['_mw_adminimize_advice']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_advice'] = 0;
+	}
+	
+	if (isset($_POST['_mw_adminimize_advice_txt'])) {
+		$adminimizeoptions['_mw_adminimize_advice_txt'] = stripslashes($_POST['_mw_adminimize_advice_txt']);
+	} else {
+		$adminimizeoptions['_mw_adminimize_advice_txt'] = 0;
+	}
+	
+	if (isset($_POST['_mw_adminimize_timestamp'])) {
+		$adminimizeoptions['_mw_adminimize_timestamp'] = strip_tags(stripslashes($_POST['_mw_adminimize_timestamp']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_timestamp'] = 0;
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_menu_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_menu_items'] = $_POST['mw_adminimize_disabled_menu_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_menu_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_submenu_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = $_POST['mw_adminimize_disabled_submenu_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = array();
+	}
 
+	if (isset($_POST['mw_adminimize_disabled_menu_adm_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_menu_adm_items'] = $_POST['mw_adminimize_disabled_menu_adm_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_menu_adm_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_submenu_adm_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = $_POST['mw_adminimize_disabled_submenu_adm_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_adm_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_adm_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_adm_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_adm_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
+	}
+
+	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
+	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
+
+	update_option('mw_adminimize', $adminimizeoptions);
+	$adminimizeoptions = get_option('mw_adminimize');
+	
 	$myErrors = new _mw_adminimize_message_class();
 	$myErrors = '<div id="message" class="updated fade"><p>' . $myErrors->get_error('_mw_adminimize_update') . '</p></div>';
 	echo $myErrors;
@@ -907,6 +980,8 @@ function _mw_adminimize_update() {
  * Delete options in database
  */
 function _mw_adminimize_deinstall() {
+
+	delete_option('mw_adminimize');
 	
 	delete_option('_mw_adminimize_sidebar_wight');
 	delete_option('_mw_adminimize_user_info');
@@ -932,8 +1007,6 @@ function _mw_adminimize_deinstall() {
 	delete_option('mw_adminimize_disabled_metaboxes_page');
 	delete_option('mw_adminimize_disabled_metaboxes_post_adm');
 	delete_option('mw_adminimize_disabled_metaboxes_page_adm');
-
-	delete_option('_mw_adminimize_update_key');
 }
 
 
@@ -941,17 +1014,21 @@ function _mw_adminimize_deinstall() {
  * Install options in database
  */
 function _mw_adminimize_install() {
+	global $menu, $submenu;
 
-	add_option('mw_adminimize_default_menu', '', '');
-	add_option('mw_adminimize_default_submenu', '', '');
-	add_option('mw_adminimize_disabled_menu', array(), '');
-	add_option('mw_adminimize_disabled_submenu', array(), '');
-	add_option('mw_adminimize_disabled_menu_adm', array(), '');
-	add_option('mw_adminimize_disabled_submenu_adm', array(), '');
-
-	add_option('mw_adminimize_disabled_metaboxes_post', array(),'');
-	add_option('mw_adminimize_disabled_metaboxes_page', array(),'');
-	add_option('mw_adminimize_disabled_metaboxes_post_adm', array(),'');
-	add_option('mw_adminimize_disabled_metaboxes_page_adm', array(),'');
+	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
+	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
+	
+	$adminimizeoptions['mw_adminimize_disabled_menu_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_menu_adm_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = array();
+	
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
+	
+	add_option('mw_adminimize', $adminimizeoptions);
 }
 ?>
