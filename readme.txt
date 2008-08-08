@@ -58,11 +58,11 @@ The plugin changes the administration backend and gives you the power to assign 
 2. Upload folder include all files to the `/wp-content/plugins/` directory.  The
 final directory tree should look like `/wp-content/plugins/adminimize/adminimize.php`, `/wp-content/plugins/adminimize/adminimize_page.php`, `/wp-content/plugins/adminimize/css/` and `/wp-content/plugins/adminimize/languages`
 
-3. Activate the plugin through the 'Plugins' menu in WordPress
+3. Activate the plugin through the `Plugins` menu in WordPress
 
-4. Colour Scheme and Theme selection in Your Profile Go to your User Profile (under ‘Users’ > ‘Your Profile’ or by clicking on your name at the top right corner of the administration panel).
+4. Colour Scheme and Theme selection in Your Profile Go to your User Profile (under `Users` > `Your Profile` or by clicking on your name at the top right corner of the administration panel).
 
-4. Administrator can go to ‘Options‘ > ‘Adminimize‘ menu and configure the plugin (Menu, Submenu, Metaboxes, ...)
+4. Administrator can go to `Options` > `Adminimize` menu and configure the plugin (Menu, Submenu, Metaboxes, ...)
 
 = Advice =
 Please use the `Deinstall-Funktion` in the option-area bevor update to version 1.4! Version 1.4 and bigger has only one databas entry and the `Deinstall-Option` desinatll the old entrys. 
