@@ -3,7 +3,8 @@
  * options-page in wp-admin
  */
 function _mw_adminimize_options() {
-
+	global $wpdb, $_wp_admin_css_colors;
+	
 	// update options
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
 		
@@ -65,7 +66,7 @@ function _mw_adminimize_options() {
 		<br class="clear" />
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3><?php _e('Backend Einstellungen', 'adminimize'); ?></h3>
+				<h3><?php _e('Backend options', 'adminimize'); ?></h3>
 				<div class="inside">
 		
 				<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
@@ -74,7 +75,7 @@ function _mw_adminimize_options() {
 					<table summary="config" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Backend Einstellungen', 'adminimize'); ?></th>
+								<th><?php _e('Backend options', 'adminimize'); ?></th>
 								<th>&nbsp;</th>
 							</tr>
 						</thead>
@@ -84,12 +85,12 @@ function _mw_adminimize_options() {
 								<td>
 									<?php $_mw_adminimize_sidebar_wight = _mw_adminimize_getOptionValue('_mw_adminimize_sidebar_wight'); ?>
 									<select name="_mw_adminimize_sidebar_wight">
-										<option value="0"<?php if ($_mw_adminimize_sidebar_wight == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
+										<option value="0"<?php if ($_mw_adminimize_sidebar_wight == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
 										<option value="300"<?php if ($_mw_adminimize_sidebar_wight == '300') { echo ' selected="selected"'; } ?>>300px</option>
 										<option value="400"<?php if ($_mw_adminimize_sidebar_wight == '400') { echo ' selected="selected"'; } ?>>400px</option>
 										<option value="20"<?php if ($_mw_adminimize_sidebar_wight == '20') { echo ' selected="selected"'; } ?>>20%</option>
 										<option value="30"<?php if ($_mw_adminimize_sidebar_wight == '30') { echo ' selected="selected"'; } ?>>30%</option>
-									</select> <?php _e('Der Sidebar am rechten Rand des Bereich <em>Schreiben</em> kann konfiguriert werden. Standard sind 200 Pixel im WordPress Theme <em>Classic</em> und <em>Fresh</em>', 'adminimize'); ?>
+									</select> <?php _e('The sidebar on the right side in the area <em>Edit</em> is configurable. Default is 200 pixel in the WordPress Theme <em>Classic</em> and <em>Fresh</em>', 'adminimize'); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -97,21 +98,22 @@ function _mw_adminimize_options() {
 								<td>
 									<?php $_mw_adminimize_user_info = _mw_adminimize_getOptionValue('_mw_adminimize_user_info'); ?>
 									<select name="_mw_adminimize_user_info">
-										<option value="0"<?php if ($_mw_adminimize_user_info == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
-										<option value="2"<?php if ($_mw_adminimize_user_info == '2') { echo ' selected="selected"'; } ?>><?php _e('nur Logout', 'adminimize'); ?></option>
-									</select> <?php _e('Der &quot;User-Info-Bereich&quot; ist im oberen rechten Bereich zu finden und kann ausgeblendet oder reduziert dargestellt werden.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_user_info == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', 'adminimize'); ?></option>
+										<option value="2"<?php if ($_mw_adminimize_user_info == '2') { echo ' selected="selected"'; } ?>><?php _e('Only logout', 'adminimize'); ?></option>
+										<option value="3"<?php if ($_mw_adminimize_user_info == '3') { echo ' selected="selected"'; } ?>><?php _e('User &amp; Logout', 'adminimize'); ?></option>
+									</select> <?php _e('The &quot;User-Info-area&quot; is on the top right side of the backend. You can hide or reduced show.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<?php if ($_mw_adminimize_user_info != '2') $disabled_item = ' disabled="disabled"' ?>
 							<tr valign="top">
-								<td><?php _e('User Info ge&auml;ndert, Weiterleitung nach', 'adminimize'); ?></td>
+								<td><?php _e('Change User-Info, redirect to', 'adminimize'); ?></td>
 								<td>
 									<?php $_mw_adminimize_ui_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect'); ?>
 									<select name="_mw_adminimize_ui_redirect" <?php echo $disabled_item ?>>
-										<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Startseite des Blog', 'adminimize'); ?> 
-									</select> <?php _e('Wenn der &quot;User-Info-Bereich&quot; ge&auml;ndert wird, dann kann die die Weiterleitung nach einem Logout ge&auml;ndert werden.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Frontpage of the Blog', 'adminimize'); ?> 
+									</select> <?php _e('When the &quot;User-Info-area&quot; change it, then it is possible to change the redirect.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -119,9 +121,9 @@ function _mw_adminimize_options() {
 								<td>
 									<?php $_mw_adminimize_footer = _mw_adminimize_getOptionValue('_mw_adminimize_footer'); ?>
 									<select name="_mw_adminimize_footer">
-										<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Ausblenden', 'adminimize'); ?></option>
-									</select> <?php _e('Der Footer-Bereich kann deaktiviert werden, inklusive aller Links und Hinweise.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', 'adminimize'); ?></option>
+									</select> <?php _e('The Footer-area kann hide, include all links and details.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -129,9 +131,9 @@ function _mw_adminimize_options() {
 								<td>
 									<?php $_mw_adminimize_writescroll = _mw_adminimize_getOptionValue('_mw_adminimize_writescroll'); ?>
 									<select name="_mw_adminimize_writescroll">
-										<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
-									</select> <?php _e('Automatisches Scrollen zum Editor beim Aufruf der Seite Schreiben in Beitr&auml;ge und Seite.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+									</select> <?php _e('With the WriteScroll option active, these pages will automatically scroll to an optimal position for editing, when you visit Write Post or Write Page.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -139,9 +141,9 @@ function _mw_adminimize_options() {
 								<td>
 									<?php $_mw_adminimize_timestamp = _mw_adminimize_getOptionValue('_mw_adminimize_timestamp'); ?>
 									<select name="_mw_adminimize_timestamp">
-										<option value="0"<?php if ($_mw_adminimize_timestamp == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_timestamp == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
-									</select> <?php _e('Das Feld zum &Auml;ndern des Ver&ouml;ffentlichungsdatum ist immer ge&ouml;ffnet.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_timestamp == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_timestamp == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+									</select> <?php _e('Opens the post timestamp editing fields without you having to click the "Edit" link every time.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -149,20 +151,20 @@ function _mw_adminimize_options() {
 								<td>
 									<?php $_mw_adminimize_tb_window = _mw_adminimize_getOptionValue('_mw_adminimize_tb_window'); ?>
 									<select name="_mw_adminimize_tb_window">
-										<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
-									</select> <?php _e('Alle Thickbox-Funktionen nutzen den kompletten Raum des Browsers, zum Beispiel beim uploaden von Bildern.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+									</select> <?php _e('All Thickbox-function use the full area of the browser. Thickbox is for examble in upload media-files.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('Hinweis im Footer', 'adminimize'); ?></td>
+								<td><?php _e('Advice in Footer', 'adminimize'); ?></td>
 								<td>
 									<?php $_mw_adminimize_advice = _mw_adminimize_getOptionValue('_mw_adminimize_advice'); ?>
 									<select name="_mw_adminimize_advice">
-										<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Aktiv', 'adminimize'); ?></option>
+										<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
 									</select>
-									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('Im Footer kann ein Hinweis auf die aktive Ver&auml;nderung des Standard-Layout gesetzt werden, (x)HTML erlaubt.', 'adminimize'); ?>
+									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('In the Footer kann you display a advice for change the Default-design, (x)HTML is possible.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<?php
@@ -180,17 +182,17 @@ function _mw_adminimize_options() {
 									 ) {
 							?>
 							<tr valign="top" class="form-invalid">
-								<td><?php _e('Dashboard inaktiv, Weiterleitung nach', 'adminimize'); ?></td>
+								<td><?php _e('Dashboard deaktivate, redirect to', 'adminimize'); ?></td>
 								<td>
 									<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
 									<select name="_mw_adminimize_db_redirect">
-										<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Standard', 'adminimize'); ?> (profile.php)</option>
-										<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Verwalten Beitr&auml;ge', 'adminimize'); ?> (edit.php)</option>
-										<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Verwalten Seiten', 'adminimize'); ?> (edit-pages.php)</option>
-										<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Schreiben Beitrag', 'adminimize'); ?> (post-new.php)</option>
-										<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Schreiben Seite', 'adminimize'); ?> (page-new.php)</option>
-										<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Kommentare', 'adminimize'); ?> (edit-comments.php)</option>
-										</select> <?php _e('Du hast das Dashboard deaktivert, wohin soll der Nutzer weitergeleitet werden?', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?> (profile.php)</option>
+										<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Manage Posts', 'adminimize'); ?> (edit.php)</option>
+										<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Manage Pages', 'adminimize'); ?> (edit-pages.php)</option>
+										<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Write Post', 'adminimize'); ?> (post-new.php)</option>
+										<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Write Page', 'adminimize'); ?> (page-new.php)</option>
+										<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Comments', 'adminimize'); ?> (edit-comments.php)</option>
+										</select> <?php _e('You have deaktivate the Dashboard, please select a page for redirect?', 'adminimize'); ?>
 								</td>
 							</tr>
 							<?php
@@ -200,7 +202,7 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Einstellungen aktualisieren', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 					
 				</div>
@@ -209,22 +211,22 @@ function _mw_adminimize_options() {
 			
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="config_menu"><?php _e('Menu Einstellungen', 'adminimize'); ?></h3>
+				<h3 id="config_menu"><?php _e('Menu Options', 'adminimize'); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 					<table summary="config_menu" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Menu Einstellungen - Menu, <span style="font-weight: 400;">Submenu</span>', 'adminimize'); ?></th>
-								<th><?php _e('Deaktivieren &lt; User Level 10 (Admin)', 'adminimize'); ?></th>
-								<th><?php _e('Deaktivieren f&uuml;r Admin\'s', 'adminimize'); ?></th>
+								<th><?php _e('Menu options - Menu, <span style=\"font-weight: 400;\">Submenu</span>', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate &lt; User Level 10 (Admin)', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Admin\'s', 'adminimize'); ?></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
 							$menu = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
 							$submenu = _mw_adminimize_getOptionValue('mw_adminimize_default_submenu');
-							
+
 							$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
 							$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
 							$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
@@ -258,19 +260,19 @@ function _mw_adminimize_options() {
 							$metaboxes_names = array(
 								__('Permalink', 'adminimize'),
 								__('Tags', 'adminimize'),
-								__('Kategorien', 'adminimize'),
-								__('Neue Kategorie hinzuf&uuml;gen', 'adminimize'),
-								__('Auszug', 'adminimize'),
+								__('Categories', 'adminimize'),
+								__('Add New Category', 'adminimize'),
+								__('Excerpt', 'adminimize'),
 								__('Trackbacks', 'adminimize'),
-								__('Benutzerdefinierte Felder', 'adminimize'),
-								__('Kommentare & Pings', 'adminimize'),
-								__('Diesen Artikel durch ein Passwort sch&uuml;tzen', 'adminimize'),
-								__('Autor', 'adminimize'),
+								__('Custom Fields', 'adminimize'),
+								__('Comments &amp; Pings', 'adminimize'),
+								__('Password Protect This Post', 'adminimize'),
+								__('Post Author', 'adminimize'),
 								__('Post Revisions', 'adminimize'),
-								__('Siehe auch, Tastaturk&uuml;rzel', 'adminimize'),
-								__('Mitteilungen', 'adminimize'),
-								__('h2: Erweiterte Einstellungen', 'adminimize'),
-								__('Media Buttons (alle)', 'adminimize')
+								__('Related, Shortcuts', 'adminimize'),
+								__('Messenges', 'adminimize'),
+								__('h2: Advanced Options', 'adminimize'),
+								__('Media Buttons (all)', 'adminimize')
 							);
 							
 							if (class_exists('SimpleTagsAdmin'))
@@ -303,18 +305,18 @@ function _mw_adminimize_options() {
 								
 							$metaboxes_names_page = array(
 								__('Permalink', 'adminimize'),
-								__('Benutzerdefinierte Felder', 'adminimize'),
-								__('Kommentare &amp; Pings', 'adminimize'),
-								__('Diese Seite mit einem Passwort versehen', 'adminimize'),
-								__('&Uuml;bergeordnete Seite', 'adminimize'),
-								__('Seiten-Template', 'adminimize'),
-								__('Reihenfolge', 'adminimize'),
-								__('Seitenautor', 'adminimize'),
+								__('Custom Fields', 'adminimize'),
+								__('Comments &amp; Pings', 'adminimize'),
+								__('Password Protect This Page', 'adminimize'),
+								__('Page Parent', 'adminimize'),
+								__('Page Template', 'adminimize'),
+								__('Page Order', 'adminimize'),
+								__('Page Author', 'adminimize'),
 								__('Page Revisions', 'adminimize'),
-								__('Siehe auch', 'adminimize'),
-								__('Mitteilungen', 'adminimize'),
-								__('h2: Erweiterte Einstellungen', 'adminimize'),
-								__('Media Buttons (alle)', 'adminimize')
+								__('Related', 'adminimize'),
+								__('Messenges', 'adminimize'),
+								__('h2: Advanced Options', 'adminimize'),
+								__('Media Buttons (all)', 'adminimize')
 							);
 		
 							if (class_exists('SimpleTagsAdmin'))
@@ -386,9 +388,9 @@ function _mw_adminimize_options() {
 									$x++;
 								}
 									echo '<tr>' . "\n";
-									echo '<th>' . __('Alle w&auml;hlen', 'adminimize') . '</th>';
-									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menu" onClick="toggleCheckboxes_menu();"><a id="atoggleCheckboxes_menu" href="javascript:toggleCheckboxes_menu();"> ' . __('Alle', 'adminimize') . '</a></td>';
-									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menuadm" onClick="toggleCheckboxes_menuadm();"><a id="atoggleCheckboxes_menuadm" href="javascript:toggleCheckboxes_menuadm();"> ' . __('Alle', 'adminimize') . '</a></td>';
+									echo '<th>' . __('All items', 'adminimize') . '</th>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menu" onClick="toggleCheckboxes_menu();"><a id="atoggleCheckboxes_menu" href="javascript:toggleCheckboxes_menu();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menuadm" onClick="toggleCheckboxes_menuadm();"><a id="atoggleCheckboxes_menuadm" href="javascript:toggleCheckboxes_menuadm();"> ' . __('All', 'adminimize') . '</a></td>';
 									echo '</tr>' . "\n";
 									
 							} else {
@@ -399,7 +401,7 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Einstellungen aktualisieren', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 					
 				</div>
@@ -408,14 +410,14 @@ function _mw_adminimize_options() {
 
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="config_edit"><?php _e('Schreiben Einstellungen', 'adminimize'); ?></h3>
+				<h3 id="config_edit"><?php _e('Write options', 'adminimize'); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 					<table summary="config_edit" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Schreiben Einstellungen - Beitr&auml;ge', 'adminimize'); ?></th>
-								<th><?php _e('Schreiben Einstellungen - Seiten', 'adminimize'); ?></th>
+								<th><?php _e('Write options - Post', 'adminimize'); ?></th>
+								<th><?php _e('Write options - Page', 'adminimize'); ?></th>
 							</tr>
 						</thead>
 						
@@ -426,8 +428,8 @@ function _mw_adminimize_options() {
 										<thead>
 											<tr>
 												<th>&nbsp;</th>
-												<th><?php _e('&lt; Admin (Level 10)', 'adminimize'); ?></th>
-												<th><?php _e('Admin (Level 10)', 'adminimize'); ?></th>
+												<th><?php _e('Deactivate for &lt; Admin\'s (level 1-9)', 'adminimize'); ?></th>
+												<th><?php _e('Deactivate for Admin\'s (level 10)', 'adminimize'); ?></th>
 											</tr>
 										</thead>
 										
@@ -447,10 +449,10 @@ function _mw_adminimize_options() {
 											}
 										?>
 											<tr>
-												<th><?php _e('Alle w&auml;hlen', 'adminimize'); ?></th>
+												<th><?php _e('All items', 'adminimize'); ?></th>
 												<?php
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_post" onClick="toggleCheckboxes_post();"><a id="atoggleCheckboxes_post" href="javascript:toggleCheckboxes_post();"> ' . __('Alle', 'adminimize') . '</a></td>';
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postadm" onClick="toggleCheckboxes_postadm();"><a id="atoggleCheckboxes_postadm" href="javascript:toggleCheckboxes_postadm();"> ' . __('Alle', 'adminimize') . '</a></td>';
+													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_post" onClick="toggleCheckboxes_post();"><a id="atoggleCheckboxes_post" href="javascript:toggleCheckboxes_post();"> ' . __('All', 'adminimize') . '</a></td>';
+													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postadm" onClick="toggleCheckboxes_postadm();"><a id="atoggleCheckboxes_postadm" href="javascript:toggleCheckboxes_postadm();"> ' . __('All', 'adminimize') . '</a></td>';
 												?>
 											</tr>
 										</tbody>
@@ -461,8 +463,8 @@ function _mw_adminimize_options() {
 										<thead>
 											<tr>
 												<th>&nbsp;</th>
-												<th><?php _e('&lt; Admin (Level 10)', 'adminimize'); ?></th>
-												<th><?php _e('Admin (Level 10)', 'adminimize'); ?></th>
+												<th><?php _e('Deactivate for &lt; Admin\'s (level 1-9)', 'adminimize'); ?></th>
+												<th><?php _e('Deactivate for Admin\'s (level 10)', 'adminimize'); ?></th>
 											</tr>
 										</thead>
 										
@@ -482,10 +484,10 @@ function _mw_adminimize_options() {
 											}
 										?>
 											<tr>
-												<th><?php _e('Alle w&auml;hlen', 'adminimize'); ?></th>
+												<th><?php _e('All items', 'adminimize'); ?></th>
 												<?php
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_page" onClick="toggleCheckboxes_page();"><a id="atoggleCheckboxes_page" href="javascript:toggleCheckboxes_page();"> ' . __('Alle', 'adminimize') . '</a></td>';
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pageadm" onClick="toggleCheckboxes_pageadm();"><a id="atoggleCheckboxes_pageadm" href="javascript:toggleCheckboxes_pageadm();"> ' . __('Alle', 'adminimize') . '</a></td>';
+													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_page" onClick="toggleCheckboxes_page();"><a id="atoggleCheckboxes_page" href="javascript:toggleCheckboxes_page();"> ' . __('All', 'adminimize') . '</a></td>';
+													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pageadm" onClick="toggleCheckboxes_pageadm();"><a id="atoggleCheckboxes_pageadm" href="javascript:toggleCheckboxes_pageadm();"> ' . __('All', 'adminimize') . '</a></td>';
 												?>
 											</tr>
 										</tbody>
@@ -497,7 +499,7 @@ function _mw_adminimize_options() {
 					
 					<p id="submitbutton">
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Einstellungen aktualisieren', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 				</form>
 
@@ -507,7 +509,7 @@ function _mw_adminimize_options() {
 		
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="set_theme"><?php _e('Theme setzen', 'adminimize') ?></h3>
+				<h3 id="set_theme"><?php _e('Set Theme', 'adminimize') ?></h3>
 				<div class="inside">
 					<br class="clear" />
 					<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="?page=<?php echo $_GET['page'];?>" >
@@ -517,17 +519,15 @@ function _mw_adminimize_options() {
 								<tr class="thead">
 									<th>&nbsp;</th>
 									<th class="num"><?php _e('User-ID') ?></th>
-									<th><?php _e('Benutzername') ?></th>
-									<th><?php _e('Name im Blog') ?></th>
-									<th><?php _e('Aktuelles Theme') ?></th>
+									<th><?php _e('Username') ?></th>
+									<th><?php _e('Display name publicly as') ?></th>
+									<th><?php _e('Admin Color Scheme') ?></th>
 									<th><?php _e('User Level') ?></th>
-									<th><?php _e('Rolle') ?></th>
+									<th><?php _e('Role') ?></th>
 								</tr>
 							</thead>
 							<tbody id="users" class="list:user user-list">
 								<?php
-								global $wpdb, $_wp_admin_css_colors;;
-								
 								$wp_user_search = $wpdb->get_results("SELECT ID, user_login, display_name FROM $wpdb->users ORDER BY ID");
 								
 								$style = '';
@@ -575,7 +575,7 @@ function _mw_adminimize_options() {
 						</table>
 						<p id="submitbutton">
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_set_theme" />
-							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Theme zuweisen', 'adminimize'); ?> &raquo;" class="button" />
+							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Set Theme', 'adminimize'); ?> &raquo;" class="button" />
 						</p>
 					</form>
 
@@ -585,14 +585,14 @@ function _mw_adminimize_options() {
 
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="uninstall"><?php _e('Deinstallation der Einstellungen', 'adminimize') ?></h3>
+				<h3 id="uninstall"><?php _e('Deinstall options', 'adminimize') ?></h3>
 				<div class="inside">
 					
-					<p><?php _e('Nutze diese Option, um die Einstellungen f&uuml;r das Plugin in der Datenbank zu l&ouml;schen. Das Plugin entfernt die Eintr&auml;ge <strong>nicht</strong>, wenn es deaktiviert wird!', 'adminimize'); ?></p>
+					<p><?php _e('Use this option for clean your database from all entries of this plugin. When you deactivate the plugin, the deinstall of the plugin <strong>clean not</strong> all entries in the database.', 'adminimize'); ?></p>
 					<form name="deinstall_options" method="post" id="_mw_adminimize_options_deinstall" action="?page=<?php echo $_GET['page'];?>">
 						<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
 						<p id="submitbutton">
-							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Einstellungen l&ouml;schen', 'adminimize'); ?> &raquo;" class="button-secondary" /> 
+							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Delete options', 'adminimize'); ?> &raquo;" class="button-secondary" /> 
 							<input type="checkbox" name="_mw_adminimize_deinstall_yes" value="_mw_adminimize_deinstall" />
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_deinstall" />
 						</p>
@@ -604,10 +604,10 @@ function _mw_adminimize_options() {
 
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="uninstall"><?php _e('&Uuml;ber das Plugin', 'adminimize') ?></h3>
+				<h3 id="uninstall"><?php _e('About the plugin', 'adminimize') ?></h3>
 				<div class="inside">
 
-					<p><?php _e('Weitere Information: Besuche die <a href=\'http://bueltge.de/wordpress-admin-theme-adminimize/674/\'>Plugin Webseite</a> f&uuml;r weitere Informationen oder hole die aktuelle Version des Plugins.', 'adminimize'); ?><br />&copy; Copyright 2008 - <?php echo date("Y"); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php _e('Du willst Danke sagen? Besuche meine <a href=\'http://bueltge.de/wunschliste/\'>Wunschliste</a>.', 'adminimize'); ?></p>
+					<p><?php _e('Further information: Visit the <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">plugin homepage</a> for further information or to grab the latest version of this plugin.', 'adminimize'); ?><br />&copy; Copyright 2008 - <?php echo date("Y"); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php _e('You want to thank me? Visit my <a href="http://bueltge.de/wunschliste/">wishlist</a>.', 'adminimize'); ?></p>
 					<p class="textright"><?php echo $wpdb->num_queries; ?>q, <?php timer_stop(1); ?>s</p>
 				</div>
 			</div>

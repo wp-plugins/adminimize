@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4
-Last Update: 08.08.2008 08:46:48
+Version: 1.4.1
+Last Update: 13.08.2008 18:17:59
 */ 
 
 /**
@@ -75,19 +75,19 @@ class _mw_adminimize_message_class {
 	function get_error($code = '') {
 		$errorMessage = $this->errors->get_error_message($code);
 		if ($errorMessage == null) {
-			return __("Unbekannter Fehler.", $this->localizionName);
+			return __("Unknown error.", $this->localizionName);
 		}
 		return $errorMessage;
 	}
 	
 	// Initializes all the error messages
 	function initialize_errors() {
-		$this->errors->add('_mw_adminimize_update', __('Die Einstellungen wurden gespeichert.', 'adminimize'));
-		$this->errors->add('_mw_adminimize_access_denied', __('Du hast nicht ausreichend Rechte um diese Aktion durchzuf&uuml;hren!', 'adminimize'));
-		$this->errors->add('_mw_adminimize_deinstall', __('Die Einstellungen wurde gel&ouml;scht!', 'adminimize'));
-		$this->errors->add('_mw_adminimize_deinstall_yes', __('Checkbox setzen, wenn wirklich deinstalliert werden soll!', 'adminimize'));
-		$this->errors->add('_mw_adminimize_get_option', __('Menu und Submenu k&ouml;nnen nicht geladen werden!', 'adminimize'));
-		$this->errors->add('_mw_adminimize_set_theme', __('Backend-Theme wurde zugewiesen!', 'adminimize'));
+		$this->errors->add('_mw_adminimize_update', __('The updates was saved.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_access_denied', __('You have not enough rights for edit entries in the database.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_deinstall', __('All entries in the database was delleted.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_deinstall_yes', __('Set the checkbox on deinstall-button.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_get_option', __('Can\'t load menu and submenu.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_set_theme', __('Backend-Theme was activated!', $this->localizionName));
 	}
 }
 
@@ -178,17 +178,19 @@ function _mw_adminimize_init() {
 
 	add_action('in_admin_footer', '_mw_adminimize_admin_footer');
 	
-	update_option('mw_adminimize_default_menu', $menu);
-	update_option('mw_adminimize_default_submenu', $submenu);
+	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
+	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
 }
 
+add_action('init', '_mw_adminimize_textdomain');
 if ( is_admin() ) {
-	add_action('init', '_mw_adminimize_textdomain');
+	
 	add_action('admin_menu', '_mw_adminimize_add_settings_page');
 	add_action('admin_menu', '_mw_adminimize_remove_dashboard');
 	add_action('admin_init', '_mw_adminimize_init', 1);
 	add_action('admin_init', '_mw_adminimize_admin_styles', 1);
 }
+
 
 register_activation_hook(__FILE__, '_mw_adminimize_install');
 //register_deactivation_hook(__FILE__, '_mw_adminimize_deinstall');
@@ -607,7 +609,7 @@ function _mw_adminimize_set_user_option_edit() {
  * set menu options from database
  */
 function _mw_adminimize_set_menu_option() {
-	global $pagenow, $menu, $submenu;
+	global $pagenow, $menu, $submenu, $user_identity;
 	
 	$disabled_menu        = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
 	$disabled_submenu     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
@@ -631,6 +633,17 @@ function _mw_adminimize_set_menu_option() {
 			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout&amp;redirect_to=') . get_option('siteurl') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
 		} else {
 			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+		}
+		$_mw_adminimize_admin_head .= '</script>' . "\n";
+		break;
+	case 3:
+		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
+		if ($_mw_adminimize_ui_redirect == '1') {
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-admin/profile.php') . '">' . $user_identity . '</a> | <a href="' . get_option('siteurl') . ('/wp-login.php?action=logout&amp;redirect_to=') . get_option('siteurl') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+		} else {
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-admin/profile.php') . '">' . $user_identity . '</a> | <a href="' . get_option('siteurl') . ('/wp-login.php?action=logout') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
 		}
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
@@ -658,7 +671,7 @@ function _mw_adminimize_set_menu_option() {
 	$_mw_adminimize_admin_head .= '<script type="text/javascript">
 	/* <![CDATA[ */
 	adminimizeL10n = {
-		all: "' . __('Alle', 'adminimize') . '", none: "' . __('Keine', 'adminimize') . '"
+		all: "' . __('All', 'adminimize') . '", none: "' . __('None', 'adminimize') . '"
 	}
 	/* ]]> */
 	</script>';
@@ -737,8 +750,8 @@ function _mw_adminimize_set_metabox_option() {
 	if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
 		
-		$disabled_metaboxes_page = get_option('mw_adminimize_disabled_metaboxes_page');
-		$disabled_metaboxes_page_adm = get_option('mw_adminimize_disabled_metaboxes_page_adm');
+		$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+		$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
 		
 		if ( current_user_can('level_10') ) {
 			$metaboxes = implode(',', $disabled_metaboxes_page_adm);
@@ -782,10 +795,10 @@ function _mw_adminimize_admin_footer() {
 		$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="'.__( 'Visit plugin homepage' ).'">' . $plugin_data['Name'] . '</a>';
 	
 	if ( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
-		printf('%1$s ' . __('plugin') . ' | ' . __('Version') . ' <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie" title="' . __('Historie', 'adminimize') . '">%2$s</a> | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+		printf('%1$s ' . __('plugin') . ' | ' . __('Version') . ' <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie" title="' . __('History', 'adminimize') . '">%2$s</a> | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
 	}
 	if ( _mw_adminimize_getOptionValue('_mw_adminimize_advice') == 1 && basename($_SERVER['REQUEST_URI']) != 'adminimize.php' ) {
-		printf('%1$s ' . __('plugin aktiv', 'adminimize') . ' | ' . stripslashes( _mw_adminimize_getOptionValue('_mw_adminimize_advice_txt') ) . '<br />', $plugin_data['Title']);
+		printf('%1$s ' . __('plugin activate', 'adminimize') . ' | ' . stripslashes( _mw_adminimize_getOptionValue('_mw_adminimize_advice_txt') ) . '<br />', $plugin_data['Title']);
 	}
 }
 
@@ -813,7 +826,7 @@ function _mw_adminimize_filter_plugin_actions($links, $file){
  */
 function _mw_adminimize_add_settings_page() {
 	if( current_user_can('switch_themes') ) {
-		add_submenu_page('options-general.php', __('Adminimize Einstellungen', 'adminimize'), __('Adminimize', 'adminimize'), 8, __FILE__, '_mw_adminimize_options');
+		add_submenu_page('options-general.php', __('Adminimize Options', 'adminimize'), __('Adminimize', 'adminimize'), 8, __FILE__, '_mw_adminimize_options');
 		add_filter('plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2);
 	}
 }
@@ -855,7 +868,10 @@ function _mw_adminimize_getOptionValue($key) {
  */
 function _mw_adminimize_update() {
 	global $menu, $submenu, $adminimizeoptions;
-	
+
+	//$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
+	//$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
+
 	if (isset($_POST['_mw_adminimize_user_info'])) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes($_POST['_mw_adminimize_user_info']));
 	} else {
@@ -964,9 +980,6 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
 	}
 
-	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
-	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
-
 	update_option('mw_adminimize', $adminimizeoptions);
 	$adminimizeoptions = get_option('mw_adminimize');
 	
@@ -1016,8 +1029,7 @@ function _mw_adminimize_deinstall() {
 function _mw_adminimize_install() {
 	global $menu, $submenu;
 
-	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
-	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
+	$adminimizeoptions = array();
 	
 	$adminimizeoptions['mw_adminimize_disabled_menu_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = array();
@@ -1028,6 +1040,9 @@ function _mw_adminimize_install() {
 	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
+	
+	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
+	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
 	
 	add_option('mw_adminimize', $adminimizeoptions);
 }
