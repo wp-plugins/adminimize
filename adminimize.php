@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4.3
-Last Update: 20.08.2008 13:35:44
+Version: 1.4.4
+Last Update: 20.08.2008 22:02:12
 */ 
 
 /**
@@ -134,14 +134,16 @@ function _mw_adminimize_init() {
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			
 			// check for array empty
-			if ( isset($disabled_metaboxes_post_adm['0']) ) {
-				if ( !in_array('#categorydivsb', $disabled_metaboxes_post) || !in_array('#categorydivsb', $disabled_metaboxes_post_adm) )
-					add_action('submitpost_box', '_mw_adminimize_sidecat_list_category_box');
-				if ( !in_array('#tagsdivsb', $disabled_metaboxes_post) || !in_array('#tagsdivsb', $disabled_metaboxes_post_adm) )
-					add_action('submitpost_box', '_mw_adminimize_sidecat_list_tag_box');
-				if ( in_array('media_buttons', $disabled_metaboxes_post) || in_array('media_buttons', $disabled_metaboxes_post_adm) )
-					remove_action('media_buttons', 'media_buttons');
-			}
+			if ( !isset($disabled_metaboxes_post['0']) )
+				$disabled_metaboxes_post['0'] = '';
+			if ( isset($disabled_metaboxes_post_adm['0']) )
+			 $disabled_metaboxes_post_adm['0'] = '';
+			if ( !in_array('#categorydivsb', $disabled_metaboxes_post) || !in_array('#categorydivsb', $disabled_metaboxes_post_adm) )
+				add_action('submitpost_box', '_mw_adminimize_sidecat_list_category_box');
+			if ( !in_array('#tagsdivsb', $disabled_metaboxes_post) || !in_array('#tagsdivsb', $disabled_metaboxes_post_adm) )
+				add_action('submitpost_box', '_mw_adminimize_sidecat_list_tag_box');
+			if ( in_array('media_buttons', $disabled_metaboxes_post) || in_array('media_buttons', $disabled_metaboxes_post_adm) )
+				remove_action('media_buttons', 'media_buttons');
 		}
 
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
@@ -150,10 +152,12 @@ function _mw_adminimize_init() {
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			
 			// check for array empty
-			if ( isset($disabled_metaboxes_page['0']) ) {
-				if ( in_array('media_buttons', $disabled_metaboxes_page) || in_array('media_buttons', $disabled_metaboxes_page_adm) )
-					remove_action('media_buttons', 'media_buttons');
-			}
+			if ( !isset($disabled_metaboxes_page['0']) )
+				$disabled_metaboxes_page['0'] = '';
+			if ( isset($disabled_metaboxes_page_adm['0']) )
+			 $disabled_metaboxes_page_adm['0'] = '';
+			if ( in_array('media_buttons', $disabled_metaboxes_page) || in_array('media_buttons', $disabled_metaboxes_page_adm) )
+				remove_action('media_buttons', 'media_buttons');
 		}
 
 	}
@@ -743,11 +747,14 @@ function _mw_adminimize_set_metabox_option() {
 		$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
 		$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
 		
-		if ( current_user_can('level_10') && isset($disabled_metaboxes_post_adm['0']) ) {
+		if ( !isset($disabled_metaboxes_post_adm['0']) )
+			$disabled_metaboxes_post_adm['0'] = '';
+		if ( !isset($disabled_metaboxes_post['0']) )
+			$disabled_metaboxes_post['0'] = '';
+		if ( current_user_can('level_10') ) {
 			$metaboxes = implode(',', $disabled_metaboxes_post_adm); // for admins
 		} else {
-			if ( isset($disabled_metaboxes_post['0']) )
-				$metaboxes = implode(',', $disabled_metaboxes_post); // < user level 10, admin
+			$metaboxes = implode(',', $disabled_metaboxes_post); // < user level 10, admin
 		}
 		
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
@@ -760,11 +767,14 @@ function _mw_adminimize_set_metabox_option() {
 		$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
 		$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
 		
-		if ( current_user_can('level_10') && isset($disabled_metaboxes_page_adm['0']) ) {
+		if ( !isset($disabled_metaboxes_page_adm['0']) )
+			$disabled_metaboxes_page_adm['0'] = '';
+		if ( !isset($disabled_metaboxes_page['0']) )
+			$disabled_metaboxes_page['0'] = '';
+		if ( current_user_can('level_10') ) {
 			$metaboxes = implode(',', $disabled_metaboxes_page_adm);
 		} else {
-			if ( isset($disabled_metaboxes_pageimplode['0']) )
-				$metaboxes = implode(',', $disabled_metaboxes_page); // < user level 10, admin
+			$metaboxes = implode(',', $disabled_metaboxes_page); // < user level 10, admin
 		}
 	
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
