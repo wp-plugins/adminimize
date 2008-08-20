@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4.1
-Last Update: 13.08.2008 18:17:59
+Version: 1.4.2
+Last Update: 20.08.2008 09:00:11
 */ 
 
 /**
@@ -97,9 +97,7 @@ class _mw_adminimize_message_class {
  * @uses $pagenow
  */
 function _mw_adminimize_init() {
-	global $pagenow, $menu, $submenu, $adminimizeoptions;
-
-	$adminimizeoptions = get_option('mw_adminimize');
+	global $pagenow, $menu, $submenu;
 
 	$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
 	$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
@@ -133,21 +131,27 @@ function _mw_adminimize_init() {
 			
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			
-			if ( !in_array('#categorydivsb', $disabled_metaboxes_post) || !in_array('#categorydivsb', $disabled_metaboxes_post_adm) )
-				add_action('submitpost_box', '_mw_adminimize_sidecat_list_category_box');
-			if ( !in_array('#tagsdivsb', $disabled_metaboxes_post) || !in_array('#tagsdivsb', $disabled_metaboxes_post_adm) )
-				add_action('submitpost_box', '_mw_adminimize_sidecat_list_tag_box');
-			if ( in_array('media_buttons', $disabled_metaboxes_post) || in_array('media_buttons', $disabled_metaboxes_post_adm) )
-				remove_action('media_buttons', 'media_buttons');
+			// check for array empty
+			if ( isset($disabled_metaboxes_post_adm['0']) ) {
+				if ( !in_array('#categorydivsb', $disabled_metaboxes_post) || !in_array('#categorydivsb', $disabled_metaboxes_post_adm) )
+					add_action('submitpost_box', '_mw_adminimize_sidecat_list_category_box');
+				if ( !in_array('#tagsdivsb', $disabled_metaboxes_post) || !in_array('#tagsdivsb', $disabled_metaboxes_post_adm) )
+					add_action('submitpost_box', '_mw_adminimize_sidecat_list_tag_box');
+				if ( in_array('media_buttons', $disabled_metaboxes_post) || in_array('media_buttons', $disabled_metaboxes_post_adm) )
+					remove_action('media_buttons', 'media_buttons');
+			}
 		}
 
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 			add_action('admin_head', '_mw_adminimize_remove_tb_window');
 			
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
-
-			if ( in_array('media_buttons', $disabled_metaboxes_page) || in_array('media_buttons', $disabled_metaboxes_page_adm) )
-				remove_action('media_buttons', 'media_buttons');
+			
+			// check for array empty
+			if ( isset($disabled_metaboxes_page['0']) ) {
+				if ( in_array('media_buttons', $disabled_metaboxes_page) || in_array('media_buttons', $disabled_metaboxes_page_adm) )
+					remove_action('media_buttons', 'media_buttons');
+			}
 		}
 
 	}
@@ -292,7 +296,7 @@ function _mw_adminimize_writescroll() {
 		// element to scroll
 		var h = jQuery('html');
 		// position to scroll to
-		var wraptop = jQuery('div#poststuff').offset().top;
+		var wraptop = jQuery('div#wpbody').offset().top;
 		var speed = 250; // ms
 		h.animate({scrollTop: wraptop}, speed);
 	});
@@ -857,8 +861,8 @@ function _mw_adminimize_set_theme() {
  * read otpions
  */
 function _mw_adminimize_getOptionValue($key) {
-	global $adminimizeoptions;
-	
+
+	$adminimizeoptions = get_option('mw_adminimize');
 	return ($adminimizeoptions[$key]);
 }
 
@@ -867,10 +871,7 @@ function _mw_adminimize_getOptionValue($key) {
  * Update options in database
  */
 function _mw_adminimize_update() {
-	global $menu, $submenu, $adminimizeoptions;
-
-	//$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
-	//$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
+	global $menu, $submenu;
 
 	if (isset($_POST['_mw_adminimize_user_info'])) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes($_POST['_mw_adminimize_user_info']));
@@ -981,7 +982,6 @@ function _mw_adminimize_update() {
 	}
 
 	update_option('mw_adminimize', $adminimizeoptions);
-	$adminimizeoptions = get_option('mw_adminimize');
 	
 	$myErrors = new _mw_adminimize_message_class();
 	$myErrors = '<div id="message" class="updated fade"><p>' . $myErrors->get_error('_mw_adminimize_update') . '</p></div>';

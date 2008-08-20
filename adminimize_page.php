@@ -5,6 +5,8 @@
 function _mw_adminimize_options() {
 	global $wpdb, $_wp_admin_css_colors;
 	
+	_mw_adminimize_user_info == '';
+	
 	// update options
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
 		
@@ -105,7 +107,7 @@ function _mw_adminimize_options() {
 									</select> <?php _e('The &quot;User-Info-area&quot; is on the top right side of the backend. You can hide or reduced show.', 'adminimize'); ?>
 								</td>
 							</tr>
-							<?php if ($_mw_adminimize_user_info != '2') $disabled_item = ' disabled="disabled"' ?>
+							<?php if ( ($_mw_adminimize_user_info == '') || ($_mw_adminimize_user_info == '1') || ($_mw_adminimize_user_info == '0') ) $disabled_item = ' disabled="disabled"' ?>
 							<tr valign="top">
 								<td><?php _e('Change User-Info, redirect to', 'adminimize'); ?></td>
 								<td>
