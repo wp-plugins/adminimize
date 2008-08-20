@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4.2
-Last Update: 20.08.2008 09:00:11
+Version: 1.4.3
+Last Update: 20.08.2008 13:35:44
 */ 
 
 /**
@@ -97,7 +97,9 @@ class _mw_adminimize_message_class {
  * @uses $pagenow
  */
 function _mw_adminimize_init() {
-	global $pagenow, $menu, $submenu;
+	global $pagenow, $menu, $submenu, $adminimizeoptions;
+
+	$adminimizeoptions = get_option('mw_adminimize');
 
 	$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
 	$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
@@ -741,10 +743,11 @@ function _mw_adminimize_set_metabox_option() {
 		$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
 		$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
 		
-		if ( current_user_can('level_10') ) {
+		if ( current_user_can('level_10') && isset($disabled_metaboxes_post_adm['0']) ) {
 			$metaboxes = implode(',', $disabled_metaboxes_post_adm); // for admins
 		} else {
-			$metaboxes = implode(',', $disabled_metaboxes_post); // < user level 10, admin
+			if ( isset($disabled_metaboxes_post['0']) )
+				$metaboxes = implode(',', $disabled_metaboxes_post); // < user level 10, admin
 		}
 		
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
@@ -757,10 +760,11 @@ function _mw_adminimize_set_metabox_option() {
 		$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
 		$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
 		
-		if ( current_user_can('level_10') ) {
+		if ( current_user_can('level_10') && isset($disabled_metaboxes_page_adm['0']) ) {
 			$metaboxes = implode(',', $disabled_metaboxes_page_adm);
 		} else {
-			$metaboxes = implode(',', $disabled_metaboxes_page); // < user level 10, admin
+			if ( isset($disabled_metaboxes_pageimplode['0']) )
+				$metaboxes = implode(',', $disabled_metaboxes_page); // < user level 10, admin
 		}
 	
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
@@ -871,7 +875,7 @@ function _mw_adminimize_getOptionValue($key) {
  * Update options in database
  */
 function _mw_adminimize_update() {
-	global $menu, $submenu;
+	global $menu, $submenu, $adminimizeoptions;
 
 	if (isset($_POST['_mw_adminimize_user_info'])) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes($_POST['_mw_adminimize_user_info']));
@@ -982,6 +986,7 @@ function _mw_adminimize_update() {
 	}
 
 	update_option('mw_adminimize', $adminimizeoptions);
+	$adminimizeoptions = get_option('mw_adminimize');
 	
 	$myErrors = new _mw_adminimize_message_class();
 	$myErrors = '<div id="message" class="updated fade"><p>' . $myErrors->get_error('_mw_adminimize_update') . '</p></div>';
