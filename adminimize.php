@@ -52,13 +52,12 @@ if ( !function_exists('wp_nonce_field') ) {
 	function _mw_adminimize_nonce_field($action = -1) {
 		return wp_nonce_field($action);
 	}
-	$_mw_adminimize_nonce = '_mw_adminimize_update_key';
+	$_mw_adminimize_nonce = 'mw_adminimize_nonce';
 }
 
 
 /**
  * some basics for message
- * @var $_mw_adminimize_nonce
  */
 class _mw_adminimize_message_class {
 	function _mw_adminimize_message_class() {

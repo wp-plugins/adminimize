@@ -11,7 +11,7 @@ function _mw_adminimize_options() {
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
 		
 		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
-			check_admin_referer($_mw_adminimize_nonce);
+			check_admin_referer('mw_adminimize_nonce');
 
 			_mw_adminimize_update();
 			
@@ -32,7 +32,7 @@ function _mw_adminimize_options() {
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_deinstall') && $_POST['_mw_adminimize_deinstall'] && ($_POST['_mw_adminimize_deinstall_yes'] == '_mw_adminimize_deinstall') ) {
 
 		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
-			check_admin_referer($_mw_adminimize_nonce);
+			check_admin_referer('mw_adminimize_nonce');
 			
 			_mw_adminimize_deinstall();
 			
@@ -48,7 +48,7 @@ function _mw_adminimize_options() {
 	
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_set_theme') && $_POST['_mw_adminimize_save'] ) {
 		if ( function_exists('current_user_can') && current_user_can('edit_users') ) {
-			check_admin_referer($_mw_adminimize_nonce);
+			check_admin_referer('mw_adminimize_nonce');
 			
 			_mw_adminimize_set_theme();
 			
@@ -72,7 +72,7 @@ function _mw_adminimize_options() {
 				<div class="inside">
 		
 				<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
-					<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
+					<?php _mw_adminimize_nonce_field('mw_adminimize_nonce'); ?>
 					<br class="clear" />
 					<table summary="config" class="widefat">
 						<thead>
@@ -515,7 +515,7 @@ function _mw_adminimize_options() {
 				<div class="inside">
 					<br class="clear" />
 					<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="?page=<?php echo $_GET['page'];?>" >
-						<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
+						<?php _mw_adminimize_nonce_field('mw_adminimize_nonce'); ?>
 						<table class="widefat">
 							<thead>
 								<tr class="thead">
@@ -592,7 +592,7 @@ function _mw_adminimize_options() {
 					
 					<p><?php _e('Use this option for clean your database from all entries of this plugin. When you deactivate the plugin, the deinstall of the plugin <strong>clean not</strong> all entries in the database.', 'adminimize'); ?></p>
 					<form name="deinstall_options" method="post" id="_mw_adminimize_options_deinstall" action="?page=<?php echo $_GET['page'];?>">
-						<?php _mw_adminimize_nonce_field($_mw_adminimize_nonce); ?>
+						<?php _mw_adminimize_nonce_field('mw_adminimize_nonce'); ?>
 						<p id="submitbutton">
 							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Delete options', 'adminimize'); ?> &raquo;" class="button-secondary" /> 
 							<input type="checkbox" name="_mw_adminimize_deinstall_yes" value="_mw_adminimize_deinstall" />
