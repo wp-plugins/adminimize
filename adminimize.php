@@ -22,7 +22,7 @@ Last Update: 20.08.2008 22:02:12
 
 // Pre-2.6 compatibility
 if ( !defined('WP_CONTENT_URL') )
-	define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
+	define( 'WP_CONTENT_URL', get_option('url') . '/wp-content');
 if ( !defined('WP_CONTENT_DIR') )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 
