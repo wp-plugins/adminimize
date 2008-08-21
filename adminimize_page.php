@@ -72,7 +72,7 @@ function _mw_adminimize_options() {
 				<div class="inside">
 		
 				<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
-					<?php _mw_adminimize_nonce_field('mw_adminimize_nonce'); ?>
+					<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 					<br class="clear" />
 					<table summary="config" class="widefat">
 						<thead>
@@ -515,7 +515,7 @@ function _mw_adminimize_options() {
 				<div class="inside">
 					<br class="clear" />
 					<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="?page=<?php echo $_GET['page'];?>" >
-						<?php _mw_adminimize_nonce_field('mw_adminimize_nonce'); ?>
+						<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 						<table class="widefat">
 							<thead>
 								<tr class="thead">
@@ -592,7 +592,7 @@ function _mw_adminimize_options() {
 					
 					<p><?php _e('Use this option for clean your database from all entries of this plugin. When you deactivate the plugin, the deinstall of the plugin <strong>clean not</strong> all entries in the database.', 'adminimize'); ?></p>
 					<form name="deinstall_options" method="post" id="_mw_adminimize_options_deinstall" action="?page=<?php echo $_GET['page'];?>">
-						<?php _mw_adminimize_nonce_field('mw_adminimize_nonce'); ?>
+						<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 						<p id="submitbutton">
 							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Delete options', 'adminimize'); ?> &raquo;" class="button-secondary" /> 
 							<input type="checkbox" name="_mw_adminimize_deinstall_yes" value="_mw_adminimize_deinstall" />

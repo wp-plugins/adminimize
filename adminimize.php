@@ -40,23 +40,6 @@ function _mw_adminimize_textdomain() {
 
 
 /**
- * some basic security with nonce
- * @var $_mw_adminimize_nonce
- */
-if ( !function_exists('wp_nonce_field') ) {
-	function _mw_adminimize_nonce_field($action = -1) {
-		return;
-	}
-	$_mw_adminimize_nonce = -1;
-} else {
-	function _mw_adminimize_nonce_field($action = -1) {
-		return wp_nonce_field($action);
-	}
-	$_mw_adminimize_nonce = 'mw_adminimize_nonce';
-}
-
-
-/**
  * some basics for message
  */
 class _mw_adminimize_message_class {
