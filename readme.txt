@@ -17,6 +17,12 @@ Configure all metaboxes and other areas in the write-area. The new theme move th
 1. [Ozh Admin Drop Down Menu](http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/ "Admin Drop Down Menu for WordPress 2.5") by Ozh
 1. [Drop Down Admin Menus](http://www.stuff.yellowswordfish.com/ "Drop Down Admin Menus for WordPress 2.5") by Andy Staines
 
+= Compatibility with the plugins for MetaBoxes in Write-area =
+1. [Simple Tag](http://wordpress.org/extend/plugins/simple-tags "Simple Tag") by Amaury BALMER
+1. [Text Control](http://dev.wp-plugins.org/wiki/TextControl "Text Control") by Michael Torbert
+1. [All in One SEO Pack](http://semperfiwebdesign.com "All in One SEO Pack") by Jeff Minard and Frank Bueltge
+1. [TDO Mini Forms](http://thedeadone.net/software/tdo-mini-forms-wordpress-plugin/ "TDO Mini Forms") by Mark Cunningham
+
 = Requirements =
 1. WordPress version 2.5 and later
 

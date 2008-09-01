@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4.4
-Last Update: 20.08.2008 22:02:12
+Version: 1.4.5
+Last Update: 01.09.2008 10:34:52
 */ 
 
 /**
@@ -111,7 +111,7 @@ function _mw_adminimize_init() {
 
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 			add_action('admin_head', '_mw_adminimize_remove_box', 99);
-			add_action('admin_head', '_mw_adminimize_remove_tb_window');
+			add_action('admin_print_scripts', '_mw_adminimize_remove_tb_window');
 			
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			
@@ -129,7 +129,7 @@ function _mw_adminimize_init() {
 		}
 
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
-			add_action('admin_head', '_mw_adminimize_remove_tb_window');
+			add_action('admin_print_scripts', '_mw_adminimize_remove_tb_window');
 			
 			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			

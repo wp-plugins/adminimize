@@ -258,6 +258,10 @@ function _mw_adminimize_options() {
 								array_push($metaboxes, '#textcontroldiv');
 							if (class_exists('HTMLSpecialCharactersHelper'))
 								array_push($metaboxes, '#htmlspecialchars');
+							if (class_exists('All_in_One_SEO_Pack'))
+								array_push($metaboxes, '#postaiosp');
+							if (function_exists('tdomf_edit_post_panel_admin_head'))
+								array_push($metaboxes, '#tdomf');
 							
 							$metaboxes_names = array(
 								__('Permalink', 'adminimize'),
@@ -283,6 +287,10 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_names, __('Text Control'));
 							if (class_exists('HTMLSpecialCharactersHelper'))
 								array_push($metaboxes_names, __('HTML Special Characters'));
+							if (class_exists('All_in_One_SEO_Pack'))
+								array_push($metaboxes_names, 'All in One SEO Pack');
+							if (function_exists('tdomf_edit_post_panel_admin_head'))
+								array_push($metaboxes_names, 'TDOMF');
 								
 							$metaboxes_page = array(
 								'#pageslugdiv',
@@ -304,6 +312,10 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_page, '#suggestedtags');
 							if (class_exists('HTMLSpecialCharactersHelper'))
 								array_push($metaboxes_page, '#htmlspecialchars');
+							if (class_exists('All_in_One_SEO_Pack'))
+								array_push($metaboxes_page, '#postaiosp');
+							if (function_exists('tdomf_edit_post_panel_admin_head'))
+								array_push($metaboxes_page, '#tdomf');
 								
 							$metaboxes_names_page = array(
 								__('Permalink', 'adminimize'),
@@ -325,6 +337,10 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_names_page, __('Suggested tags from', 'adminimize'));
 							if (class_exists('HTMLSpecialCharactersHelper'))
 								array_push($metaboxes_names_page, __('HTML Special Characters'));
+							if (class_exists('All_in_One_SEO_Pack'))
+								array_push($metaboxes_names_page, 'All in One SEO Pack');
+							if (function_exists('tdomf_edit_post_panel_admin_head'))
+								array_push($metaboxes_names_page, 'TDOMF');
 							
 							// print menu, submenu
 							if ($menu != '') {
