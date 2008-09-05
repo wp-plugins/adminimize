@@ -1,4 +1,4 @@
-jQuery(function(){
+jQuery(function($) {
 	jQuery("input#ctoggleCheckboxes_menu, input#ctoggleCheckboxes_menuadm, input#ctoggleCheckboxes_post, input#ctoggleCheckboxes_postadm, input#ctoggleCheckboxes_page, input#ctoggleCheckboxes_pageadm").css("display", "none");
 });
 

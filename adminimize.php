@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4.5
-Last Update: 01.09.2008 10:34:52
+Version: 1.4.6
+Last Update: 05.09.2008 11:46:37
 */ 
 
 /**
@@ -25,7 +25,8 @@ if ( !defined('WP_CONTENT_URL') )
 	define( 'WP_CONTENT_URL', get_option('url') . '/wp-content');
 if ( !defined('WP_CONTENT_DIR') )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-
+if ( !defined('WP_PLUGIN_URL') )
+	define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
 
 function _mw_adminimize_textdomain() {
 
@@ -90,6 +91,25 @@ function _mw_adminimize_init() {
 
 	$_mw_admin_color = get_user_option('admin_color');
 
+	if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) || ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
+	
+		$_mw_adminimize_writescroll = _mw_adminimize_getOptionValue('_mw_adminimize_writescroll');
+		switch ($_mw_adminimize_writescroll) {
+		case 1:
+			wp_enqueue_script('_mw_adminimize_writescroll', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/js/writescroll.js', array('jquery'));
+			break;
+		}
+		$_mw_adminimize_tb_window = _mw_adminimize_getOptionValue('_mw_adminimize_tb_window');
+		switch ($_mw_adminimize_tb_window) {
+		case 1:
+			wp_deregister_script('media-upload');
+			wp_enqueue_script('media-upload', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/js/tb_window.js', array('thickbox'));
+			break;
+		}
+	
+		//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
+	}
+
 	if ( ($_mw_admin_color == 'mw_fresh') ||
 				($_mw_admin_color == 'mw_classic') ||
 				($_mw_admin_color == 'mw_colorblind') ||
@@ -111,9 +131,6 @@ function _mw_adminimize_init() {
 
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 			add_action('admin_head', '_mw_adminimize_remove_box', 99);
-			add_action('admin_print_scripts', '_mw_adminimize_remove_tb_window');
-			
-			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			
 			// check for array empty
 			if ( !isset($disabled_metaboxes_post['0']) )
@@ -129,9 +146,6 @@ function _mw_adminimize_init() {
 		}
 
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
-			add_action('admin_print_scripts', '_mw_adminimize_remove_tb_window');
-			
-			//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 			
 			// check for array empty
 			if ( !isset($disabled_metaboxes_page['0']) )
@@ -146,21 +160,13 @@ function _mw_adminimize_init() {
 
 	if ( ('post-new.php' == $pagenow) || ('page-new.php' == $pagenow) || ('page.php' == $pagenow) || ('post.php' == $pagenow) ) {
 		
-		$_mw_adminimize_writescroll = _mw_adminimize_getOptionValue('_mw_adminimize_writescroll');
-		switch ($_mw_adminimize_writescroll) {
-		case 1:
-			add_action('admin_head', '_mw_adminimize_writescroll');
-			break;
-		}
-		$_mw_adminimize_tb_window = _mw_adminimize_getOptionValue('_mw_adminimize_tb_window');
-		switch ($_mw_adminimize_tb_window) {
-		case 1:
-			add_action('admin_head', '_mw_adminimize_tb_window');
-			break;
-		}
 		// set user option in edit-area
 		add_action('admin_head', '_mw_adminimize_set_user_option_edit');
 	}	
+	
+	if ( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
+		wp_enqueue_script('_mw_adminimize', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js', array('jquery'));
+	}
 
 	// set menu option
 	add_action('admin_head', '_mw_adminimize_set_menu_option', 1);
@@ -189,61 +195,6 @@ register_activation_hook(__FILE__, '_mw_adminimize_install');
 
 
 /**
- * remove tb_window of media-uplader
- * @echo script
- */
-function _mw_adminimize_remove_tb_window() {
-	
-	$_mw_adminimize_remove_tb_window  = "\n";
-	$_mw_adminimize_remove_tb_window .= '<script type="text/javascript">' . "\n";
-	$_mw_adminimize_remove_tb_window .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#TB_window\').remove(); });' . "\n";
-	$_mw_adminimize_remove_tb_window .= '</script>' . "\n";
-	
-	print($_mw_adminimize_remove_tb_window);
-}
-
-
-/**
- * new tb_window of media-uplader
- */
-function _mw_adminimize_tb_window() {
-	
-	?>
-	<script type="text/javascript">
-	// thickbox settings
-	jQuery(function($) {
-		tb_position = function() {
-			var tbWindow = $('#TB_window');
-			var width = $(window).width();
-			var H = $(window).height();
-			var W = ( 1720 < width ) ? 1720 : width;
-	
-			if ( tbWindow.size() ) {
-				tbWindow.width( W - 50 ).height( H - 45 );
-				$('#TB_iframeContent').width( W - 50 ).height( H - 75 );
-				tbWindow.css({'margin-left': '-' + parseInt((( W - 50 ) / 2),10) + 'px'});
-				if ( ! ( $.browser.msie && $.browser.version.substr(0,1) < 7 ) )
-					tbWindow.css({'top':'20px','margin-top':'0'});
-				$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
-			};
-	
-			return $('a.thickbox').each( function() {
-				var href = $(this).attr('href');
-				if ( ! href ) return;
-				href = href.replace(/&width=[0-9]+/g, '');
-				href = href.replace(/&height=[0-9]+/g, '');
-				$(this).attr( 'href', href + '&width=' + ( W - 80 ) + '&height=' + ( H - 85 ) );
-			});
-		};
-	
-		$(window).resize( function() { tb_position() } );
-	});
-	</script>
-	<?php
-}
-
-
-/**
  * Uses WordPress filter for image_downsize, kill wp-image-dimension
  * code by Andrew Rickmann
  * http://www.wp-fun.co.uk/
@@ -268,28 +219,6 @@ function _mw_adminimize_image_downsize($value = false,$id = 0, $size = "medium")
 	if ( $img_url)
 		return array($img_url, 0, 0);
 	return false;
-}
-
-
-/**
- * Automatically scroll Write pages to a good position
- * code by Dougal Campbell
- * http://dougal.gunters.org/blog/2008/06/03/writescroll
- */
-function _mw_adminimize_writescroll() {
-	
-	?>
-	<script type="text/javascript">
-	jQuery(document).ready(function() {
-		// element to scroll
-		var h = jQuery('html');
-		// position to scroll to
-		var wraptop = jQuery('div#wpbody').offset().top;
-		var speed = 250; // ms
-		h.animate({scrollTop: wraptop}, speed);
-	});
-	</script>
-	<?php
 }
 
 
@@ -667,7 +596,6 @@ function _mw_adminimize_set_menu_option() {
 	}
 	/* ]]> */
 	</script>';
-	$_mw_adminimize_admin_head .= '<script type="text/javascript" src="' . WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js"></script>';
 
 	// set menu
 	if ($disabled_menu != '') {
@@ -815,7 +743,6 @@ function _mw_adminimize_filter_plugin_actions($links, $file){
 	if( $file == $this_plugin ){
 		$settings_link = '<a href="options-general.php?page=adminimize/adminimize.php">' . __('Settings') . '</a>';
 		$links = array_merge( array($settings_link), $links); // before other links
-//	$links[] = $settings_link; // ... or after other links
 	}
 	return $links;
 }
