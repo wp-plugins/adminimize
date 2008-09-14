@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4.6
-Last Update: 05.09.2008 11:46:37
+Version: 1.4.7
+Last Update: 14.09.2008 13:14:10
 */ 
 
 /**
@@ -21,12 +21,14 @@ Last Update: 05.09.2008 11:46:37
 
 
 // Pre-2.6 compatibility
-if ( !defined('WP_CONTENT_URL') )
-	define( 'WP_CONTENT_URL', get_option('url') . '/wp-content');
-if ( !defined('WP_CONTENT_DIR') )
+if ( !defined( 'WP_CONTENT_URL' ) )
+	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
+if ( !defined( 'WP_CONTENT_DIR' ) )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-if ( !defined('WP_PLUGIN_URL') )
+if ( !defined( 'WP_PLUGIN_URL' ) )
 	define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+if ( !defined( 'WP_PLUGIN_DIR' ) )
+	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 
 function _mw_adminimize_textdomain() {
 
@@ -329,7 +331,7 @@ function _mw_adminimize_adminmenu($file) {
  */
 function _mw_adminimize_admin_styles($file) {
 	
-	$_mw_adminimize_path = WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/css/';
+	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
 	// MW Adminimize Classic
 	$styleName = 'MW Adminimize:' . ' ' . __('Classic');
@@ -495,7 +497,7 @@ function _mw_adminimize_disable_flash_uploader() {
  */
 function _mw_adminimize_set_user_option_edit() {
 	
-	$_mw_adminimize_path = WP_CONTENT_URL . '/plugins/' . plugin_basename( dirname(__FILE__) ) . '/css/';
+	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 	
 	$_mw_adminimize_sidecat_admin_head = '';
 	$_mw_adminimize_sidebar_wight = _mw_adminimize_getOptionValue('_mw_adminimize_sidebar_wight');
@@ -547,7 +549,7 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
 	case 2:
-		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
 		if ($_mw_adminimize_ui_redirect == '1') {
@@ -558,7 +560,7 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
 	case 3:
-		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . get_option( 'siteurl' ) . '/' . PLUGINDIR . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
 		if ($_mw_adminimize_ui_redirect == '1') {
