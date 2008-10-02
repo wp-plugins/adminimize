@@ -68,7 +68,7 @@ function _mw_adminimize_options() {
 		<br class="clear" />
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3><?php _e('Backend options', 'adminimize'); ?></h3>
+				<h3><?php _e('Backend Options', 'adminimize'); ?></h3>
 				<div class="inside">
 		
 				<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
@@ -77,11 +77,21 @@ function _mw_adminimize_options() {
 					<table summary="config" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Backend options', 'adminimize'); ?></th>
+								<th><?php _e('Backend Options', 'adminimize'); ?></th>
 								<th>&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
+							<tr valign="top">
+								<td><?php _e('Menu Order', 'adminimize'); ?></td>
+								<td>
+									<?php $_mw_adminimize_menu_order = _mw_adminimize_getOptionValue('_mw_adminimize_menu_order'); ?>
+									<select name="_mw_adminimize_menu_order">
+										<option value="0"<?php if ($_mw_adminimize_menu_order == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_menu_order == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+									</select> <?php _e('It is possible to set a new menu-order.', 'adminimize'); ?>
+								</td>
+							</tr>
 							<tr valign="top">
 								<td><?php _e('Sidebar Width', 'adminimize'); ?></td>
 								<td>
@@ -95,6 +105,24 @@ function _mw_adminimize_options() {
 									</select> <?php _e('The sidebar on the right side in the area <em>Edit</em> is configurable. Default is 200 pixel in the WordPress Theme <em>Classic</em> and <em>Fresh</em>', 'adminimize'); ?>
 								</td>
 							</tr>
+							<?php
+							/**
+							 * for WP 2.7
+							 * new @ version 1.5 
+							 */
+							if ( isset( $top_menu ) && ($top_menu != '') ) {
+							?>
+							<tr valign="top">
+								<td><?php _e('Dashmenu', 'adminimize'); ?></td>
+								<td>
+									<?php $_mw_adminimize_dashmenu = _mw_adminimize_getOptionValue('_mw_adminimize_dashmenu'); ?>
+									<select name="_mw_adminimize_dashmenu">
+										<option value="0"<?php if ($_mw_adminimize_dashmenu == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_dashmenu == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', 'adminimize'); ?></option>
+									</select> <?php _e('The &quot;Dashboard-area&quot; is on the top left side of the backend. You can hide show.', 'adminimize'); ?>
+								</td>
+							</tr>
+						<?php } ?>
 							<tr valign="top">
 								<td><?php _e('User-Info', 'adminimize'); ?></td>
 								<td>
@@ -171,46 +199,157 @@ function _mw_adminimize_options() {
 							</tr>
 							<?php
 							// when remove dashboard
-							$disabled_menu        = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
-							$disabled_submenu     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
-							$disabled_menu_adm    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
-							$disabled_submenu_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
-		
+							$disabled_menu_subscriber      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
+							$disabled_submenu_subscriber   = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
+							$disabled_top_menu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_subscriber_items');
+							$disabled_menu_contributor     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_contributor_items');
+							$disabled_submenu_contributor  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_contributor_items');
+							$disabled_top_menu_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_contributor_items');
+							$disabled_menu_author          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_author_items');
+							$disabled_submenu_author       = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_author_items');
+							$disabled_top_menu_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_author_items');
+							$disabled_menu                 = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
+							$disabled_submenu              = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
+							$disabled_top_menu             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_items');
+							$disabled_menu_adm             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
+							$disabled_submenu_adm          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
+							$disabled_top_menu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_adm_items');
+							
+							$disabled_menu_all = array();
+							array_push($disabled_menu_all, $disabled_menu_subscriber);
+							array_push($disabled_menu_all, $disabled_top_menu_subscriber);
+							array_push($disabled_menu_all, $disabled_menu_contributor);
+							array_push($disabled_menu_all, $disabled_submenu_contributor);
+							array_push($disabled_menu_all, $disabled_top_menu_contributor);
+							array_push($disabled_menu_all, $disabled_menu_author);
+							array_push($disabled_menu_all, $disabled_submenu_author);
+							array_push($disabled_menu_all, $disabled_top_menu_author);
+							array_push($disabled_menu_all, $disabled_menu);
+							array_push($disabled_menu_all, $disabled_submenu);
+							array_push($disabled_menu_all, $disabled_top_menu);
+							array_push($disabled_menu_all, $disabled_menu_adm);
+							array_push($disabled_menu_all, $disabled_submenu_adm);
+							array_push($disabled_menu_all, $disabled_top_menu_adm);
+
+							
 							if ($disabled_menu != '') {
-								if ( in_array('index.php', $disabled_menu) ||
-										 in_array('index.php', $disabled_submenu) ||
-										 in_array('index.php', $disabled_menu_adm) ||
-										 in_array('index.php', $disabled_submenu_adm)
-									 ) {
-							?>
-							<tr valign="top" class="form-invalid">
-								<td><?php _e('Dashboard deaktivate, redirect to', 'adminimize'); ?></td>
-								<td>
-									<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
-									<select name="_mw_adminimize_db_redirect">
-										<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?> (profile.php)</option>
-										<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Manage Posts', 'adminimize'); ?> (edit.php)</option>
-										<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Manage Pages', 'adminimize'); ?> (edit-pages.php)</option>
-										<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Write Post', 'adminimize'); ?> (post-new.php)</option>
-										<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Write Page', 'adminimize'); ?> (page-new.php)</option>
-										<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Comments', 'adminimize'); ?> (edit-comments.php)</option>
-										</select> <?php _e('You have deaktivate the Dashboard, please select a page for redirect?', 'adminimize'); ?>
-								</td>
-							</tr>
-							<?php
+								if ( in_array('index.php', $disabled_menu_all) ) {
+								?>
+								<tr valign="top" class="form-invalid">
+									<td><?php _e('Dashboard deaktivate, redirect to', 'adminimize'); ?></td>
+									<td>
+										<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
+										<select name="_mw_adminimize_db_redirect">
+											<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?> (profile.php)</option>
+											<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Manage Posts', 'adminimize'); ?> (edit.php)</option>
+											<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Manage Pages', 'adminimize'); ?> (edit-pages.php)</option>
+											<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Write Post', 'adminimize'); ?> (post-new.php)</option>
+											<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Write Page', 'adminimize'); ?> (page-new.php)</option>
+											<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Comments', 'adminimize'); ?> (edit-comments.php)</option>
+											</select> <?php _e('You have deaktivate the Dashboard, please select a page for redirect?', 'adminimize'); ?>
+									</td>
+								</tr>
+								<?php
 								}
 							}
 							?>
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 					
 				</div>
 			</div>
 		</div>
-			
+		
+		<?php
+		/**
+		 * for WP 2.7
+		 * new @ version 1.5 
+		 */
+		if ( isset( $top_menu ) && ($top_menu != '') ) {
+		?>
+		<div id="poststuff" class="dlm">
+			<div class="postbox closed" >
+				<h3 id="config_top_menu"><?php _e('Top Menu Options', 'adminimize'); ?></h3>
+				<div class="inside">
+					<br class="clear" />
+					<table summary="config_top_menu" class="widefat">
+						<thead>
+							<tr>
+								<th><?php _e('Top Menu Options', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Subscriber', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Contributor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Author', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Editor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Administrator', 'adminimize'); ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$top_menu = _mw_adminimize_getOptionValue('mw_adminimize_default_top_menu');
+							
+							$x = 0;
+							foreach ($top_menu as $item) {
+								
+								// checkbox checked
+								if ( in_array($item[2], $disabled_top_menu_subscriber) ) {
+									$checked_subscriber = ' checked="checked"';
+								} else {
+									$checked_subscriber = '';
+								}
+								
+								// checkbox checked
+								if ( in_array($item[2], $disabled_top_menu_contributor) ) {
+									$checked_contributor = ' checked="checked"';
+								} else {
+									$checked_contributor = '';
+								}
+								
+								// checkbox checked
+								if ( in_array($item[2], $disabled_top_menu_author) ) {
+									$checked_author = ' checked="checked"';
+								} else {
+									$checked_author = '';
+								}
+								
+								// checkbox checked
+								if ( in_array($item[2], $disabled_top_menu) ) {
+									$checked = ' checked="checked"';
+								} else {
+									$checked = '';
+								}
+		
+								// checkbox checked for admin
+								if ( in_array($item[2], $disabled_top_menu_adm) ) {
+									$checked_adm = ' checked="checked"';
+								} else {
+									$checked_adm = '';
+								}
+								
+								echo '<tr>' . "\n";
+								echo "\t" . '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $item[2] . ')</span> </th>';
+								echo "\t" . '<td class="num"><input id="check_top_menusubscriber'. $x .'" type="checkbox"' . $checked_subscriber . ' name="mw_adminimize_disabled_top_menu_subscriber_items[]" value="' . $item[2] . '"/></td>' . "\n";
+								echo "\t" . '<td class="num"><input id="check_top_menucontributor'. $x .'" type="checkbox"' . $checked_contributor . ' name="mw_adminimize_disabled_top_menu_contributor_items[]" value="' . $item[2] . '"/></td>' . "\n";
+								echo "\t" . '<td class="num"><input id="check_top_menuauthor'. $x .'" type="checkbox"' . $checked_author . ' name="mw_adminimize_disabled_top_menu_author_items[]" value="' . $item[2] . '"/></td>' . "\n";
+								echo "\t" . '<td class="num"><input id="check_top_menu'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_top_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
+								echo "\t" . '<td class="num"><input id="check_top_menuadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_top_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
+								echo '</tr>';
+								$x++;
+							}
+							?>
+						</tbody>
+					</table>
+					<p id="submitbutton">
+						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+					</p>
+					
+				</div>
+			</div>
+		</div>
+		<?php } ?>
+		
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
 				<h3 id="config_menu"><?php _e('Menu Options', 'adminimize'); ?></h3>
@@ -220,19 +359,28 @@ function _mw_adminimize_options() {
 						<thead>
 							<tr>
 								<th><?php _e('Menu options - Menu, <span style=\"font-weight: 400;\">Submenu</span>', 'adminimize'); ?></th>
-								<th><?php _e('Deactivate &lt; User Level 10 (Admin)', 'adminimize'); ?></th>
-								<th><?php _e('Deactivate for Admin\'s', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Subscriber', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Contributor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Author', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Editor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Administrator', 'adminimize'); ?></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-							$menu = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
+							$menu    = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
 							$submenu = _mw_adminimize_getOptionValue('mw_adminimize_default_submenu');
-
-							$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
-							$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
-							$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
-							$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
+							
+							$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
+							$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
+							$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
+							$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
+							$disabled_metaboxes_post_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_author_items');
+							$disabled_metaboxes_page_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_author_items');
+							$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+							$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+							$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
+							$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
 						
 							$metaboxes = array(
 								'#pageslugdiv',
@@ -262,6 +410,10 @@ function _mw_adminimize_options() {
 								array_push($metaboxes, '#postaiosp');
 							if (function_exists('tdomf_edit_post_panel_admin_head'))
 								array_push($metaboxes, '#tdomf');
+							if (function_exists('post_notification_form'))
+								array_push($metaboxes, '#post_notification');
+							if (function_exists('sticky_add_meta_box'))
+								array_push($metaboxes, '#poststickystatusdiv');
 							
 							$metaboxes_names = array(
 								__('Permalink', 'adminimize'),
@@ -291,7 +443,11 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_names, 'All in One SEO Pack');
 							if (function_exists('tdomf_edit_post_panel_admin_head'))
 								array_push($metaboxes_names, 'TDOMF');
-								
+							if (function_exists('post_notification_form'))
+								array_push($metaboxes_names, 'Post Notification');
+							if (function_exists('sticky_add_meta_box'))
+								array_push($metaboxes, 'Post Sticky Status');
+							
 							$metaboxes_page = array(
 								'#pageslugdiv',
 								'#pagepostcustom, #pagecustomdiv',
@@ -316,6 +472,8 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_page, '#postaiosp');
 							if (function_exists('tdomf_edit_post_panel_admin_head'))
 								array_push($metaboxes_page, '#tdomf');
+							if (function_exists('post_notification_form'))
+								array_push($metaboxes_page, '#post_notification');
 								
 							$metaboxes_names_page = array(
 								__('Permalink', 'adminimize'),
@@ -341,9 +499,13 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_names_page, 'All in One SEO Pack');
 							if (function_exists('tdomf_edit_post_panel_admin_head'))
 								array_push($metaboxes_names_page, 'TDOMF');
+							if (function_exists('post_notification_form'))
+								array_push($metaboxes_names_page, 'Post Notification');
+							if (class_exists('HTMLSpecialCharactersHelper'))
+								array_push($metaboxes_names_page, 'HTML Special Characters');
 							
 							// print menu, submenu
-							if ($menu != '') {
+							if ( isset($menu) && $menu != '') {
 								
 								$i = 0;
 								$x = 0;
@@ -358,25 +520,50 @@ function _mw_adminimize_options() {
 									}
 									
 									// checkbox checked
-									if ( in_array($item[2], $disabled_menu) ) {
+									if ( isset($disabled_menu_subscriber) && in_array($item[2], $disabled_menu_subscriber) ) {
+										$checked_subscriber = ' checked="checked"';
+									} else {
+										$checked_subscriber = '';
+									}
+									
+									// checkbox checked
+									if ( isset($disabled_menu_contributor) && in_array($item[2], $disabled_menu_contributor) ) {
+										$checked_contributor = ' checked="checked"';
+									} else {
+										$checked_contributor = '';
+									}
+									
+									// checkbox checked
+									if ( isset($disabled_menu_author) && in_array($item[2], $disabled_menu_author) ) {
+										$checked_author = ' checked="checked"';
+									} else {
+										$checked_author = '';
+									}
+									
+									// checkbox checked
+									if ( isset($disabled_menu) && in_array($item[2], $disabled_menu) ) {
 										$checked = ' checked="checked"';
 									} else {
 										$checked = '';
 									}
 		
 									// checkbox checked for admin
-									if ( in_array($item[2], $disabled_menu_adm) ) {
+									if ( isset($disabled_menu_adm) && in_array($item[2], $disabled_menu_adm) ) {
 										$checked_adm = ' checked="checked"';
 									} else {
 										$checked_adm = '';
 									}
 									
 									echo '<tr class="form-invalid">' . "\n";
-									echo '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $item[2] . ')</span> </th>';
-									echo '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $disabled_item . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
-									echo '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_item . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $item[2] . ')</span> </th>';
+									echo "\t" . '<td class="num"><input id="check_menusubscriber'. $x .'" type="checkbox"' . $disabled_item . $checked_subscriber . ' name="mw_adminimize_disabled_menu_subscriber_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menucontributor'. $x .'" type="checkbox"' . $disabled_item . $checked_contributor . ' name="mw_adminimize_disabled_menu_contributor_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menuauthor'. $x .'" type="checkbox"' . $disabled_item . $checked_author . ' name="mw_adminimize_disabled_menu_author_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $disabled_item . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_item . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
 									echo '</tr>';
 									$x++;
+
 									if ( !isset($submenu[$item[2]]) )
 										continue;
 		
@@ -393,12 +580,23 @@ function _mw_adminimize_options() {
 										
 										echo '<tr>' . "\n";
 										
-										$checked     = (in_array($subitem[2], $disabled_submenu)) ? ' checked="checked"' : '';
-										$checked_adm = (in_array($subitem[2], $disabled_submenu_adm)) ? ' checked="checked"' : '';
+										if ( isset($disabled_submenu_subscriber) )
+											$checked_subscriber  = ( in_array($subitem[2], $disabled_submenu_subscriber ) ) ? ' checked="checked"' : '';
+										if ( isset($disabled_submenu_contributor) )
+											$checked_contributor = ( in_array($subitem[2], $disabled_submenu_contributor ) ) ? ' checked="checked"' : '';
+										if ( isset($disabled_submenu_author) )
+											$checked_author      = ( in_array($subitem[2], $disabled_submenu_author ) ) ? ' checked="checked"' : '';
+										if ( isset($disabled_submenu) )
+											$checked             = ( in_array($subitem[2], $disabled_submenu ) ) ? ' checked="checked"' : '';
+										if ( isset($disabled_submenu_adm) )
+											$checked_adm         = ( in_array($subitem[2], $disabled_submenu_adm ) ) ? ' checked="checked"' : '';
 										
 										echo '<td> &mdash; ' . $subitem[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $subitem[2] . ')</span> </td>' . "\n";
-										echo '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_submenu_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
-										echo '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_subitem_adm . $checked_adm . ' name="mw_adminimize_disabled_submenu_adm_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+										echo "\t" . '<td class="num"><input id="check_menusubscriber'. $x .'" type="checkbox"' . $checked_subscriber . ' name="mw_adminimize_disabled_submenu_subscriber_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+										echo "\t" . '<td class="num"><input id="check_menucontributor'. $x .'" type="checkbox"' . $checked_contributor . ' name="mw_adminimize_disabled_submenu_contributor_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+										echo "\t" . '<td class="num"><input id="check_menuauthor'. $x .'" type="checkbox"' . $checked_author . ' name="mw_adminimize_disabled_submenu_author_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+										echo "\t" . '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_submenu_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
+										echo "\t" . '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_subitem_adm . $checked_adm . ' name="mw_adminimize_disabled_submenu_adm_items[]" value="' . $subitem[2] . '" /></td>' . "\n";
 										echo '</tr>' . "\n";
 										$x++;
 									}
@@ -407,8 +605,11 @@ function _mw_adminimize_options() {
 								}
 									echo '<tr>' . "\n";
 									echo '<th>' . __('All items', 'adminimize') . '</th>';
-									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menu" onClick="toggleCheckboxes_menu();"><a id="atoggleCheckboxes_menu" href="javascript:toggleCheckboxes_menu();"> ' . __('All', 'adminimize') . '</a></td>';
-									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menuadm" onClick="toggleCheckboxes_menuadm();"><a id="atoggleCheckboxes_menuadm" href="javascript:toggleCheckboxes_menuadm();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo "\t" . '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menusubscriber" onClick="toggleCheckboxes_menusubscriber();"><a id="atoggleCheckboxes_menusubscriber" href="javascript:toggleCheckboxes_menusubscriber();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo "\t" . '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menucontributor" onClick="toggleCheckboxes_menucontributor();"><a id="atoggleCheckboxes_menucontributor" href="javascript:toggleCheckboxes_menucontributor();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo "\t" . '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menuauthor" onClick="toggleCheckboxes_menuauthor();"><a id="atoggleCheckboxes_menuauthor" href="javascript:toggleCheckboxes_menuauthor();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo "\t" . '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menu" onClick="toggleCheckboxes_menu();"><a id="atoggleCheckboxes_menu" href="javascript:toggleCheckboxes_menu();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo "\t" . '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_menuadm" onClick="toggleCheckboxes_menuadm();"><a id="atoggleCheckboxes_menuadm" href="javascript:toggleCheckboxes_menuadm();"> ' . __('All', 'adminimize') . '</a></td>';
 									echo '</tr>' . "\n";
 									
 							} else {
@@ -419,7 +620,7 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 					
 				</div>
@@ -428,96 +629,107 @@ function _mw_adminimize_options() {
 
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="config_edit"><?php _e('Write options', 'adminimize'); ?></h3>
+				<h3 id="config_edit"><?php _e('Write Options', 'adminimize'); ?></h3>
 				<div class="inside">
 					<br class="clear" />
-					<table summary="config_edit" class="widefat">
+						
+					<table summary="config_edit_post" class="widefat">
 						<thead>
 							<tr>
 								<th><?php _e('Write options - Post', 'adminimize'); ?></th>
-								<th><?php _e('Write options - Page', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Subscriber', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Contributor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Author', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Editor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Administrator', 'adminimize'); ?></th>
 							</tr>
 						</thead>
 						
 						<tbody>
-							<tr valign="top">
-								<td>
-									<table summary="config_edit_post" class="widefat">
-										<thead>
-											<tr>
-												<th>&nbsp;</th>
-												<th><?php _e('Deactivate for &lt; Admin\'s (level 1-9)', 'adminimize'); ?></th>
-												<th><?php _e('Deactivate for Admin\'s (level 10)', 'adminimize'); ?></th>
-											</tr>
-										</thead>
-										
-										<tbody>
-										<?php
-											$x = 0;
-											foreach ($metaboxes as $index => $metabox) {
-												$checked = (in_array($metabox, $disabled_metaboxes_post)) ? ' checked="checked"' : '';
-												$checked_adm = (in_array($metabox, $disabled_metaboxes_post_adm)) ? ' checked="checked"' : '';
-												
-												echo '<tr>' . "\n";
-												echo '<td>' . $metaboxes_names[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
-												echo '<td class="num"><input id="check_post'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_post_items[]" value="' . $metabox . '" /></td>' . "\n";
-												echo '<td class="num"><input id="check_postadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_post_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
-												echo '</tr>' . "\n";
-												$x++;
-											}
-										?>
-											<tr>
-												<th><?php _e('All items', 'adminimize'); ?></th>
-												<?php
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_post" onClick="toggleCheckboxes_post();"><a id="atoggleCheckboxes_post" href="javascript:toggleCheckboxes_post();"> ' . __('All', 'adminimize') . '</a></td>';
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postadm" onClick="toggleCheckboxes_postadm();"><a id="atoggleCheckboxes_postadm" href="javascript:toggleCheckboxes_postadm();"> ' . __('All', 'adminimize') . '</a></td>';
-												?>
-											</tr>
-										</tbody>
-									</table>
-								</td>
-								<td>
-									<table summary="config_edit_page" class="widefat">
-										<thead>
-											<tr>
-												<th>&nbsp;</th>
-												<th><?php _e('Deactivate for &lt; Admin\'s (level 1-9)', 'adminimize'); ?></th>
-												<th><?php _e('Deactivate for Admin\'s (level 10)', 'adminimize'); ?></th>
-											</tr>
-										</thead>
-										
-										<tbody>
-										<?php
-											$x = 0;
-											foreach ($metaboxes_page as $index => $metabox) {
-												$checked = (in_array($metabox, $disabled_metaboxes_page)) ? ' checked="checked"' : '';
-												$checked_adm = (in_array($metabox, $disabled_metaboxes_page_adm)) ? ' checked="checked"' : '';
-												
-												echo '<tr>' . "\n";
-												echo '<td>' . $metaboxes_names_page[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
-												echo '<td class="num"><input id="check_page'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_page_items[]" value="' . $metabox . '" /></td>' . "\n";
-												echo '<td class="num"><input id="check_pageadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_page_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
-												echo '</tr>' . "\n";
-												$x++;
-											}
-										?>
-											<tr>
-												<th><?php _e('All items', 'adminimize'); ?></th>
-												<?php
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_page" onClick="toggleCheckboxes_page();"><a id="atoggleCheckboxes_page" href="javascript:toggleCheckboxes_page();"> ' . __('All', 'adminimize') . '</a></td>';
-													echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pageadm" onClick="toggleCheckboxes_pageadm();"><a id="atoggleCheckboxes_pageadm" href="javascript:toggleCheckboxes_pageadm();"> ' . __('All', 'adminimize') . '</a></td>';
-												?>
-											</tr>
-										</tbody>
-									</table>
-								</td>
+						<?php
+							$x = 0;
+							foreach ($metaboxes as $index => $metabox) {
+								$checked_subscriber  = ( isset($disabled_metaboxes_post_subscriber) && in_array($metabox, $disabled_metaboxes_post_subscriber) ) ? ' checked="checked"' : '';
+								$checked_contributor = ( isset($disabled_metaboxes_post_contributor) && in_array($metabox, $disabled_metaboxes_post_contributor) ) ? ' checked="checked"' : '';
+								$checked_author      = ( isset($disabled_metaboxes_post_author) && in_array($metabox, $disabled_metaboxes_post_author) ) ? ' checked="checked"' : '';
+								$checked             = ( isset($disabled_metaboxes_post) && in_array($metabox, $disabled_metaboxes_post) ) ? ' checked="checked"' : '';
+								$checked_adm         = ( isset($disabled_metaboxes_post_adm) && in_array($metabox, $disabled_metaboxes_post_adm) ) ? ' checked="checked"' : '';
+								
+								echo '<tr>' . "\n";
+								echo '<td>' . $metaboxes_names[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
+								echo '<td class="num"><input id="check_postsubscriber'. $x .'" type="checkbox"' . $checked_subscriber . ' name="mw_adminimize_disabled_metaboxes_post_subscriber_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_postcontributor'. $x .'" type="checkbox"' . $checked_contributor . ' name="mw_adminimize_disabled_metaboxes_post_contributor_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_postauthor'. $x .'" type="checkbox"' . $checked_author . ' name="mw_adminimize_disabled_metaboxes_post_author_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_post'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_post_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_postadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_post_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '</tr>' . "\n";
+								$x++;
+							}
+						?>
+							<tr>
+								<th><?php _e('All items', 'adminimize'); ?></th>
+								<?php
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postsubscriber" onClick="toggleCheckboxes_postsubscriber();"><a id="atoggleCheckboxes_postsubscriber" href="javascript:toggleCheckboxes_postsubscriber();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postcontributor" onClick="toggleCheckboxes_postcontributor();"><a id="atoggleCheckboxes_postcontributor" href="javascript:toggleCheckboxes_postcontributor();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postauthor" onClick="toggleCheckboxes_postauthor();"><a id="atoggleCheckboxes_postauthor" href="javascript:toggleCheckboxes_postauthor();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_post" onClick="toggleCheckboxes_post();"><a id="atoggleCheckboxes_post" href="javascript:toggleCheckboxes_post();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_postadm" onClick="toggleCheckboxes_postadm();"><a id="atoggleCheckboxes_postadm" href="javascript:toggleCheckboxes_postadm();"> ' . __('All', 'adminimize') . '</a></td>';
+								?>
+							</tr>
+						</tbody>
+					</table>
+					
+					<br class="clear" />
+					
+					<table summary="config_edit_page" class="widefat">
+						<thead>
+							<tr>
+								<th><?php _e('Write options - Page', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Subscriber', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Contributor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Author', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Editor', 'adminimize'); ?></th>
+								<th><?php _e('Deactivate for Administrator', 'adminimize'); ?></th>
+							</tr>
+						</thead>
+						
+						<tbody>
+						<?php
+							$x = 0;
+							foreach ($metaboxes_page as $index => $metabox) {
+								$checked_subscriber  = ( isset($disabled_metaboxes_page_subscriber) && in_array($metabox, $disabled_metaboxes_page_subscriber) ) ? ' checked="checked"' : '';
+								$checked_contributor = ( isset($disabled_metaboxes_page_contributor) && in_array($metabox, $disabled_metaboxes_page_contributor) ) ? ' checked="checked"' : '';
+								$checked_author      = ( isset($disabled_metaboxes_page_author) && in_array($metabox, $disabled_metaboxes_page_author) ) ? ' checked="checked"' : '';
+								$checked             = ( isset($disabled_metaboxes_page) && in_array($metabox, $disabled_metaboxes_page) ) ? ' checked="checked"' : '';
+								$checked_adm         = ( isset($disabled_metaboxes_page_adm) && in_array($metabox, $disabled_metaboxes_page_adm) ) ? ' checked="checked"' : '';
+								
+								echo '<tr>' . "\n";
+								echo '<td>' . $metaboxes_names_page[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $metabox . ')</span> </td>' . "\n";
+								echo '<td class="num"><input id="check_pagesubscriber'. $x .'" type="checkbox"' . $checked_subscriber . ' name="mw_adminimize_disabled_metaboxes_page_subscriber_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_pagecontributor'. $x .'" type="checkbox"' . $checked_contributor . ' name="mw_adminimize_disabled_metaboxes_page_contributor_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_pageauthor'. $x .'" type="checkbox"' . $checked_author . ' name="mw_adminimize_disabled_metaboxes_page_author_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_page'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_metaboxes_page_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '<td class="num"><input id="check_pageadm'. $x .'" type="checkbox"' . $checked_adm . ' name="mw_adminimize_disabled_metaboxes_page_adm_items[]" value="' . $metabox . '" /></td>' . "\n";
+								echo '</tr>' . "\n";
+								$x++;
+							}
+						?>
+							<tr>
+								<th><?php _e('All items', 'adminimize'); ?></th>
+								<?php
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pagesubscriber" onClick="toggleCheckboxes_pagesubscriber();"><a id="atoggleCheckboxes_pagesubscriber" href="javascript:toggleCheckboxes_pagesubscriber();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pagecontributor" onClick="toggleCheckboxes_pagecontributor();"><a id="atoggleCheckboxes_pagecontributor" href="javascript:toggleCheckboxes_pagecontributor();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pageauthor" onClick="toggleCheckboxes_pageauthor();"><a id="atoggleCheckboxes_pageauthor" href="javascript:toggleCheckboxes_pageauthor();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_page" onClick="toggleCheckboxes_page();"><a id="atoggleCheckboxes_page" href="javascript:toggleCheckboxes_page();"> ' . __('All', 'adminimize') . '</a></td>';
+									echo '<td class="num"><input type="checkbox" id="ctoggleCheckboxes_pageadm" onClick="toggleCheckboxes_pageadm();"><a id="atoggleCheckboxes_pageadm" href="javascript:toggleCheckboxes_pageadm();"> ' . __('All', 'adminimize') . '</a></td>';
+								?>
 							</tr>
 						</tbody>
 					</table>
 					
 					<p id="submitbutton">
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 				</form>
 
@@ -561,15 +773,15 @@ function _mw_adminimize_options() {
 								
 									$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 									$return  = '';
-									$return .= '<tr>';
-									$return .= '<td><input type="checkbox" name="mw_adminimize_theme_items[]" value="' . $user_id . '" /></td>';
-									$return .= '<td class="num">'. $user_id .'</td>';
-									$return .= '<td>'. $user_login .'</td>';
-									$return .= '<td>'. $display_name .'</td>';
-									$return .= '<td>'. $current_color . '</td>';
-									$return .= '<td class="num">'. $user_level . '</td>';
-									$return .= '<td>'. $role . '</td>';
-									$return .= '</tr>';
+									$return .= '<tr>' . "\n";
+									$return .= "\t" . '<td><input type="checkbox" name="mw_adminimize_theme_items[]" value="' . $user_id . '" /></td>' . "\n";
+									$return .= "\t" . '<td class="num">'. $user_id .'</td>' . "\n";
+									$return .= "\t" . '<td>'. $user_login .'</td>' . "\n";
+									$return .= "\t" . '<td>'. $display_name .'</td>' . "\n";
+									$return .= "\t" . '<td>'. $current_color . '</td>' . "\n";
+									$return .= "\t" . '<td class="num">'. $user_level . '</td>' . "\n";
+									$return .= "\t" . '<td>'. $role . '</td>' . "\n";
+									$return .= '</tr>' . "\n";
 			
 									print($return);
 								}
@@ -603,14 +815,14 @@ function _mw_adminimize_options() {
 
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="uninstall"><?php _e('Deinstall options', 'adminimize') ?></h3>
+				<h3 id="uninstall"><?php _e('Deinstall Options', 'adminimize') ?></h3>
 				<div class="inside">
 					
 					<p><?php _e('Use this option for clean your database from all entries of this plugin. When you deactivate the plugin, the deinstall of the plugin <strong>clean not</strong> all entries in the database.', 'adminimize'); ?></p>
 					<form name="deinstall_options" method="post" id="_mw_adminimize_options_deinstall" action="?page=<?php echo $_GET['page'];?>">
 						<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 						<p id="submitbutton">
-							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Delete options', 'adminimize'); ?> &raquo;" class="button-secondary" /> 
+							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Delete Options', 'adminimize'); ?> &raquo;" class="button-secondary" /> 
 							<input type="checkbox" name="_mw_adminimize_deinstall_yes" value="_mw_adminimize_deinstall" />
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_deinstall" />
 						</p>
@@ -622,7 +834,7 @@ function _mw_adminimize_options() {
 
 		<div id="poststuff" class="dlm">
 			<div class="postbox closed" >
-				<h3 id="uninstall"><?php _e('About the plugin', 'adminimize') ?></h3>
+				<h3 id="about"><?php _e('About the plugin', 'adminimize') ?></h3>
 				<div class="inside">
 
 					<p><?php _e('Further information: Visit the <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">plugin homepage</a> for further information or to grab the latest version of this plugin.', 'adminimize'); ?><br />&copy; Copyright 2008 - <?php echo date("Y"); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a> | <?php _e('You want to thank me? Visit my <a href="http://bueltge.de/wunschliste/">wishlist</a>.', 'adminimize'); ?></p>
@@ -634,7 +846,6 @@ function _mw_adminimize_options() {
 		<script type="text/javascript">
 		<!--
 		jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
-		//jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); } );
 		jQuery('.postbox h3').click( function() { jQuery(jQuery(this).parent().get(0)).toggleClass('closed'); } );
 		jQuery('.postbox.close-me').each(function(){
 			jQuery(this).addClass("closed");

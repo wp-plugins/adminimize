@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.4.7
-Last Update: 14.09.2008 13:14:10
+Version: 1.5
+Last Update: 30.09.2008 12:57:18
 */ 
 
 /**
@@ -82,14 +82,20 @@ class _mw_adminimize_message_class {
  * @uses $pagenow
  */
 function _mw_adminimize_init() {
-	global $pagenow, $menu, $submenu, $adminimizeoptions;
+	global $pagenow, $menu, $submenu, $adminimizeoptions, $top_menu;
 
 	$adminimizeoptions = get_option('mw_adminimize');
 
-	$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
-	$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
-	$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
-	$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
+	$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
+	$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
+	$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+	$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+	$disabled_metaboxes_post_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_editor_items');
+	$disabled_metaboxes_page_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_editor_items');
+	$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
+	$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
+	$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
+	$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
 
 	$_mw_admin_color = get_user_option('admin_color');
 
@@ -112,6 +118,12 @@ function _mw_adminimize_init() {
 		//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 	}
 
+	$_mw_adminimize_menu_order = _mw_adminimize_getOptionValue('_mw_adminimize_menu_order');
+	switch ($_mw_adminimize_menu_order) {
+	case 1:
+		add_action('admin_head', '_mw_adminimize_adminmenu', 1);
+	}
+
 	if ( ($_mw_admin_color == 'mw_fresh') ||
 				($_mw_admin_color == 'mw_classic') ||
 				($_mw_admin_color == 'mw_colorblind') ||
@@ -122,15 +134,7 @@ function _mw_adminimize_init() {
 				($_mw_admin_color == 'mw_classic_lm') ||
 				($_mw_admin_color == 'mw_wp23')
 		 ) {
-		if ( ($_mw_admin_color == 'mw_fresh') ||
-				($_mw_admin_color == 'mw_classic') ||
-				($_mw_admin_color == 'mw_colorblind') ||
-				($_mw_admin_color == 'mw_grey') ||
-				($_mw_admin_color == 'mw_wp23')
-			 ) {
-			add_action('admin_head', '_mw_adminimize_adminmenu', 1);
-		}
-
+		
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 			add_action('admin_head', '_mw_adminimize_remove_box', 99);
 			
@@ -180,17 +184,17 @@ function _mw_adminimize_init() {
 	
 	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
+	if ( isset($top_menu) )
+		$adminimizeoptions['mw_adminimize_default_top_menu'] = $top_menu;
 }
 
 add_action('init', '_mw_adminimize_textdomain');
 if ( is_admin() ) {
-	
 	add_action('admin_menu', '_mw_adminimize_add_settings_page');
 	add_action('admin_menu', '_mw_adminimize_remove_dashboard');
 	add_action('admin_init', '_mw_adminimize_init', 1);
 	add_action('admin_init', '_mw_adminimize_admin_styles', 1);
 }
-
 
 register_activation_hook(__FILE__, '_mw_adminimize_install');
 //register_deactivation_hook(__FILE__, '_mw_adminimize_deinstall');
@@ -330,44 +334,83 @@ function _mw_adminimize_adminmenu($file) {
  * @param $file
  */
 function _mw_adminimize_admin_styles($file) {
+	global $wp_version;
 	
 	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
-	// MW Adminimize Classic
-	$styleName = 'MW Adminimize:' . ' ' . __('Classic');
-	wp_admin_css_color (
-		'mw_classic', $styleName, $_mw_adminimize_path . 'mw_classic.css',
-		array('#07273E', '#14568A', '#D54E21', '#2683AE')
-	);
+	if ( version_compare($wp_version, '2.7', '>=') ) {
+		// MW Adminimize Classic
+		$styleName = 'MW Adminimize:' . ' ' . __('Classic');
+		wp_admin_css_color (
+			'mw_classic', $styleName, $_mw_adminimize_path . 'mw_classic27.css',
+			array('#07273E', '#14568A', '#D54E21', '#2683AE')
+		);
+	
+		// MW Adminimize Fresh
+		$styleName = 'MW Adminimize:' . ' ' . __('Fresh');
+		wp_admin_css_color (
+			'mw_fresh', $styleName, $_mw_adminimize_path . 'mw_fresh27.css',
+			array('#464646', '#CEE1EF', '#D54E21', '#2683AE')
+		);
+		
+		/* MW Adminimize WordPress 2.3
+		$styleName = 'MW Adminimize:' . ' ' . __('WordPress 2.3');
+		wp_admin_css_color (
+			'mw_wp23', $styleName, $_mw_adminimize_path . 'mw_wp23-27.css',
+			array('#000000', '#14568A', '#448ABD', '#83B4D8')
+		);
+		*/
+	
+		// MW Adminimize Colorblind
+		$styleName = 'MW Adminimize:' . ' ' . __('Maybe i\'m colorblind');
+		wp_admin_css_color (
+			'mw_colorblind', $styleName, $_mw_adminimize_path . 'mw_colorblind27.css',
+			array('#FF9419', '#F0720C', '#710001', '#550007', '#CF4529')
+		);
+	
+		// MW Adminimize Grey
+		$styleName = 'MW Adminimize:' . ' ' . __('Grey');
+		wp_admin_css_color (
+			'mw_grey', $styleName, $_mw_adminimize_path . 'mw_grey27.css',
+			array('#000000', '#787878', '#F0F0F0', '#D8D8D8', '#909090')
+		);
 
-	// MW Adminimize Fresh
-	$styleName = 'MW Adminimize:' . ' ' . __('Fresh');
-	wp_admin_css_color (
-		'mw_fresh', $styleName, $_mw_adminimize_path . 'mw_fresh.css',
-		array('#464646', '#CEE1EF', '#D54E21', '#2683AE')
-	);
+	} else {
+		// MW Adminimize Classic
+		$styleName = 'MW Adminimize:' . ' ' . __('Classic');
+		wp_admin_css_color (
+			'mw_classic', $styleName, $_mw_adminimize_path . 'mw_classic.css',
+			array('#07273E', '#14568A', '#D54E21', '#2683AE')
+		);
+	
+		// MW Adminimize Fresh
+		$styleName = 'MW Adminimize:' . ' ' . __('Fresh');
+		wp_admin_css_color (
+			'mw_fresh', $styleName, $_mw_adminimize_path . 'mw_fresh.css',
+			array('#464646', '#CEE1EF', '#D54E21', '#2683AE')
+		);
 
-	// MW Adminimize WordPress 2.3
-	$styleName = 'MW Adminimize:' . ' ' . __('WordPress 2.3');
-	wp_admin_css_color (
-		'mw_wp23', $styleName, $_mw_adminimize_path . 'mw_wp23.css',
-		array('#000000', '#14568A', '#448ABD', '#83B4D8')
-	);
-
-	// MW Adminimize Colorblind
-	$styleName = 'MW Adminimize:' . ' ' . __('Maybe i\'m colorblind');
-	wp_admin_css_color (
-		'mw_colorblind', $styleName, $_mw_adminimize_path . 'mw_colorblind.css',
-		array('#FF9419', '#F0720C', '#710001', '#550007', '#CF4529')
-	);
-
-	// MW Adminimize Grey
-	$styleName = 'MW Adminimize:' . ' ' . __('Grey');
-	wp_admin_css_color (
-		'mw_grey', $styleName, $_mw_adminimize_path . 'mw_grey.css',
-		array('#000000', '#787878', '#F0F0F0', '#D8D8D8', '#909090')
-	);
-
+		// MW Adminimize WordPress 2.3
+		$styleName = 'MW Adminimize:' . ' ' . __('WordPress 2.3');
+		wp_admin_css_color (
+			'mw_wp23', $styleName, $_mw_adminimize_path . 'mw_wp23.css',
+			array('#000000', '#14568A', '#448ABD', '#83B4D8')
+		);
+	
+		// MW Adminimize Colorblind
+		$styleName = 'MW Adminimize:' . ' ' . __('Maybe i\'m colorblind');
+		wp_admin_css_color (
+			'mw_colorblind', $styleName, $_mw_adminimize_path . 'mw_colorblind.css',
+			array('#FF9419', '#F0720C', '#710001', '#550007', '#CF4529')
+		);
+	
+		// MW Adminimize Grey
+		$styleName = 'MW Adminimize:' . ' ' . __('Grey');
+		wp_admin_css_color (
+			'mw_grey', $styleName, $_mw_adminimize_path . 'mw_grey.css',
+			array('#000000', '#787878', '#F0F0F0', '#D8D8D8', '#909090')
+		);
+	}
 	/**
 	 * style and changes for plugin Admin Drop Down Menu
 	 * by Ozh
@@ -422,19 +465,62 @@ function _mw_adminimize_admin_styles($file) {
  * http://www.ilfilosofo.com/blog/2006/05/24/plugin-remove-the-wordpress-dashboard/
  */
 function _mw_adminimize_remove_dashboard() {
-	global $menu, $submenu, $user_ID;
+	global $menu, $submenu, $user_ID, $top_menu;
 
-	$disabled_menu        = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
-	$disabled_submenu     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
-	$disabled_menu_adm    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
-	$disabled_submenu_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
+	$disabled_menu_subscriber      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
+	$disabled_submenu_subscriber   = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
+	$disabled_top_menu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_subscriber_items');
+	$disabled_menu_contributor     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_contributor_items');
+	$disabled_submenu_contributor  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_contributor_items');
+	$disabled_top_menu_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_contributor_items');
+	$disabled_menu_author          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_author_items');
+	$disabled_submenu_author       = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_author_items');
+	$disabled_top_menu_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_author_items');
+	$disabled_menu                 = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
+	$disabled_submenu              = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
+	$disabled_top_menu             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_items');
+	$disabled_menu_adm             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
+	$disabled_submenu_adm          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
+	$disabled_top_menu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_adm_items');
 
+	$disabled_menu_all = array();
+	array_push($disabled_menu_all, $disabled_menu_subscriber);
+	array_push($disabled_menu_all, $disabled_menu_contributor);
+	array_push($disabled_menu_all, $disabled_menu_author);
+	array_push($disabled_menu_all, $disabled_menu);
+	array_push($disabled_menu_all, $disabled_menu_adm);
+	
+	$disabled_submenu_all = array();
+	array_push($disabled_submenu_all, $disabled_submenu_subscriber);
+	array_push($disabled_submenu_all, $disabled_menu_contributor);
+	array_push($disabled_submenu_all, $disabled_menu_author);
+	array_push($disabled_submenu_all, $disabled_menu);
+	array_push($disabled_submenu_all, $disabled_menu_adm);
+	
+	$disabled_top_menu_all = array();
+	array_push($disabled_top_menu_all, $disabled_top_menu_subscriber);
+	array_push($disabled_top_menu_all, $disabled_top_menu_contributor);
+	array_push($disabled_top_menu_all, $disabled_top_menu_author);
+	array_push($disabled_top_menu_all, $disabled_top_menu);
+	array_push($disabled_top_menu_all, $disabled_top_menu_adm);
+	
 	// remove dashboard
 	if ($disabled_menu != '') {
-		if ( ( in_array('index.php', $disabled_menu) && !current_user_can('level_10') ) ||
-					( in_array('index.php', $disabled_submenu) && !current_user_can('level_10') ) ||
-					( in_array('index.php', $disabled_menu_adm) && current_user_can('level_10') ) ||
-					( in_array('index.php', $disabled_submenu_adm) && current_user_can('level_10') )
+		if ( ( in_array('index.php', $disabled_menu_all) && !current_user_can('subscriber') ) ||
+				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('subscriber') ) ||
+				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('subscriber') ) ||
+				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('contributor') ) ||
+				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('contributor') ) ||
+				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('contributor') ) ||
+				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('author') ) ||
+				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('author') ) ||
+				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('author') ) ||
+				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('editor') ) ||
+				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('editor') ) ||
+				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('editor') ) ||
+				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('administrator') ) ||
+				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('administrator') ) ||
+				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('administrator') )
 			 ) {
 	
 			$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect');
@@ -532,12 +618,18 @@ function _mw_adminimize_set_user_option_edit() {
  * set menu options from database
  */
 function _mw_adminimize_set_menu_option() {
-	global $pagenow, $menu, $submenu, $user_identity;
+	global $pagenow, $menu, $submenu, $user_identity, $top_menu;
 	
-	$disabled_menu        = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
-	$disabled_submenu     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
-	$disabled_menu_adm    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
-	$disabled_submenu_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
+	$disabled_menu_subscriber     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
+	$disabled_submenu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
+	$disabled_menu_contributor    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_contributor_items');
+	$disabled_submenu_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_contributor_items');
+	$disabled_menu_author         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_author_items');
+	$disabled_submenu_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_author_items');
+	$disabled_menu                = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
+	$disabled_submenu             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
+	$disabled_menu_adm            = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
+	$disabled_submenu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
 	
 	$_mw_adminimize_admin_head  = "\n";
 	$_mw_adminimize_user_info   = _mw_adminimize_getOptionValue('_mw_adminimize_user_info');
@@ -572,6 +664,14 @@ function _mw_adminimize_set_menu_option() {
 		break;
 	}
 
+	$_mw_adminimize_dashmenu      = _mw_adminimize_getOptionValue('_mw_adminimize_dashmenu');
+	switch ($_mw_adminimize_dashmenu) {
+	case 1:
+		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#dashmenu\').remove(); });' . "\n";
+		$_mw_adminimize_admin_head .= '</script>' . "\n";
+		break;
+	}
 	$_mw_adminimize_footer = _mw_adminimize_getOptionValue('_mw_adminimize_footer');
 	switch ($_mw_adminimize_footer) {
 	case 1:
@@ -602,42 +702,52 @@ function _mw_adminimize_set_menu_option() {
 	// set menu
 	if ($disabled_menu != '') {
 	
-		// set user-menu
-		if ( !current_user_can('level_10') ) {
-			foreach ($menu as $index => $item) {
-				if ($item == 'index.php')
-					continue;
-		
-				if (in_array($item[2], $disabled_menu))
-					unset($menu[$index]);
-			
-				if ( !empty($submenu[$item[2]]) ) {
-					foreach ($submenu[$item[2]] as $subindex => $subitem) {
-						if (in_array($subitem[2], $disabled_submenu))
-							unset($submenu[$item[2]][$subindex]);
-					}
-				}
-			}
-		}
-		
 		// set admin-menu
-		if ( current_user_can('level_10') ) {
-			foreach ($menu as $index => $item) {
-				if ($item == 'index.php')
-					continue;
+		if ( current_user_can('administrator') ) {
+			$mw_adminimize_menu     = $disabled_menu_adm;
+			$mw_adminimize_submenu  = $disabled_submenu_adm;
+			$mw_adminimize_top_menu = $disabled_top_menu_adm;
+		} elseif ( current_user_can('editor') ) {  
+			$mw_adminimize_menu     = $disabled_menu;
+			$mw_adminimize_submenu  = $disabled_submenu;
+			$mw_adminimize_top_menu = $disabled_top_menu;
+		} elseif ( current_user_can('author') ) {  
+			$mw_adminimize_menu     = $disabled_menu_author;
+			$mw_adminimize_submenu  = $disabled_submenu_author;
+			$mw_adminimize_top_menu = $disabled_top_menu_author;
+		} elseif ( current_user_can('contributor') ) {  
+			$mw_adminimize_menu     = $disabled_menu_contributor;
+			$mw_adminimize_submenu  = $disabled_submenu_contributor;
+			$mw_adminimize_top_menu = $disabled_top_menu_contributor;
+		} elseif ( current_user_can('subscriber') ) {  
+			$mw_adminimize_menu     = $disabled_menu_subscriber;
+			$mw_adminimize_submenu  = $disabled_submenu_subscriber;
+			$mw_adminimize_top_menu = $disabled_top_menu_subscriber;
+		}
 		
-				if (in_array($item[2], $disabled_menu_adm))
-					unset($menu[$index]);
+		foreach ($menu as $index => $item) {
+			if ($item == 'index.php')
+				continue;
+		
+			if (in_array($item[2], $mw_adminimize_menu))
+				unset($menu[$index]);
+		
+			if ( !empty($submenu[$item[2]]) ) {
+				foreach ($submenu[$item[2]] as $subindex => $subitem) {
+					if (in_array($subitem[2], $mw_adminimize_submenu))
+						unset($submenu[$item[2]][$subindex]);
+				}
+			}
 			
-				if ( !empty($submenu[$item[2]]) ) {
-					foreach ($submenu[$item[2]] as $subindex => $subitem) {
-						if (in_array($subitem[2], $disabled_submenu_adm))
-							unset($submenu[$item[2]][$subindex]);
-					}
+			//top_menu, new in 2.7
+			if ( isset($top_menu) && !empty($top_menu[$item[2]]) ) {
+				foreach ($top_menu[$item[2]] as $subindex => $subitem) {
+					if (in_array($subitem[2], $mw_adminimize_top_menu))
+						unset($top_menu[$item[2]][$subindex]);
 				}
 			}
 		}
-		
+				
 	}
 	
 	print($_mw_adminimize_admin_head);
@@ -656,17 +766,32 @@ function _mw_adminimize_set_metabox_option() {
 	if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
 
-		$disabled_metaboxes_post = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
-		$disabled_metaboxes_post_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
+		$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
+		$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+		$disabled_metaboxes_post_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_author_items');
+		$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
+		$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
 		
 		if ( !isset($disabled_metaboxes_post_adm['0']) )
 			$disabled_metaboxes_post_adm['0'] = '';
 		if ( !isset($disabled_metaboxes_post['0']) )
 			$disabled_metaboxes_post['0'] = '';
-		if ( current_user_can('level_10') ) {
+		if ( !isset($disabled_metaboxes_post_author['0']) )
+			$disabled_metaboxes_post_author['0'] = '';
+		if ( !isset($disabled_metaboxes_post_contributor['0']) )
+			$disabled_metaboxes_post_contributor['0'] = '';
+		if ( !isset($disabled_metaboxes_post_subscriber['0']) )
+			$disabled_metaboxes_post_subscriber['0'] = '';
+		if ( current_user_can('administrator') ) {
 			$metaboxes = implode(',', $disabled_metaboxes_post_adm); // for admins
-		} else {
-			$metaboxes = implode(',', $disabled_metaboxes_post); // < user level 10, admin
+		} elseif ( current_user_can('editor') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_post); // editor
+		} elseif ( current_user_can('author') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_post_author); // author
+		} elseif ( current_user_can('contributor') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_post_contributor); // contributor
+		} elseif ( current_user_can('subscriber') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_post_subscriber); // subscriber
 		}
 		
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
@@ -676,17 +801,32 @@ function _mw_adminimize_set_metabox_option() {
 	if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
 		
-		$disabled_metaboxes_page = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
-		$disabled_metaboxes_page_adm = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
+		$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
+		$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+		$disabled_metaboxes_page_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_editor_items');
+		$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
+		$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
 		
 		if ( !isset($disabled_metaboxes_page_adm['0']) )
 			$disabled_metaboxes_page_adm['0'] = '';
 		if ( !isset($disabled_metaboxes_page['0']) )
 			$disabled_metaboxes_page['0'] = '';
-		if ( current_user_can('level_10') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_page_adm);
-		} else {
-			$metaboxes = implode(',', $disabled_metaboxes_page); // < user level 10, admin
+		if ( !isset($disabled_metaboxes_page_author['0']) )
+			$disabled_metaboxes_page_author['0'] = '';
+		if ( !isset($disabled_metaboxes_page_contributor['0']) )
+			$disabled_metaboxes_page_contributor['0'] = '';
+		if ( !isset($disabled_metaboxes_page_subscriber['0']) )
+			$disabled_metaboxes_page_subscriber['0'] = '';
+		if ( current_user_can('administrator') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_page_adm); // admin
+		} elseif ( current_user_can('editor') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_page); // editor
+		} elseif ( current_user_can('author') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_page_author); // author
+		} elseif ( current_user_can('contributor') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_page_contributor); // contributor
+		} elseif ( current_user_can('subscriber') ) {
+			$metaboxes = implode(',', $disabled_metaboxes_page_subscriber); // subscriber
 		}
 	
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
@@ -798,12 +938,24 @@ function _mw_adminimize_getOptionValue($key) {
 function _mw_adminimize_update() {
 	global $menu, $submenu, $adminimizeoptions;
 
+	if (isset($_POST['_mw_adminimize_menu_order'])) {
+		$adminimizeoptions['_mw_adminimize_menu_order'] = strip_tags(stripslashes($_POST['_mw_adminimize_menu_order']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_menu_order'] = 0;
+	}
+	
 	if (isset($_POST['_mw_adminimize_user_info'])) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes($_POST['_mw_adminimize_user_info']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_user_info'] = 0;
 	}
-
+	
+	if (isset($_POST['_mw_adminimize_dashmenu'])) {
+		$adminimizeoptions['_mw_adminimize_dashmenu'] = strip_tags(stripslashes($_POST['_mw_adminimize_dashmenu']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_dashmenu'] = 0;
+	}
+	
 	if (isset($_POST['_mw_adminimize_sidebar_wight'])) {
 		$adminimizeoptions['_mw_adminimize_sidebar_wight'] = strip_tags(stripslashes($_POST['_mw_adminimize_sidebar_wight']));
 	} else {
@@ -858,6 +1010,61 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['_mw_adminimize_timestamp'] = 0;
 	}
 	
+	// menu update
+	if (isset($_POST['mw_adminimize_disabled_menu_subscriber_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_menu_subscriber_items'] = $_POST['mw_adminimize_disabled_menu_subscriber_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_menu_subscriber_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_submenu_subscriber_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_subscriber_items'] = $_POST['mw_adminimize_disabled_submenu_subscriber_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_subscriber_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_top_menu_subscriber_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_subscriber_items'] = $_POST['mw_adminimize_disabled_top_menu_subscriber_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_subscriber_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_menu_contributor_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_menu_contributor_items'] = $_POST['mw_adminimize_disabled_menu_contributor_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_menu_contributor_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_submenu_contributor_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_contributor_items'] = $_POST['mw_adminimize_disabled_submenu_contributor_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_contributor_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_top_menu_contributor_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_contributor_items'] = $_POST['mw_adminimize_disabled_top_menu_contributor_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_contributor_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_menu_author_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_menu_author_items'] = $_POST['mw_adminimize_disabled_menu_author_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_menu_author_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_submenu_author_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_author_items'] = $_POST['mw_adminimize_disabled_submenu_author_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_submenu_author_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_top_menu_author_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_author_items'] = $_POST['mw_adminimize_disabled_top_menu_author_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_author_items'] = array();
+	}
+
 	if (isset($_POST['mw_adminimize_disabled_menu_items'])) {
 		$adminimizeoptions['mw_adminimize_disabled_menu_items'] = $_POST['mw_adminimize_disabled_menu_items'];
 	} else {
@@ -868,6 +1075,12 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = $_POST['mw_adminimize_disabled_submenu_items'];
 	} else {
 		$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_top_menu_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_items'] = $_POST['mw_adminimize_disabled_top_menu_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_items'] = array();
 	}
 
 	if (isset($_POST['mw_adminimize_disabled_menu_adm_items'])) {
@@ -882,6 +1095,25 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = array();
 	}
 	
+	if (isset($_POST['mw_adminimize_disabled_top_menu_adm_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_adm_items'] = $_POST['mw_adminimize_disabled_top_menu_adm_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_top_menu_adm_items'] = array();
+	}
+	
+	// metaboxes update
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_adm_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_adm_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_adm_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_adm_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
+	}
+	
 	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_items'])) {
 		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_items'];
 	} else {
@@ -894,18 +1126,42 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_adm_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_adm_items'];
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_author_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_author_items'];
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = array();
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_adm_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_adm_items'];
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_author_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_author_items'];
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = array();
 	}
-
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_contributor_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_contributor_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_contributor_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_contributor_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_subscriber_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_subscriber_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_subscriber_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_subscriber_items'] = array();
+	}
+	
+	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_subscriber_items'])) {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_subscriber_items'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = array();
+	}
+	
 	update_option('mw_adminimize', $adminimizeoptions);
 	$adminimizeoptions = get_option('mw_adminimize');
 	
@@ -921,31 +1177,6 @@ function _mw_adminimize_update() {
 function _mw_adminimize_deinstall() {
 
 	delete_option('mw_adminimize');
-	
-	delete_option('_mw_adminimize_sidebar_wight');
-	delete_option('_mw_adminimize_user_info');
-	delete_option('_mw_adminimize_footer');
-	delete_option('_mw_adminimize_writescroll');
-	delete_option('_mw_adminimize_tb_window');
-	delete_option('_mw_adminimize_db_redirect');
-	delete_option('_mw_adminimize_ui_redirect');
-	delete_option('_mw_adminimize_advice');
-	delete_option('_mw_adminimize_advice_txt');
-	delete_option('_mw_adminimize_timestamp');
-	
-	delete_option('mw_adminimize_default_menu');
-	delete_option('mw_adminimize_default_submenu');
-	delete_option('mw_adminimize_disabled_menu');
-	delete_option('mw_adminimize_disabled_submenu');
-	delete_option('mw_adminimize_disabled_menu_adm');
-	delete_option('mw_adminimize_disabled_submenu_adm');
-	
-	delete_option('mw_adminimize_default_metaboxes_post');
-	delete_option('mw_adminimize_disabled_metaboxes_page-adm');
-	delete_option('mw_adminimize_disabled_metaboxes_post');
-	delete_option('mw_adminimize_disabled_metaboxes_page');
-	delete_option('mw_adminimize_disabled_metaboxes_post_adm');
-	delete_option('mw_adminimize_disabled_metaboxes_page_adm');
 }
 
 
@@ -953,22 +1184,41 @@ function _mw_adminimize_deinstall() {
  * Install options in database
  */
 function _mw_adminimize_install() {
-	global $menu, $submenu;
+	global $menu, $submenu, $top_menu;
 
 	$adminimizeoptions = array();
 	
+	$adminimizeoptions['mw_adminimize_disabled_menu_subscriber_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_submenu_subscriber_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_top_menu_subscriber_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_menu_contributor_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_submenu_contributor_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_top_menu_contributor_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_menu_author_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_submenu_author_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_top_menu_author_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_menu_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_top_menu_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_menu_adm_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_top_menu_adm_items'] = array();
 	
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_subscriber_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = array();
 	
 	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
+	if ( isset($top_menu) )
+		$adminimizeoptions['mw_adminimize_default_top_menu'] = $top_menu;
 	
 	add_option('mw_adminimize', $adminimizeoptions);
 }

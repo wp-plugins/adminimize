@@ -22,6 +22,8 @@ Configure all metaboxes and other areas in the write-area. The new theme move th
 1. [Text Control](http://dev.wp-plugins.org/wiki/TextControl "Text Control") by Michael Torbert
 1. [All in One SEO Pack](http://semperfiwebdesign.com "All in One SEO Pack") by Jeff Minard and Frank Bueltge
 1. [TDO Mini Forms](http://thedeadone.net/software/tdo-mini-forms-wordpress-plugin/ "TDO Mini Forms") by Mark Cunningham
+1. [Post Notification](http://pn.xn--strbe-mva.de/ "Post Notification") by Moritz Str&uuml;be
+1. [HTML Special Characters Helper](http://coffee2code.com/wp-plugins/html-special-characters-helper "HTML Special Characters Helper") by Scott Reilly
 
 = Requirements =
 1. WordPress version 2.5 and later
