@@ -3,15 +3,15 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 2.7beta
+Tested up to: 2.7-hemorrhage
 Stable tag: 0.5
 
 At first: Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
-At second. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. All is addicted from your rights, admin (user_level 10) or not admin-rights (smaller user_level 10).
+At second. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. All is addicted from your rights, admin (user_level 10) or other roles.
 
 == Description ==
 Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. Compatible with WordPress 2.5 or later. 
-Configure all metaboxes and other areas in the write-area. The new theme move the Tags- and Categorys-box to the sidebar, switch off optional metaboxes and other areas in the write-area. Scoll automatocly to the Textbox, when you click the write-button. Many options for menu, submenu and all areas, metaboxes in the write-area, separated for admins (user_level 10) and other users (< user_level 10).
+Configure all metaboxes and other areas in the write-area. The new theme move the Tags- and Categorys-box to the sidebar, switch off optional metaboxes and other areas in the write-area. Scoll automatocly to the Textbox, when you click the write-button. Many options for menu, submenu and all areas, metaboxes in the write-area, separated for admins (user_level 10) and other roles.
 
 = Compatibility with the drop-down menu plugins =
 1. [Ozh Admin Drop Down Menu](http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/ "Admin Drop Down Menu for WordPress 2.5") by Ozh
@@ -86,7 +86,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 == Other Notes ==
 = Acknowledgements =
 Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend and thanks to [Alphawolf](http://www.schloebe.de/ "Alphawolf") for write a smaller javascript with jQuery.
-Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [Gürkan Gür](http://www.seqizz.net/ "Gürkan Gür") for translation in turkish.
+Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "Gürkan Gür") for translation in turkish.
 
 
 = Licence =
