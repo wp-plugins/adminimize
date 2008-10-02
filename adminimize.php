@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.5
-Last Update: 30.09.2008 12:57:18
+Version: 1.5.1
+Last Update: 02.10.2008 14:51:38
 */ 
 
 /**
@@ -39,6 +39,16 @@ function _mw_adminimize_textdomain() {
 			load_plugin_textdomain('adminimize', false, dirname(plugin_basename(__FILE__)) . '/languages');
 		}
 	}
+}
+
+
+function recursive_in_array($needle, $haystack) {
+	foreach ($haystack as $stalk) {
+		if ( $needle == $stalk || ( is_array($stalk) && recursive_in_array($needle, $stalk) ) ) {
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -505,22 +515,22 @@ function _mw_adminimize_remove_dashboard() {
 	array_push($disabled_top_menu_all, $disabled_top_menu_adm);
 	
 	// remove dashboard
-	if ($disabled_menu != '') {
-		if ( ( in_array('index.php', $disabled_menu_all) && !current_user_can('subscriber') ) ||
-				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('subscriber') ) ||
-				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('subscriber') ) ||
-				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('contributor') ) ||
-				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('contributor') ) ||
-				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('contributor') ) ||
-				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('author') ) ||
-				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('author') ) ||
-				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('author') ) ||
-				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('editor') ) ||
-				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('editor') ) ||
-				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('editor') ) ||
-				 ( in_array('index.php', $disabled_menu_all) && !current_user_can('administrator') ) ||
-				 ( in_array('index.php', $disabled_submenu_all) && current_user_can('administrator') ) ||
-				 ( in_array('index.php', $disabled_top_menu_all) && current_user_can('administrator') )
+	if ($disabled_menu_all != '') {
+		if ( ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('subscriber') ) ||
+				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('subscriber') ) ||
+				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('subscriber') ) ||
+				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('contributor') ) ||
+				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('contributor') ) ||
+				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('contributor') ) ||
+				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('author') ) ||
+				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('author') ) ||
+				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('author') ) ||
+				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('editor') ) ||
+				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('editor') ) ||
+				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('editor') ) ||
+				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('administrator') ) ||
+				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('administrator') ) ||
+				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('administrator') )
 			 ) {
 	
 			$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect');

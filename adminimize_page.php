@@ -61,7 +61,6 @@ function _mw_adminimize_options() {
 			wp_die($myErrors);
 		}
 	}
-
 ?>
 	<div class="wrap">
 		<h2><?php _e('Adminimize', 'adminimize'); ?></h2>
@@ -230,10 +229,9 @@ function _mw_adminimize_options() {
 							array_push($disabled_menu_all, $disabled_menu_adm);
 							array_push($disabled_menu_all, $disabled_submenu_adm);
 							array_push($disabled_menu_all, $disabled_top_menu_adm);
-
 							
-							if ($disabled_menu != '') {
-								if ( in_array('index.php', $disabled_menu_all) ) {
+							if ($disabled_menu_all != '') {
+								if ( recursive_in_array('index.php', $disabled_menu_all) ) {
 								?>
 								<tr valign="top" class="form-invalid">
 									<td><?php _e('Dashboard deaktivate, redirect to', 'adminimize'); ?></td>
