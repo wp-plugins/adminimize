@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.5.1
-Last Update: 02.10.2008 14:51:38
+Version: 1.5.2
+Last Update: 03.10.2008 15:37:51
 */ 
 
 /**
@@ -43,12 +43,14 @@ function _mw_adminimize_textdomain() {
 
 
 function recursive_in_array($needle, $haystack) {
-	foreach ($haystack as $stalk) {
-		if ( $needle == $stalk || ( is_array($stalk) && recursive_in_array($needle, $stalk) ) ) {
-			return true;
+	if ($haystack != '') {
+		foreach ($haystack as $stalk) {
+			if ( $needle == $stalk || ( is_array($stalk) && recursive_in_array($needle, $stalk) ) ) {
+				return true;
+			}
 		}
+		return false;
 	}
-	return false;
 }
 
 
@@ -502,10 +504,10 @@ function _mw_adminimize_remove_dashboard() {
 	
 	$disabled_submenu_all = array();
 	array_push($disabled_submenu_all, $disabled_submenu_subscriber);
-	array_push($disabled_submenu_all, $disabled_menu_contributor);
-	array_push($disabled_submenu_all, $disabled_menu_author);
-	array_push($disabled_submenu_all, $disabled_menu);
-	array_push($disabled_submenu_all, $disabled_menu_adm);
+	array_push($disabled_submenu_all, $disabled_submenu_contributor);
+	array_push($disabled_submenu_all, $disabled_submenu_author);
+	array_push($disabled_submenu_all, $disabled_submenu);
+	array_push($disabled_submenu_all, $disabled_submenu_adm);
 	
 	$disabled_top_menu_all = array();
 	array_push($disabled_top_menu_all, $disabled_top_menu_subscriber);
@@ -515,24 +517,46 @@ function _mw_adminimize_remove_dashboard() {
 	array_push($disabled_top_menu_all, $disabled_top_menu_adm);
 	
 	// remove dashboard
-	if ($disabled_menu_all != '') {
-		if ( ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('subscriber') ) ||
-				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('subscriber') ) ||
-				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('subscriber') ) ||
-				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('contributor') ) ||
-				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('contributor') ) ||
-				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('contributor') ) ||
-				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('author') ) ||
-				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('author') ) ||
-				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('author') ) ||
-				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('editor') ) ||
-				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('editor') ) ||
-				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('editor') ) ||
-				 ( recursive_in_array('index.php', $disabled_menu_all) && !current_user_can('administrator') ) ||
-				 ( recursive_in_array('index.php', $disabled_submenu_all) && current_user_can('administrator') ) ||
-				 ( recursive_in_array('index.php', $disabled_top_menu_all) && current_user_can('administrator') )
-			 ) {
-	
+	if ($disabled_menu_all != '' || $disabled_submenu_all  != '' || $disabled_top_menu_all != '') {
+
+		if ( current_user_can('subscriber') ) {
+			if (
+					recursive_in_array('index.php', $disabled_menu_all) ||
+					recursive_in_array('index.php', $disabled_submenu_subscriber) ||
+					recursive_in_array('index.php', $disabled_top_menu_subscriber) 
+				 )
+				 $redirect = 'true';
+		} elseif ( current_user_can('editor') ) {  
+			if (
+					recursive_in_array('index.php', $disabled_menu_contributor) ||
+					recursive_in_array('index.php', $disabled_submenu_contributor) ||
+					recursive_in_array('index.php', $disabled_top_menu_contributor) 
+				 )
+				 $redirect = 'true';
+		} elseif ( current_user_can('author') ) {  
+			if (
+					recursive_in_array('index.php', $disabled_menu_author) ||
+					recursive_in_array('index.php', $disabled_submenu_author) ||
+					recursive_in_array('index.php', $disabled_top_menu_author) 
+				 )
+				 $redirect = 'true';
+		} elseif ( current_user_can('editor') ) {  
+			if (
+					recursive_in_array('index.php', $disabled_menu) ||
+					recursive_in_array('index.php', $disabled_submenu) ||
+					recursive_in_array('index.php', $disabled_top_menu) 
+				 )
+				 $redirect = 'true';
+		} elseif ( current_user_can('administrator') ) {  
+			if (
+					recursive_in_array('index.php', $disabled_menu_adm) ||
+					recursive_in_array('index.php', $disabled_submenu_adm) ||
+					recursive_in_array('index.php', $disabled_top_menu_adm) 
+				 )
+				 $redirect = 'true';
+		}
+		
+		if ( $redirect == 'true' ) {
 			$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect');
 			switch ($_mw_adminimize_db_redirect) {
 			case 0:
@@ -553,6 +577,9 @@ function _mw_adminimize_remove_dashboard() {
 			case 5:
 				$_mw_adminimize_db_redirect = 'edit-comments.php';
 				break;
+			case 6:
+				$_mw_adminimize_db_redirect = htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt')));
+				break;
 			}
 
 			$the_user = new WP_User($user_ID);
@@ -568,8 +595,8 @@ function _mw_adminimize_remove_dashboard() {
 			while ( !$the_user->has_cap($menu[$page][1]) && next($menu) )
 				$page = key($menu);
 				
-			if ( preg_match('#wp-admin/?(index.php)?$#', $_SERVER['REQUEST_URI'])) {
-				if (function_exists('admin_url')) {
+			if ( preg_match('#wp-admin/?(index.php)?$#', $_SERVER['REQUEST_URI']) ) {
+				if ( function_exists('admin_url') ) {
 					wp_redirect( admin_url($_mw_adminimize_db_redirect) );
 				} else {
 					wp_redirect( get_option('siteurl') . '/wp-admin/' . $_mw_adminimize_db_redirect );
@@ -1018,6 +1045,12 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['_mw_adminimize_timestamp'] = strip_tags(stripslashes($_POST['_mw_adminimize_timestamp']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_timestamp'] = 0;
+	}
+	
+	if (isset($_POST['_mw_adminimize_db_redirect_txt'])) {
+		$adminimizeoptions['_mw_adminimize_db_redirect_txt'] = stripslashes($_POST['_mw_adminimize_db_redirect_txt']);
+	} else {
+		$adminimizeoptions['_mw_adminimize_db_redirect_txt'] = 0;
 	}
 	
 	// menu update

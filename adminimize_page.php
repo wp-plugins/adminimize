@@ -231,24 +231,28 @@ function _mw_adminimize_options() {
 							array_push($disabled_menu_all, $disabled_top_menu_adm);
 							
 							if ($disabled_menu_all != '') {
-								if ( recursive_in_array('index.php', $disabled_menu_all) ) {
+								if ( !recursive_in_array('index.php', $disabled_menu_all) ) {
+									$disabled_item2 = ' disabled="disabled"';
+								}
 								?>
 								<tr valign="top" class="form-invalid">
 									<td><?php _e('Dashboard deaktivate, redirect to', 'adminimize'); ?></td>
 									<td>
 										<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
-										<select name="_mw_adminimize_db_redirect">
+										<select name="_mw_adminimize_db_redirect"<?php echo $disabled_item2; ?>>
 											<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?> (profile.php)</option>
 											<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Manage Posts', 'adminimize'); ?> (edit.php)</option>
 											<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Manage Pages', 'adminimize'); ?> (edit-pages.php)</option>
 											<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Write Post', 'adminimize'); ?> (post-new.php)</option>
 											<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Write Page', 'adminimize'); ?> (page-new.php)</option>
 											<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Comments', 'adminimize'); ?> (edit-comments.php)</option>
-											</select> <?php _e('You have deaktivate the Dashboard, please select a page for redirect?', 'adminimize'); ?>
+											<option value="6"<?php if ($_mw_adminimize_db_redirect == '6') { echo ' selected="selected"'; } ?>><?php _e('other Page', 'adminimize'); ?></option>
+										</select>
+										<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_db_redirect_txt" id="_mw_adminimize_db_redirect_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt'))); ?></textarea>
+										<br /><?php _e('You have deaktivate the Dashboard, please select a page for redirect?', 'adminimize'); ?>
 									</td>
 								</tr>
 								<?php
-								}
 							}
 							?>
 						</tbody>
