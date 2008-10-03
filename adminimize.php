@@ -526,7 +526,7 @@ function _mw_adminimize_remove_dashboard() {
 					recursive_in_array('index.php', $disabled_top_menu_subscriber) 
 				 )
 				 $redirect = 'true';
-		} elseif ( current_user_can('editor') ) {  
+		} elseif ( current_user_can('contributor') ) {  
 			if (
 					recursive_in_array('index.php', $disabled_menu_contributor) ||
 					recursive_in_array('index.php', $disabled_submenu_contributor) ||
