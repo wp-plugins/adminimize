@@ -98,14 +98,15 @@ margin-top:45px !important;
 #poststuff .togbox {
 	background-position: -10px 0.55em;
 	height: 1.75em;
-	margin-top: 1px;
+	margin-top: 0;
 }
 
 #poststuff .closed .togbox {
 	background-position: 4px 0.55em;
 }
-#poststuff h3 {
-padding-bottom: 10px;
+#postdivrich h3 {
+padding-bottom: 20px;
+margin-bottom:20px;
 }
 
 #the-comment-list .unapproved {
