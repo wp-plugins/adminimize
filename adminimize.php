@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.5.2
-Last Update: 03.10.2008 15:37:51
+Version: 1.5.3
+Last Update: 04.10.2008 13:59:24
 */ 
 
 /**
@@ -350,7 +350,7 @@ function _mw_adminimize_admin_styles($file) {
 	
 	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
-	if ( version_compare($wp_version, '2.7', '>=') ) {
+	if ( version_compare(substr($wp_version, 0, 3), '2.7', '>=') ) {
 		// MW Adminimize Classic
 		$styleName = 'MW Adminimize:' . ' ' . __('Classic');
 		wp_admin_css_color (
@@ -655,7 +655,7 @@ function _mw_adminimize_set_user_option_edit() {
  * set menu options from database
  */
 function _mw_adminimize_set_menu_option() {
-	global $pagenow, $menu, $submenu, $user_identity, $top_menu;
+	global $pagenow, $menu, $submenu, $user_identity, $top_menu, $wp_version;
 	
 	$disabled_menu_subscriber     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
 	$disabled_submenu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
@@ -678,7 +678,11 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
 	case 2:
-		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+		if ( version_compare(substr($wp_version, 0, 3), '2.7', '>=') ) {
+			$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info27.css" type="text/css" />' . "\n";
+		} else {
+			$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+		}
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
 		if ($_mw_adminimize_ui_redirect == '1') {
@@ -689,7 +693,11 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
 	case 3:
-		$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+		if ( version_compare(substr($wp_version, 0, 3), '2.7', '>=') ) {
+			$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info27.css" type="text/css" />' . "\n";
+		} else {
+			$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+		}
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
 		if ($_mw_adminimize_ui_redirect == '1') {

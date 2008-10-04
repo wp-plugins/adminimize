@@ -1,28 +1,25 @@
 #wpwrap #wphead h1 {
 	font: italic 1.25em/1 Georgia, "Times New Roman", Times, serif;
-	padding: 0.5em 170px 16px 2px;
-	margin: 0;
 	position: absolute;
-	top: 40px;
-	left: 0;
-	margin: 0 15% 0 0.5em;
-	z-index:999;
-}
-#wphead h1 #viewsite {
-	position: static;
-	margin: 0;
+	z-index: 999;
+	left: -20px;
 }
 
-#wphead h1 #viewsite a {
-	padding: 0 2em;
-	font: small-caps smaller "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	background: transparent;
-	display: inline;
-	letter-spacing: normal;
-	border-style: none;
+#wpwrap #wphead #logo50 {
+	width:25px;
+	padding:10px;
 }
-#wphead h1 #viewsite a:after {
-	content: " \BB ";
+
+#wpwrap #wphead #breadcrumb {
+	font-size: .8em;
+}
+
+#wpwrap #wphead #breadcrumb a {
+	color: #2583AD;
+}
+
+#wpwrap #wphead #breadcrumb a:hover {
+	color: #D54E21;
 }
 
 #adminmenu {
