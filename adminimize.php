@@ -94,7 +94,7 @@ class _mw_adminimize_message_class {
  * @uses $pagenow
  */
 function _mw_adminimize_init() {
-	global $pagenow, $menu, $submenu, $adminimizeoptions, $top_menu;
+	global $pagenow, $menu, $submenu, $adminimizeoptions, $top_menu, $wp_version;
 
 	$adminimizeoptions = get_option('mw_adminimize');
 
@@ -108,6 +108,20 @@ function _mw_adminimize_init() {
 	$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
 	$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
 	$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
+
+	$disabled_metaboxes_post_all = array();
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_adm);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_editor);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_contributor);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_subscriber);
+
+	$disabled_metaboxes_page_all = array();
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_adm);
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page);
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_editor);
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_contributor);
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_subscriber);
 
 	$_mw_admin_color = get_user_option('admin_color');
 
@@ -148,18 +162,21 @@ function _mw_adminimize_init() {
 		 ) {
 		
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
-			add_action('admin_head', '_mw_adminimize_remove_box', 99);
+			if ( version_compare(substr($wp_version, 0, 3), '2.7', '<') )
+				add_action('admin_head', '_mw_adminimize_remove_box', 99);
 			
 			// check for array empty
 			if ( !isset($disabled_metaboxes_post['0']) )
 				$disabled_metaboxes_post['0'] = '';
 			if ( isset($disabled_metaboxes_post_adm['0']) )
 			 $disabled_metaboxes_post_adm['0'] = '';
-			if ( !in_array('#categorydivsb', $disabled_metaboxes_post) || !in_array('#categorydivsb', $disabled_metaboxes_post_adm) )
-				add_action('submitpost_box', '_mw_adminimize_sidecat_list_category_box');
-			if ( !in_array('#tagsdivsb', $disabled_metaboxes_post) || !in_array('#tagsdivsb', $disabled_metaboxes_post_adm) )
-				add_action('submitpost_box', '_mw_adminimize_sidecat_list_tag_box');
-			if ( in_array('media_buttons', $disabled_metaboxes_post) || in_array('media_buttons', $disabled_metaboxes_post_adm) )
+			if ( version_compare(substr($wp_version, 0, 3), '2.7', '<') ) {
+				if ( !recursive_in_array('#categorydivsb', $disabled_metaboxes_post_all) )
+					add_action('submitpost_box', '_mw_adminimize_sidecat_list_category_box');
+				if ( !recursive_in_array('#tagsdivsb', $disabled_metaboxes_post_all) )
+					add_action('submitpost_box', '_mw_adminimize_sidecat_list_tag_box');
+			}
+			if ( recursive_in_array('media_buttons', $disabled_metaboxes_post_all) )
 				remove_action('media_buttons', 'media_buttons');
 		}
 
@@ -170,7 +187,7 @@ function _mw_adminimize_init() {
 				$disabled_metaboxes_page['0'] = '';
 			if ( isset($disabled_metaboxes_page_adm['0']) )
 			 $disabled_metaboxes_page_adm['0'] = '';
-			if ( in_array('media_buttons', $disabled_metaboxes_page) || in_array('media_buttons', $disabled_metaboxes_page_adm) )
+			if ( recursive_in_array('media_buttons', $disabled_metaboxes_page_all) )
 				remove_action('media_buttons', 'media_buttons');
 		}
 
