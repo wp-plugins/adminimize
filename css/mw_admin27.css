@@ -13,11 +13,9 @@
 #wpwrap #wphead #breadcrumb {
 	font-size: .8em;
 }
-
 #wpwrap #wphead #breadcrumb a {
 	color: #2583AD;
 }
-
 #wpwrap #wphead #breadcrumb a:hover {
 	color: #D54E21;
 }
@@ -44,7 +42,7 @@ margin-top:45px !important;
 }
 
 
-#poststuff h3 {wp-admin.css (line 975)
+#poststuff h3 {
 	font-size: 1em;
 	margin: 0;
 	padding: 0.25em 0.5em;
@@ -102,8 +100,7 @@ margin-top:45px !important;
 #poststuff .togbox {
 	background-position: -10px 0.55em;
 	height: 1.75em;
-	margin-left: -20px;
-	margin-top: -3px;
+	margin-top: 1px;
 }
 
 #poststuff .closed .togbox {
