@@ -67,17 +67,15 @@ margin-top:45px !important;
 	padding: 0 0.2em;
 }
 
-
 .submitbox .submit {
 	font-size: smaller;
 	padding: 0.75em;
 	text-align: center;
 }
-.submitbox .submit input {
+.submitbox .submit input, .submitbox .submit a {
 	margin: 0;
 	padding: 0.1em 0.2em;
 }
-
 .submitbox #previewview {
 	padding: 0.75em;
 	text-align: center;
@@ -106,7 +104,9 @@ margin-top:45px !important;
 #poststuff .closed .togbox {
 	background-position: 4px 0.55em;
 }
-
+#poststuff h3 {
+padding-bottom: 10px;
+}
 
 #the-comment-list .unapproved {
 	background-color: #FFDFD0;
