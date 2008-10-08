@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.5.3
-Last Update: 04.10.2008 13:59:24
+Version: 1.5.4
+Last Update: 08.10.2008 13:28:49
 */ 
 
 /**
@@ -791,12 +791,12 @@ function _mw_adminimize_set_menu_option() {
 			if ($item == 'index.php')
 				continue;
 		
-			if (in_array($item[2], $mw_adminimize_menu))
+			if ( isset($mw_adminimize_menu) && in_array($item[2], $mw_adminimize_menu) )
 				unset($menu[$index]);
 		
-			if ( !empty($submenu[$item[2]]) ) {
+			if ( isset($submenu) && !empty($submenu[$item[2]]) ) {
 				foreach ($submenu[$item[2]] as $subindex => $subitem) {
-					if (in_array($subitem[2], $mw_adminimize_submenu))
+					if ( isset($mw_adminimize_submenu) && in_array($subitem[2], $mw_adminimize_submenu))
 						unset($submenu[$item[2]][$subindex]);
 				}
 			}
@@ -804,7 +804,7 @@ function _mw_adminimize_set_menu_option() {
 			//top_menu, new in 2.7
 			if ( isset($top_menu) && !empty($top_menu[$item[2]]) ) {
 				foreach ($top_menu[$item[2]] as $subindex => $subitem) {
-					if (in_array($subitem[2], $mw_adminimize_top_menu))
+					if ( isset($mw_adminimize_top_menu) && in_array($subitem[2], $mw_adminimize_top_menu))
 						unset($top_menu[$item[2]][$subindex]);
 				}
 			}
