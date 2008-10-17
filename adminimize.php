@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.5.4
-Last Update: 08.10.2008 13:28:49
+Version: 1.5.5
+Last Update: 16.10.2008 14:57:28
 */ 
 
 /**
@@ -15,7 +15,7 @@ Last Update: 08.10.2008 13:28:49
  * and i have written a plugin with many options on the basis
  * of differently user-right and a user-friendly range in admin-area.
  *
- * The javascript for de/activate ist by Oliver Schlöbe, http://www.schloebe.de
+ * The javascript for de/activate checkboxes ist by Oliver Schlöbe, http://www.schloebe.de
  * - many thanks
  */
 
@@ -98,31 +98,31 @@ function _mw_adminimize_init() {
 
 	$adminimizeoptions = get_option('mw_adminimize');
 
-	$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
-	$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
-	$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
-	$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
-	$disabled_metaboxes_post_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_editor_items');
-	$disabled_metaboxes_page_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_editor_items');
-	$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
-	$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
 	$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
 	$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
+	$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
+	$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
+	$disabled_metaboxes_post_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_author_items');
+	$disabled_metaboxes_page_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_author_items');
+	$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+	$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+	$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
+	$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
 
 	$disabled_metaboxes_post_all = array();
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_adm);
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post);
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_editor);
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_contributor);
 	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_subscriber);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_contributor);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_author);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post);
+	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_adm);
 
 	$disabled_metaboxes_page_all = array();
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_adm);
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page);
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_editor);
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_contributor);
 	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_subscriber);
-
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_contributor);
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_author);
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page);
+	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_adm);
+	
 	$_mw_admin_color = get_user_option('admin_color');
 
 	if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) || ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
@@ -538,7 +538,7 @@ function _mw_adminimize_remove_dashboard() {
 
 		if ( current_user_can('subscriber') ) {
 			if (
-					recursive_in_array('index.php', $disabled_menu_all) ||
+					recursive_in_array('index.php', $disabled_menu_subscriber) ||
 					recursive_in_array('index.php', $disabled_submenu_subscriber) ||
 					recursive_in_array('index.php', $disabled_top_menu_subscriber) 
 				 )
@@ -595,7 +595,7 @@ function _mw_adminimize_remove_dashboard() {
 				$_mw_adminimize_db_redirect = 'edit-comments.php';
 				break;
 			case 6:
-				$_mw_adminimize_db_redirect = htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt')));
+				$_mw_adminimize_db_redirect = htmlspecialchars( stripslashes( _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt') ) );
 				break;
 			}
 
@@ -674,16 +674,21 @@ function _mw_adminimize_set_user_option_edit() {
 function _mw_adminimize_set_menu_option() {
 	global $pagenow, $menu, $submenu, $user_identity, $top_menu, $wp_version;
 	
-	$disabled_menu_subscriber     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
-	$disabled_submenu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
-	$disabled_menu_contributor    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_contributor_items');
-	$disabled_submenu_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_contributor_items');
-	$disabled_menu_author         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_author_items');
-	$disabled_submenu_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_author_items');
-	$disabled_menu                = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
-	$disabled_submenu             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
-	$disabled_menu_adm            = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
-	$disabled_submenu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
+	$disabled_menu_subscriber      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
+	$disabled_submenu_subscriber   = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
+	$disabled_top_menu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_subscriber_items');
+	$disabled_menu_contributor     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_contributor_items');
+	$disabled_submenu_contributor  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_contributor_items');
+	$disabled_top_menu_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_contributor_items');
+	$disabled_menu_author          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_author_items');
+	$disabled_submenu_author       = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_author_items');
+	$disabled_top_menu_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_author_items');
+	$disabled_menu                 = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
+	$disabled_submenu              = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
+	$disabled_top_menu             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_items');
+	$disabled_menu_adm             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
+	$disabled_submenu_adm          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
+	$disabled_top_menu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_adm_items');
 	
 	$_mw_adminimize_admin_head  = "\n";
 	$_mw_adminimize_user_info   = _mw_adminimize_getOptionValue('_mw_adminimize_user_info');
@@ -828,11 +833,11 @@ function _mw_adminimize_set_metabox_option() {
 	if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
 
-		$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
-		$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
-		$disabled_metaboxes_post_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_author_items');
-		$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
 		$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
+		$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
+		$disabled_metaboxes_post_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_author_items');
+		$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
+		$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
 		
 		if ( !isset($disabled_metaboxes_post_adm['0']) )
 			$disabled_metaboxes_post_adm['0'] = '';
@@ -863,22 +868,23 @@ function _mw_adminimize_set_metabox_option() {
 	if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
 		
-		$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
-		$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
-		$disabled_metaboxes_page_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_editor_items');
-		$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
 		$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
+		$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
+		$disabled_metaboxes_page_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_editor_items');
+		$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
+		$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
 		
-		if ( !isset($disabled_metaboxes_page_adm['0']) )
-			$disabled_metaboxes_page_adm['0'] = '';
-		if ( !isset($disabled_metaboxes_page['0']) )
-			$disabled_metaboxes_page['0'] = '';
-		if ( !isset($disabled_metaboxes_page_author['0']) )
-			$disabled_metaboxes_page_author['0'] = '';
-		if ( !isset($disabled_metaboxes_page_contributor['0']) )
-			$disabled_metaboxes_page_contributor['0'] = '';
 		if ( !isset($disabled_metaboxes_page_subscriber['0']) )
 			$disabled_metaboxes_page_subscriber['0'] = '';
+		if ( !isset($disabled_metaboxes_page_contributor['0']) )
+			$disabled_metaboxes_page_contributor['0'] = '';
+		if ( !isset($disabled_metaboxes_page_author['0']) )
+			$disabled_metaboxes_page_author['0'] = '';
+		if ( !isset($disabled_metaboxes_page['0']) )
+			$disabled_metaboxes_page['0'] = '';
+		if ( !isset($disabled_metaboxes_page_adm['0']) )
+			$disabled_metaboxes_page_adm['0'] = '';
+
 		if ( current_user_can('administrator') ) {
 			$metaboxes = implode(',', $disabled_metaboxes_page_adm); // admin
 		} elseif ( current_user_can('editor') ) {
@@ -964,21 +970,20 @@ function _mw_adminimize_add_settings_page() {
 
 
 /**
- * Set theme for users y user_level 10
+ * Set theme for users
  */
 function _mw_adminimize_set_theme() {
 
 	if ( !current_user_can('edit_users') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	$user_ids = $_POST[mw_adminimize_theme_items];
+	$user_ids    = (int) $_POST[mw_adminimize_theme_items];
 	$admin_color = htmlspecialchars( stripslashes( $_POST[_mw_adminimize_set_theme] ) );
 
 	if ( !$user_ids )
 		return false;
 
 	foreach( $user_ids as $user_id) {
-		$user_id = (int) $user_id;
 		update_usermeta($user_id, 'admin_color', $admin_color);
 	}
 }
@@ -1272,16 +1277,16 @@ function _mw_adminimize_install() {
 	$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_top_menu_adm_items'] = array();
 	
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_subscriber_items'] = array();
 	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
+	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
 	
 	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;

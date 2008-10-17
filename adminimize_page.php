@@ -216,6 +216,7 @@ function _mw_adminimize_options() {
 							
 							$disabled_menu_all = array();
 							array_push($disabled_menu_all, $disabled_menu_subscriber);
+							array_push($disabled_menu_all, $disabled_submenu_subscriber);
 							array_push($disabled_menu_all, $disabled_top_menu_subscriber);
 							array_push($disabled_menu_all, $disabled_menu_contributor);
 							array_push($disabled_menu_all, $disabled_submenu_contributor);
@@ -383,7 +384,7 @@ function _mw_adminimize_options() {
 							$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
 							$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
 							$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
-						
+							
 							$metaboxes = array(
 								'#pageslugdiv',
 								'#tagsdiv,#tagsdivsb',
@@ -512,14 +513,6 @@ function _mw_adminimize_options() {
 								$i = 0;
 								$x = 0;
 								foreach ($menu as $item) {
-								
-									// menu items
-									// items disabled for user
-									if ( $item[2] == 'examble.php' ) {
-										$disabled_item = ' disabled="disabled"';
-									} else {
-										$disabled_item = '';
-									}
 									
 									// checkbox checked
 									if ( isset($disabled_menu_subscriber) && in_array($item[2], $disabled_menu_subscriber) ) {
@@ -556,13 +549,22 @@ function _mw_adminimize_options() {
 										$checked_adm = '';
 									}
 									
+									// menu items
+									// items disabled for user
+									if ( $item[2] == 'options-general.php' ) {
+										$disabled_item_adm = ' disabled="disabled"';
+										$checked_adm = '';
+									} else {
+										$disabled_item_adm = '';
+									}
+									
 									echo '<tr class="form-invalid">' . "\n";
 									echo "\t" . '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $item[2] . ')</span> </th>';
-									echo "\t" . '<td class="num"><input id="check_menusubscriber'. $x .'" type="checkbox"' . $disabled_item . $checked_subscriber . ' name="mw_adminimize_disabled_menu_subscriber_items[]" value="' . $item[2] . '"/></td>' . "\n";
-									echo "\t" . '<td class="num"><input id="check_menucontributor'. $x .'" type="checkbox"' . $disabled_item . $checked_contributor . ' name="mw_adminimize_disabled_menu_contributor_items[]" value="' . $item[2] . '"/></td>' . "\n";
-									echo "\t" . '<td class="num"><input id="check_menuauthor'. $x .'" type="checkbox"' . $disabled_item . $checked_author . ' name="mw_adminimize_disabled_menu_author_items[]" value="' . $item[2] . '"/></td>' . "\n";
-									echo "\t" . '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $disabled_item . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
-									echo "\t" . '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_item . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menusubscriber'. $x .'" type="checkbox"' . $checked_subscriber . ' name="mw_adminimize_disabled_menu_subscriber_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menucontributor'. $x .'" type="checkbox"' . $checked_contributor . ' name="mw_adminimize_disabled_menu_contributor_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menuauthor'. $x .'" type="checkbox"' . $checked_author . ' name="mw_adminimize_disabled_menu_author_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menu'. $x .'" type="checkbox"' . $checked . ' name="mw_adminimize_disabled_menu_items[]" value="' . $item[2] . '"/></td>' . "\n";
+									echo "\t" . '<td class="num"><input id="check_menuadm'. $x .'" type="checkbox"' . $disabled_item_adm . $checked_adm . ' name="mw_adminimize_disabled_menu_adm_items[]" value="' . $item[2] . '"/></td>' . "\n";
 									echo '</tr>';
 									$x++;
 
@@ -576,6 +578,7 @@ function _mw_adminimize_options() {
 										// items disabled for adm
 										if ( $subitem[2] == 'adminimize/adminimize.php' ) {
 											$disabled_subitem_adm = ' disabled="disabled"';
+											$checked_adm = '';
 										} else {
 											$disabled_subitem_adm = '';
 										}
