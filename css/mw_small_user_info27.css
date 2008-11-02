@@ -9,8 +9,9 @@
 	padding-left: 100px;
 }
 
-#small_user_info a {
+#small_user_info a, #small_user_info a:visited {
 	color: #ccc;
+	text-decoration: none;
 }
 
 #small_user_info p {

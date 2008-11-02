@@ -3,7 +3,7 @@
  * options-page in wp-admin
  */
 function _mw_adminimize_options() {
-	global $wpdb, $_wp_admin_css_colors;
+	global $wpdb, $_wp_admin_css_colors, $wp_version;
 	
 	_mw_adminimize_user_info == '';
 	
@@ -65,7 +65,7 @@ function _mw_adminimize_options() {
 	<div class="wrap">
 		<h2><?php _e('Adminimize', 'adminimize'); ?></h2>
 		<br class="clear" />
-		<div id="poststuff" class="dlm">
+		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
 				<h3><?php _e('Backend Options', 'adminimize'); ?></h3>
 				<div class="inside">
@@ -273,7 +273,7 @@ function _mw_adminimize_options() {
 		 */
 		if ( isset( $top_menu ) && ($top_menu != '') ) {
 		?>
-		<div id="poststuff" class="dlm">
+		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
 				<h3 id="config_top_menu"><?php _e('Top Menu Options', 'adminimize'); ?></h3>
 				<div class="inside">
@@ -353,7 +353,7 @@ function _mw_adminimize_options() {
 		</div>
 		<?php } ?>
 		
-		<div id="poststuff" class="dlm">
+		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
 				<h3 id="config_menu"><?php _e('Menu Options', 'adminimize'); ?></h3>
 				<div class="inside">
@@ -632,7 +632,7 @@ function _mw_adminimize_options() {
 			</div>
 		</div>
 
-		<div id="poststuff" class="dlm">
+		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
 				<h3 id="config_edit"><?php _e('Write Options', 'adminimize'); ?></h3>
 				<div class="inside">
@@ -742,7 +742,7 @@ function _mw_adminimize_options() {
 			</div>
 		</div>
 		
-		<div id="poststuff" class="dlm">
+		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
 				<h3 id="set_theme"><?php _e('Set Theme', 'adminimize') ?></h3>
 				<div class="inside">
@@ -818,7 +818,7 @@ function _mw_adminimize_options() {
 			</div>
 		</div>
 
-		<div id="poststuff" class="dlm">
+		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
 				<h3 id="uninstall"><?php _e('Deinstall Options', 'adminimize') ?></h3>
 				<div class="inside">
@@ -837,7 +837,7 @@ function _mw_adminimize_options() {
 			</div>
 		</div>
 
-		<div id="poststuff" class="dlm">
+		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
 				<h3 id="about"><?php _e('About the plugin', 'adminimize') ?></h3>
 				<div class="inside">
@@ -850,7 +850,9 @@ function _mw_adminimize_options() {
 
 		<script type="text/javascript">
 		<!--
+		<?php if ( version_compare( substr($wp_version, 0, 3), '2.7', '<' ) ) { ?>
 		jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
+		<?php } ?>
 		jQuery('.postbox h3').click( function() { jQuery(jQuery(this).parent().get(0)).toggleClass('closed'); } );
 		jQuery('.postbox.close-me').each(function(){
 			jQuery(this).addClass("closed");

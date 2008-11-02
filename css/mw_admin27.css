@@ -1,12 +1,15 @@
 #wpwrap #wphead h1 {
-	font: italic 1.25em/1 Georgia, "Times New Roman", Times, serif;
+	font: italic 1.25em Georgia, "Times New Roman", Times, serif;
 	position: absolute;
-	top: 5px;
-	left: 25px;
+	top: 4px;
+	left: 5px;
+	padding-left: 25px;
+	padding-bottom: 10px;
+	background: url('../../../../favicon.ico') 6px center no-repeat;
 }
 
 #wpwrap #wphead #logo50 {
-	margin-left:5px;
+	display: none;
 }
 
 #wpwrap #wphead #breadcrumb {
@@ -19,32 +22,27 @@
 	color: #D54E21;
 }
 
-#adminmenu {
-	padding-top: 0.4em;
-}
 #adminmenu a {
 	font-size: 1em;
-	line-height: 1.1;
+	line-height: 1.2;
 }
 
 #adminmenu .write-new-button {
-margin-top:45px !important;
+margin-top: 45px !important;
 }
 
-#poststuff h3, #normal-sortables h3 {
-	font-size: 1em;
-	margin: 0;
+#poststuff h3, #normal-sortables h3, #side-sortables h3 {
 	padding: 0.25em 0.5em;
 }
-#poststuff #titlediv, #normal-sortables #titlediv {
+.postbox .inside {
+	margin-top: .5em !important;
+}
+#poststuff #titlediv, #normal-sortables #titlediv, #side-sortables #titlediv {
 	position: relative;
 	margin-bottom: 0;
 }
-#poststuff #editor-toolbar, #normal-sortables #editor-toolbar {
-	margin-top: -2em;
-	height: 2em;
-}
-#poststuff #edit-slug-box, #normal-sortables #edit-slig-box {
+
+#poststuff #edit-slug-box, #normal-sortables #edit-slig-box, #side-sortables #edit-slig-box {
 	text-align: right;
 	position: absolute;
 	top: 0;
@@ -82,16 +80,17 @@ margin-top:45px !important;
 }
 
 #poststuff .postbox, #poststuff .stuffbox,
-#normal-sortables .postbox, #normal-sortables .stuffbox {
+#normal-sortables .postbox, #normal-sortables .stuffbox,
+#side-sortables .postbox, #side-sortables .stuffbox {
 	padding: 0;
 }
-#poststuff .togbox, #normal-sortables .togbox {
+#poststuff .togbox, #normal-sortables .togbox, #side-sortables .togbox {
 	background-position: -10px 0.55em;
 	height: 1.75em;
 	margin-top: 0;
 }
 
-#poststuff .closed .togbox, #normal-sortables .closed .togbox {
+#poststuff .closed .togbox, #normal-sortables .closed .togbox, #side-sortables .closed .togbox {
 	background-position: 4px 0.55em;
 }
 #postdivrich h3 {

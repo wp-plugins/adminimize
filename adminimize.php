@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.5.6
-Last Update: 19.10.2008 19:09:56
+Version: 1.5.7
+Last Update: 30.10.2008 20:29:30
 */ 
 
 /**
@@ -162,7 +162,7 @@ function _mw_adminimize_init() {
 		 ) {
 		
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
-			if ( version_compare(substr($wp_version, 0, 3), '2.7', '<') )
+			if ( version_compare( substr($wp_version, 0, 3), '2.7', '<' ) )
 				add_action('admin_head', '_mw_adminimize_remove_box', 99);
 			
 			// check for array empty
@@ -225,7 +225,10 @@ if ( is_admin() ) {
 	add_action('admin_init', '_mw_adminimize_admin_styles', 1);
 }
 
-register_activation_hook(__FILE__, '_mw_adminimize_install');
+if ( function_exists('register_activation_hook') )
+	register_activation_hook(__FILE__, '_mw_adminimize_install');
+if ( function_exists('register_uninstall_hook') )
+	register_uninstall_hook(__FILE__, '_mw_adminimize_deinstall');
 //register_deactivation_hook(__FILE__, '_mw_adminimize_deinstall');
 
 
@@ -959,11 +962,65 @@ function _mw_adminimize_filter_plugin_actions($links, $file){
 
 
 /**
+ * Images/ Icons in base64-encoding
+ * @use function _mw_adminimize_get_resource_url() for display
+ */
+if( isset($_GET['resource']) && !empty($_GET['resource'])) {
+	# base64 encoding performed by base64img.php from http://php.holtsmark.no
+	$resources = array(
+		'adminimize.gif' =>
+		'R0lGODlhCwALAKIEAPb29tTU1Kurq5SUlP///wAAAAAAAAAAAC'.
+		'H5BAEAAAQALAAAAAALAAsAAAMlSErTuw1Ix4a8s4mYgxZbE4wf'.
+		'OIzkAJqop64nWm7tULHu0+xLAgA7'.
+		'');
+	
+	if(array_key_exists($_GET['resource'], $resources)) {
+
+		$content = base64_decode($resources[ $_GET['resource'] ]);
+
+		$lastMod = filemtime(__FILE__);
+		$client = ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false );
+		// Checking if the client is validating his cache and if it is current.
+		if (isset($client) && (strtotime($client) == $lastMod)) {
+			// Client's cache IS current, so we just respond '304 Not Modified'.
+			header('Last-Modified: '.gmdate('D, d M Y H:i:s', $lastMod).' GMT', true, 304);
+			exit;
+		} else {
+			// Image not cached or cache outdated, we respond '200 OK' and output the image.
+			header('Last-Modified: '.gmdate('D, d M Y H:i:s', $lastMod).' GMT', true, 200);
+			header('Content-Length: '.strlen($content));
+			header('Content-Type: image/' . substr(strrchr($_GET['resource'], '.'), 1) );
+			echo $content;
+			exit;
+		}
+	}
+}
+
+
+/**
+ * Display Images/ Icons in base64-encoding
+ * @return $resourceID
+ */
+function _mw_adminimize_get_resource_url($resourceID) {
+	
+	return trailingslashit( get_bloginfo('url') ) . '?resource=' . $resourceID;
+}
+
+
+/**
  * settings in plugin-admin-page
  */
 function _mw_adminimize_add_settings_page() {
-	if( current_user_can('switch_themes') ) {
-		add_submenu_page('options-general.php', __('Adminimize Options', 'adminimize'), __('Adminimize', 'adminimize'), 8, __FILE__, '_mw_adminimize_options');
+	global $wp_version;
+	if( current_user_can('switch_themes') && function_exists('add_submenu_page') ) {
+		
+		$menutitle = '';
+		if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
+			$menutitle = '<img src="' . _mw_adminimize_get_resource_url('adminimize.gif') . '" alt="" />';
+		}
+		$menutitle .= ' ' . __('Adminimize', 'adminimize');
+
+		add_submenu_page('options-general.php', __('Adminimize Options', 'adminimize'), $menutitle, 8, __FILE__, '_mw_adminimize_options');
 		add_filter('plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2);
 	}
 }
