@@ -81,6 +81,28 @@ function _mw_adminimize_options() {
 							</tr>
 						</thead>
 						<tbody>
+						<?php if ( version_compare( substr($wp_version, 0, 3), '2.7', '>=' ) ) { ?>
+							<tr valign="top">
+								<td><?php _e('Favorite Actions', 'adminimize'); ?></td>
+								<td>
+									<?php $_mw_adminimize_favorite_actions = _mw_adminimize_getOptionValue('_mw_adminimize_favorite_actions'); ?>
+									<select name="_mw_adminimize_favorite_actions">
+										<option value="0"<?php if ($_mw_adminimize_favorite_actions == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_favorite_actions == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+									</select> <?php _e('It is possible to hide the favorite-actions in the header.', 'adminimize'); ?>
+								</td>
+							</tr>
+							<tr valign="top">
+								<td><?php _e('Screen Options', 'adminimize'); ?></td>
+								<td>
+									<?php $_mw_adminimize_screen_options = _mw_adminimize_getOptionValue('_mw_adminimize_screen_options'); ?>
+									<select name="_mw_adminimize_screen_options">
+										<option value="0"<?php if ($_mw_adminimize_screen_options == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_screen_options == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+									</select> <?php _e('It is possible to hide the screen-options.', 'adminimize'); ?>
+								</td>
+							</tr>
+						<?php } ?>
 							<tr valign="top">
 								<td><?php _e('Menu Order', 'adminimize'); ?></td>
 								<td>

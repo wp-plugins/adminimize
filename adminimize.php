@@ -6,8 +6,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
-Version: 1.5.7
-Last Update: 30.10.2008 20:29:30
+Version: 1.5.8
+Last Update: 03.11.2008 10:26:33
 */ 
 
 /**
@@ -693,9 +693,28 @@ function _mw_adminimize_set_menu_option() {
 	$disabled_submenu_adm          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
 	$disabled_top_menu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_adm_items');
 	
-	$_mw_adminimize_admin_head  = "\n";
-	$_mw_adminimize_user_info   = _mw_adminimize_getOptionValue('_mw_adminimize_user_info');
-	$_mw_adminimize_ui_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect');
+	$_mw_adminimize_admin_head       = "\n";
+	$_mw_adminimize_favorite_actions = _mw_adminimize_getOptionValue('_mw_adminimize_favorite_actions');
+	$_mw_adminimize_screen_options   = _mw_adminimize_getOptionValue('_mw_adminimize_screen_options');
+	$_mw_adminimize_user_info        = _mw_adminimize_getOptionValue('_mw_adminimize_user_info');
+	$_mw_adminimize_ui_redirect      = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect');
+
+	switch ($_mw_adminimize_favorite_actions) {
+	case 1:
+		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#favorite-actions\').remove(); });' . "\n";
+		$_mw_adminimize_admin_head .= '</script>' . "\n";
+		break;
+	}
+	
+	switch ($_mw_adminimize_screen_options) {
+	case 1:
+		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#screen-options\').remove(); });' . "\n";
+		$_mw_adminimize_admin_head .= '</script>' . "\n";
+		break;
+	}	
+	
 	switch ($_mw_adminimize_user_info) {
 	case 1:
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
@@ -1061,6 +1080,18 @@ function _mw_adminimize_getOptionValue($key) {
  */
 function _mw_adminimize_update() {
 	global $menu, $submenu, $adminimizeoptions;
+
+	if (isset($_POST['_mw_adminimize_favorite_actions'])) {
+		$adminimizeoptions['_mw_adminimize_favorite_actions'] = strip_tags(stripslashes($_POST['_mw_adminimize_favorite_actions']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_favorite_actions'] = 0;
+	}
+	
+	if (isset($_POST['_mw_adminimize_screen_options'])) {
+		$adminimizeoptions['_mw_adminimize_screen_options'] = strip_tags(stripslashes($_POST['_mw_adminimize_screen_options']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_screen_options'] = 0;
+	}
 
 	if (isset($_POST['_mw_adminimize_menu_order'])) {
 		$adminimizeoptions['_mw_adminimize_menu_order'] = strip_tags(stripslashes($_POST['_mw_adminimize_menu_order']));
