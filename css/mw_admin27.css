@@ -45,7 +45,7 @@ margin-top: 45px !important;
 #poststuff #edit-slug-box, #normal-sortables #edit-slig-box, #side-sortables #edit-slig-box {
 	text-align: right;
 	position: absolute;
-	top: 0;
+	top: -2em;
 	right: 0;
 	margin: 0.5em;
 }
