@@ -967,10 +967,15 @@ function _mw_adminimize_admin_footer() {
  * Add action link(s) to plugins page
  * Thanks Dion Hulse -- http://dd32.id.au/wordpress-plugins/?configure-link
  */
-function _mw_adminimize_filter_plugin_actions($links){
-	$settings_link = '<a href="options-general.php?page=adminimize/adminimize.php">' . __('Settings') . '</a>';
-	array_unshift( $links, $settings_link ); 
+function _mw_adminimize_filter_plugin_actions($links, $file){
+	static $this_plugin;
 
+	if( !$this_plugin ) $this_plugin = plugin_basename(__FILE__);
+
+	if( $file == $this_plugin ){
+		$settings_link = '<a href="options-general.php?page=adminimize/adminimize.php">' . __('Settings') . '</a>';
+		$links = array_merge( array($settings_link), $links); // before other links
+	}
 	return $links;
 }
 
@@ -1036,8 +1041,7 @@ function _mw_adminimize_add_settings_page() {
 		$menutitle .= ' ' . __('Adminimize', 'adminimize');
 
 		add_submenu_page('options-general.php', __('Adminimize Options', 'adminimize'), $menutitle, 8, __FILE__, '_mw_adminimize_options');
-		$plugin = plugin_basename(__FILE__); 
-		add_filter('plugin_action_links_' . $plugin, '_mw_adminimize_filter_plugin_actions' );
+		add_filter('plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2);
 	}
 }
 
