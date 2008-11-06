@@ -6,8 +6,13 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
 Author: Frank Bueltge
 Author URI: http://bueltge.de/
+<<<<<<< .mine
+Version: 1.5.7
+Last Update: 30.10.2008 20:29:30
+=======
 Version: 1.5.8
 Last Update: 03.11.2008 10:26:33
+>>>>>>> .r72467
 */ 
 
 /**
@@ -1030,6 +1035,18 @@ function _mw_adminimize_get_resource_url($resourceID) {
  * settings in plugin-admin-page
  */
 function _mw_adminimize_add_settings_page() {
+<<<<<<< .mine
+	global $wp_version;
+	if( current_user_can('switch_themes') && function_exists('add_submenu_page') ) {
+		
+		$menutitle = '';
+		if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
+			$menutitle = '<img src="' . _mw_adminimize_get_resource_url('adminimize.gif') . '" style="margin-right:3px;" alt="" />';
+		}
+		$menutitle .= __('Adminimize', 'adminimize');
+
+		add_submenu_page('options-general.php', __('Adminimize Options', 'adminimize'), $menutitle, 8, __FILE__, '_mw_adminimize_options');
+=======
 	global $wp_version;
 	if( current_user_can('switch_themes') && function_exists('add_submenu_page') ) {
 		
@@ -1040,6 +1057,7 @@ function _mw_adminimize_add_settings_page() {
 		$menutitle .= ' ' . __('Adminimize', 'adminimize');
 
 		add_submenu_page('options-general.php', __('Adminimize Options', 'adminimize'), $menutitle, 8, __FILE__, '_mw_adminimize_options');
+>>>>>>> .r72467
 		add_filter('plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2);
 	}
 }
