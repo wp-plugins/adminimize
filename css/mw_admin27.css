@@ -106,3 +106,12 @@ margin-bottom:20px;
 	margin-left: 0 !important;
 	position: relative !important;
 }
+
+
+.meta-box-sortables .postbox .handlediv {
+	height: 18px;
+}
+
+.meta-box-sortables .postbox:hover .handlediv {
+	background-position: left -114px;
+}
