@@ -4,10 +4,10 @@
 Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
-Author: Frank Bueltge
+Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.5.8
-Last Update: 03.11.2008 10:26:33
+Version: 1.6
+Last Update: 07.12.2008 12:15:06
 */ 
 
 /**
@@ -149,7 +149,7 @@ function _mw_adminimize_init() {
 	case 1:
 		add_action('admin_head', '_mw_adminimize_adminmenu', 1);
 	}
-
+	
 	if ( ($_mw_admin_color == 'mw_fresh') ||
 				($_mw_admin_color == 'mw_classic') ||
 				($_mw_admin_color == 'mw_colorblind') ||
@@ -370,43 +370,21 @@ function _mw_adminimize_admin_styles($file) {
 	
 	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
-	if ( version_compare(substr($wp_version, 0, 3), '2.7', '>=') ) {
+	if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
 		// MW Adminimize Classic
-		$styleName = 'MW Adminimize:' . ' ' . __('Classic');
+		$styleName = 'Adminimize:' . ' ' . __('Blue');
 		wp_admin_css_color (
 			'mw_classic', $styleName, $_mw_adminimize_path . 'mw_classic27.css',
-			array('#07273E', '#14568A', '#D54E21', '#2683AE')
+			array('#073447', '#21759b', '#eaf3fa', '#bbd8e7')
 		);
 	
 		// MW Adminimize Fresh
-		$styleName = 'MW Adminimize:' . ' ' . __('Fresh');
+		$styleName = 'Adminimize:' . ' ' . __('Gray');
 		wp_admin_css_color (
 			'mw_fresh', $styleName, $_mw_adminimize_path . 'mw_fresh27.css',
-			array('#464646', '#CEE1EF', '#D54E21', '#2683AE')
+			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
 		);
 		
-		/* MW Adminimize WordPress 2.3
-		$styleName = 'MW Adminimize:' . ' ' . __('WordPress 2.3');
-		wp_admin_css_color (
-			'mw_wp23', $styleName, $_mw_adminimize_path . 'mw_wp23-27.css',
-			array('#000000', '#14568A', '#448ABD', '#83B4D8')
-		);
-		*/
-	
-		// MW Adminimize Colorblind
-		$styleName = 'MW Adminimize:' . ' ' . __('Maybe i\'m colorblind');
-		wp_admin_css_color (
-			'mw_colorblind', $styleName, $_mw_adminimize_path . 'mw_colorblind27.css',
-			array('#FF9419', '#F0720C', '#710001', '#550007', '#CF4529')
-		);
-	
-		// MW Adminimize Grey
-		$styleName = 'MW Adminimize:' . ' ' . __('Grey');
-		wp_admin_css_color (
-			'mw_grey', $styleName, $_mw_adminimize_path . 'mw_grey27.css',
-			array('#000000', '#787878', '#F0F0F0', '#D8D8D8', '#909090')
-		);
-
 	} else {
 		// MW Adminimize Classic
 		$styleName = 'MW Adminimize:' . ' ' . __('Classic');
@@ -730,9 +708,9 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
 		if ($_mw_adminimize_ui_redirect == '1') {
-			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout&amp;redirect_to=') . get_option('siteurl') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . wp_nonce_url( ('/wp-login.php?action=logout&amp;redirect_to=') . get_option('siteurl') , 'log-out' ) . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
 		} else {
-			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-login.php?action=logout') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . wp_nonce_url( ('/wp-login.php?action=logout') , 'log-out' ) . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
 		}
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
@@ -745,9 +723,9 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
 		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\').remove();';
 		if ($_mw_adminimize_ui_redirect == '1') {
-			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-admin/profile.php') . '">' . $user_identity . '</a> | <a href="' . get_option('siteurl') . ('/wp-login.php?action=logout&amp;redirect_to=') . get_option('siteurl') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-admin/profile.php') . '">' . $user_identity . '</a> | <a href="' . get_option('siteurl') . wp_nonce_url( ('/wp-login.php?action=logout&amp;redirect_to=') . get_option('siteurl'), 'log-out' ) . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
 		} else {
-			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-admin/profile.php') . '">' . $user_identity . '</a> | <a href="' . get_option('siteurl') . ('/wp-login.php?action=logout') . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
+			$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\').after(\'<div id="small_user_info"><p><a href="' . get_option('siteurl') . ('/wp-admin/profile.php') . '">' . $user_identity . '</a> | <a href="' . get_option('siteurl') . wp_nonce_url( ('/wp-login.php?action=logout'), 'log-out' ) . '" title="' . __('Log Out') . '">' . __('Log Out') . '</a></p></div>\') });' . "\n";
 		}
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
@@ -922,6 +900,11 @@ function _mw_adminimize_set_metabox_option() {
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
 	}
 	
+	// hide colorscheme
+	if ( ('profile.php' == $pagenow) && (_mw_adminimize_getOptionValue('mw_adminimize_disabled_colorscheme') == '1') ) {
+		$_mw_adminimize_admin_head .= '<style type="text/css">#your-profile .form-table fieldset {display: none !important}</style>' . "\n";
+	}
+	
 	print($_mw_adminimize_admin_head);
 }
 
@@ -933,7 +916,7 @@ function _mw_adminimize_set_metabox_option() {
 function _mw_adminimize_small_user_info() {
 ?>
 	<div id="small_user_info">
-		<p><a href="<?php echo site_url('wp-login.php?action=logout') ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
+		<p><a href="<?php echo wp_nonce_url( site_url('wp-login.php?action=logout'), 'log-out' ) ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
 	</div>
 <?php
 }
@@ -1322,6 +1305,13 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_subscriber_items'];
 	} else {
 		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = array();
+	}
+	
+	// color scheme
+	if (isset($_POST['mw_adminimize_disabled_colorscheme'])) {
+		$adminimizeoptions['mw_adminimize_disabled_colorscheme'] = $_POST['mw_adminimize_disabled_colorscheme'];
+	} else {
+		$adminimizeoptions['mw_adminimize_disabled_colorscheme'] = array();
 	}
 	
 	update_option('mw_adminimize', $adminimizeoptions);

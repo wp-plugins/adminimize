@@ -8,7 +8,7 @@
 	background: url('../../../../favicon.ico') 6px center no-repeat;
 }
 
-#wpwrap #wphead #logo50 {
+#wpwrap #wphead #logo50, #wpwrap #wphead #header-logo {
 	display: none;
 }
 

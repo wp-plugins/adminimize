@@ -74,12 +74,6 @@ function _mw_adminimize_options() {
 					<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 					<br class="clear" />
 					<table summary="config" class="widefat">
-						<thead>
-							<tr>
-								<th><?php _e('Backend Options', 'adminimize'); ?></th>
-								<th>&nbsp;</th>
-							</tr>
-						</thead>
 						<tbody>
 						<?php if ( version_compare( substr($wp_version, 0, 3), '2.7', '>=' ) ) { ?>
 							<tr valign="top">
@@ -157,7 +151,7 @@ function _mw_adminimize_options() {
 								</td>
 							</tr>
 							<?php if ( ($_mw_adminimize_user_info == '') || ($_mw_adminimize_user_info == '1') || ($_mw_adminimize_user_info == '0') ) $disabled_item = ' disabled="disabled"' ?>
-							<tr valign="top">
+							<tr valign="top" class="form-invalid">
 								<td><?php _e('Change User-Info, redirect to', 'adminimize'); ?></td>
 								<td>
 									<?php $_mw_adminimize_ui_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect'); ?>
@@ -165,6 +159,16 @@ function _mw_adminimize_options() {
 										<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Frontpage of the Blog', 'adminimize'); ?> 
 									</select> <?php _e('When the &quot;User-Info-area&quot; change it, then it is possible to change the redirect.', 'adminimize'); ?>
+								</td>
+							</tr>
+							<tr valign="top">
+								<td><?php _e('Admin Color Scheme', 'adminimize'); ?></td>
+								<td>
+									<?php $mw_adminimize_disabled_colorscheme = _mw_adminimize_getOptionValue('mw_adminimize_disabled_colorscheme'); ?>
+									<select name="mw_adminimize_disabled_colorscheme">
+										<option value="0"<?php if ($mw_adminimize_disabled_colorscheme == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
+										<option value="1"<?php if ($mw_adminimize_disabled_colorscheme == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+									</select> <?php _e('It is possible to hide the Admin Color Schemes.', 'adminimize'); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -281,7 +285,7 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 					
 				</div>
@@ -367,7 +371,7 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 					
 				</div>
@@ -647,7 +651,7 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 					
 				</div>
@@ -656,7 +660,7 @@ function _mw_adminimize_options() {
 
 		<div id="poststuff" class="ui-sortable">
 			<div class="postbox closed" >
-				<h3 id="config_edit"><?php _e('Write Options', 'adminimize'); ?></h3>
+				<h3 id="config_edit"><?php _e('Write options - Post', 'adminimize'); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 						
@@ -706,6 +710,19 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					
+					<p id="submitbutton">
+						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+					</p>
+
+				</div>
+			</div>
+		</div>
+					
+		<div id="poststuff" class="ui-sortable">
+			<div class="postbox closed" >
+				<h3 id="config_edit"><?php _e('Write options - Page', 'adminimize'); ?></h3>
+				<div class="inside">
 					<br class="clear" />
 					
 					<table summary="config_edit_page" class="widefat">
@@ -756,7 +773,7 @@ function _mw_adminimize_options() {
 					
 					<p id="submitbutton">
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
-						<input class="button" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 				</form>
 
@@ -778,7 +795,7 @@ function _mw_adminimize_options() {
 									<th class="num"><?php _e('User-ID') ?></th>
 									<th><?php _e('Username') ?></th>
 									<th><?php _e('Display name publicly as') ?></th>
-									<th><?php _e('Admin Color Scheme') ?></th>
+									<th><?php _e('Admin-Color Scheme') ?></th>
 									<th><?php _e('User Level') ?></th>
 									<th><?php _e('Role') ?></th>
 								</tr>
@@ -832,7 +849,7 @@ function _mw_adminimize_options() {
 						</table>
 						<p id="submitbutton">
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_set_theme" />
-							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Set Theme', 'adminimize'); ?> &raquo;" class="button" />
+							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Set Theme', 'adminimize'); ?> &raquo;" class="button button-primary" />
 						</p>
 					</form>
 
