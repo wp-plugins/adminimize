@@ -1,0 +1,20 @@
+#wphead {
+	position: fixed;
+	width: 100%;
+	z-index: 999;
+}
+
+#wpbody {
+	padding-top: 46px;
+}
+
+#small_user_info {
+	position: fixed;
+}
+
+
+#screen-meta {
+position: fixed;
+z-index: 999;
+right: 0;
+}

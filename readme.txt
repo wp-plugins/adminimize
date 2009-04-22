@@ -3,15 +3,17 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 2.7
+Tested up to: 2.8
 Stable tag: 0.5
 
-At first: Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
-At second. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. All is addicted from your rights, admin (user_level 10) or other roles.
+At first: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
+At second. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. All is addicted from your rights, and other roles, also roles from Plugin [Role Manager](http://www.im-web-gefunden.de/wordpress-plugins/role-manager/ "Role Manager").
 
 == Description ==
 Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. Compatible with WordPress 2.5 or later. 
-Configure all metaboxes and other areas in the write-area. The new theme move the Tags- and Categorys-box to the sidebar, switch off optional metaboxes and other areas in the write-area. Scoll automatocly to the Textbox, when you click the write-button. Many options for menu, submenu and all areas, metaboxes in the write-area, separated for admins (user_level 10) and other roles.
+Configure all metaboxes and other areas in the write-area. The new theme move the Tags- and Categorys-box to the sidebar, switch off optional metaboxes and other areas in the write-area. Scoll automatocly to the Textbox, when you click the write-button. Many options for menu, submenu and all areas, metaboxes in the write-area, separated for all roles in WordPress.
+
+With version 1.6.1 it is possible to add own options for hide areas in the backend of WordPress. It is easy and you must only forgive ID or class of the tag. Also it is possible to use a fixed menu and header.
 
 = Compatibility with the drop-down menu plugins =
 1. [Ozh Admin Drop Down Menu](http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/ "Admin Drop Down Menu for WordPress 2.5") by Ozh
@@ -78,9 +80,10 @@ Please use the `Deinstall-Funktion` in the option-area bevor update to version 1
 See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize").
 
 == Screenshots ==
-1. minimize header after activate
-1. configure-area for user
-1. configure-area for user/admin; options for metaboxes, areas in write-area and menu
+1. configure-area for user/admin; options for metaboxes, areas in write-area and menu in WordPress 2.7/2.8
+1. configure-area for user in WordPress 2.7/2.8
+1. minimize header after activate in WordPress 2.5
+1. configure-area for user in WordPress 2.5
 1. Adminimize Theme how in WordPress 2.3
 
 == Other Notes ==

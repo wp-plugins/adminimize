@@ -1,14 +1,13 @@
 <?php
-
 /*
 Plugin Name: Adminimize
 Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
-Description: Visually compresses the administratrive header so that more admin page content can be initially seen.  Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, with or without admins. You can also hide post meta controls on the edit-area to simplify the interface.
+Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.6
-Last Update: 07.12.2008 12:15:06
-*/ 
+Version: 1.6.1
+Last Update: 22.04.2009 17:20:46
+*/
 
 /**
  * The stylesheet and the initial idea is from Eric A. Meyer, http://meyerweb.com/
@@ -19,6 +18,17 @@ Last Update: 07.12.2008 12:15:06
  * - many thanks
  */
 
+
+global $wp_version;
+if ( !function_exists ('add_action') || version_compare($wp_version, "2.5dev", "<") ) {
+	if (function_exists ('add_action'))
+		$exit_msg = 'The plugin <em>Page Tags</em> requires WordPress 2.5 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update WordPress</a> or delete the plugin.';
+	else
+		$exit_msg = '';
+	header('Status: 403 Forbidden');
+	header('HTTP/1.1 403 Forbidden');
+	exit($exit_msg);
+}
 
 // Pre-2.6 compatibility
 if ( !defined( 'WP_CONTENT_URL' ) )
@@ -63,7 +73,7 @@ class _mw_adminimize_message_class {
 		$this->errors = new WP_Error();
 		$this->initialize_errors();
 	}
-	
+
 	/**
 	get_error - Returns an error message based on the passed code
 	Parameters - $code (the error code as a string)
@@ -76,7 +86,7 @@ class _mw_adminimize_message_class {
 		}
 		return $errorMessage;
 	}
-	
+
 	// Initializes all the error messages
 	function initialize_errors() {
 		$this->errors->add('_mw_adminimize_update', __('The updates was saved.', $this->localizionName));
@@ -90,43 +100,65 @@ class _mw_adminimize_message_class {
 
 
 /**
+ * get_all_user_roles() - Returns an array with all user roles(names) in it.
+ * Inclusive self defined roles (for example with the 'Role Manager' plugin).
+ * code by Vincent Weber, www.webRtistik.nl
+ * @uses $wp_roles                          *
+ */
+function get_all_user_roles(){
+	global $wp_roles;
+	
+	$user_roles = array();
+
+	foreach ($wp_roles->roles as $role => $data){
+		array_push($user_roles, $role);
+		//$data contains caps, maybe for later use..
+	}
+	
+	return $user_roles;
+}
+
+
+function _mw_adminimize_control_flashloader() {
+	$_mw_adminimize_control_flashloader = _mw_adminimize_getOptionValue('_mw_adminimize_control_flashloader');
+	
+	if ($_mw_adminimize_control_flashloader == '1') {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+/**
  * check user-option and add new style
  * @uses $pagenow
  */
 function _mw_adminimize_init() {
-	global $pagenow, $menu, $submenu, $adminimizeoptions, $top_menu, $wp_version;
+	global $pagenow, $menu, $submenu, $adminimizeoptions, $wp_version;
+	
+	$user_roles = get_all_user_roles();
 
 	$adminimizeoptions = get_option('mw_adminimize');
 
-	$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
-	$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
-	$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
-	$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
-	$disabled_metaboxes_post_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_author_items');
-	$disabled_metaboxes_page_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_author_items');
-	$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
-	$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
-	$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
-	$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
+	foreach ($user_roles as $role) {
+		$disabled_global_option_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_global_option_'. $role .'_items');
+		$disabled_metaboxes_post_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
+		$disabled_metaboxes_page_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_'. $role .'_items');
+	}
 
 	$disabled_metaboxes_post_all = array();
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_subscriber);
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_contributor);
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_author);
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post);
-	array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_adm);
+	$disabled_metaboxes_page_all = array(); //extra toegevoegd!!!
 
-	$disabled_metaboxes_page_all = array();
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_subscriber);
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_contributor);
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_author);
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page);
-	array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_adm);
-	
+	foreach ($user_roles as $role) {
+		array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_[$role]);
+		array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_[$role]);
+	}
+
 	$_mw_admin_color = get_user_option('admin_color');
 
 	if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) || ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
-	
+
 		$_mw_adminimize_writescroll = _mw_adminimize_getOptionValue('_mw_adminimize_writescroll');
 		switch ($_mw_adminimize_writescroll) {
 		case 1:
@@ -140,16 +172,17 @@ function _mw_adminimize_init() {
 			wp_enqueue_script('media-upload', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/js/tb_window.js', array('thickbox'));
 			break;
 		}
-	
+			
 		//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 	}
-
-	$_mw_adminimize_menu_order = _mw_adminimize_getOptionValue('_mw_adminimize_menu_order');
-	switch ($_mw_adminimize_menu_order) {
-	case 1:
-		add_action('admin_head', '_mw_adminimize_adminmenu', 1);
-	}
 	
+	$_mw_adminimize_control_flashloader = _mw_adminimize_getOptionValue('_mw_adminimize_control_flashloader');
+	switch ($_mw_adminimize_control_flashloader) {
+	case 1:
+		add_filter( 'flash_uploader', '_mw_adminimize_control_flashloader', 1 );
+		break;
+	}
+
 	if ( ($_mw_admin_color == 'mw_fresh') ||
 				($_mw_admin_color == 'mw_classic') ||
 				($_mw_admin_color == 'mw_colorblind') ||
@@ -160,16 +193,16 @@ function _mw_adminimize_init() {
 				($_mw_admin_color == 'mw_classic_lm') ||
 				($_mw_admin_color == 'mw_wp23')
 		 ) {
-		
+
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 			if ( version_compare( substr($wp_version, 0, 3), '2.7', '<' ) )
 				add_action('admin_head', '_mw_adminimize_remove_box', 99);
-			
+
 			// check for array empty
-			if ( !isset($disabled_metaboxes_post['0']) )
-				$disabled_metaboxes_post['0'] = '';
-			if ( isset($disabled_metaboxes_post_adm['0']) )
-			 $disabled_metaboxes_post_adm['0'] = '';
+			if ( !isset($disabled_metaboxes_post_['editor']['0']) )
+				$disabled_metaboxes_post_['editor']['0'] = '';
+			if ( isset($disabled_metaboxes_post_['administrator']['0']) )
+			 $disabled_metaboxes_post_['administrator']['0'] = '';
 			if ( version_compare(substr($wp_version, 0, 3), '2.7', '<') ) {
 				if ( !recursive_in_array('#categorydivsb', $disabled_metaboxes_post_all) )
 					add_action('submitpost_box', '_mw_adminimize_sidecat_list_category_box');
@@ -181,40 +214,31 @@ function _mw_adminimize_init() {
 		}
 
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
-			
+
 			// check for array empty
-			if ( !isset($disabled_metaboxes_page['0']) )
-				$disabled_metaboxes_page['0'] = '';
-			if ( isset($disabled_metaboxes_page_adm['0']) )
-			 $disabled_metaboxes_page_adm['0'] = '';
+			if ( !isset($disabled_metaboxes_page_['editor']['0']) )
+				$disabled_metaboxes_page_['editor']['0'] = '';
+			if ( isset($disabled_metaboxes_page_['administrator']['0']) )
+			 $disabled_metaboxes_page_['administrator']['0'] = '';
 			if ( recursive_in_array('media_buttons', $disabled_metaboxes_page_all) )
 				remove_action('media_buttons', 'media_buttons');
 		}
 
 	}
 
-	if ( ('post-new.php' == $pagenow) || ('page-new.php' == $pagenow) || ('page.php' == $pagenow) || ('post.php' == $pagenow) ) {
-		
-		// set user option in edit-area
-		add_action('admin_head', '_mw_adminimize_set_user_option_edit');
-	}	
-	
-	if ( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
-		wp_enqueue_script('_mw_adminimize', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/js/adminimize.js', array('jquery'));
-	}
-
 	// set menu option
 	add_action('admin_head', '_mw_adminimize_set_menu_option', 1);
-
+	
+	// global_options
+	add_action('admin_head', '_mw_adminimize_set_global_option', 1);
+	
 	// set metabox option
 	add_action('admin_head', '_mw_adminimize_set_metabox_option', 1);
 
 	add_action('in_admin_footer', '_mw_adminimize_admin_footer');
-	
+
 	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
-	if ( isset($top_menu) )
-		$adminimizeoptions['mw_adminimize_default_top_menu'] = $top_menu;
 }
 
 add_action('init', '_mw_adminimize_textdomain');
@@ -238,11 +262,11 @@ if ( function_exists('register_uninstall_hook') )
  * http://www.wp-fun.co.uk/
  * @param $value, $id, $size
  */
-function _mw_adminimize_image_downsize($value = false,$id = 0, $size = "medium") {
+function _mw_adminimize_image_downsize($value = false, $id = 0, $size = "medium") {
 
 	if ( !wp_attachment_is_image($id) )
 		return false;
-		
+
 	$img_url = wp_get_attachment_url($id);
 	// Mimic functionality in image_downsize function in wp-includes/media.php
 	if ( $intermediate = image_get_intermediate_size($id, $size) ) {
@@ -256,6 +280,7 @@ function _mw_adminimize_image_downsize($value = false,$id = 0, $size = "medium")
 	}
 	if ( $img_url)
 		return array($img_url, 0, 0);
+	
 	return false;
 }
 
@@ -326,7 +351,7 @@ function _mw_adminimize_sidecat_list_tag_box() {
  * @echo script
  */
 function _mw_adminimize_remove_box() {
-	
+
 	if ( function_exists('remove_meta_box') ) {
 		if ( !class_exists('SimpleTagsAdmin') )
 			remove_meta_box('tagsdiv', 'post', 'normal');
@@ -343,41 +368,22 @@ function _mw_adminimize_remove_box() {
 
 
 /**
- * reorder admin-menu
- * @uses $menu
- * @param $file
- */
-function _mw_adminimize_adminmenu($file) {
-	global $menu;
-	
-	$menu[7]  = $menu[5];
-	$menu[5]  = $menu[0];
-	$menu[32] = $menu[40];
-	$menu[40] = $menu[35];
-	$menu[35] = $menu[30];
-	$menu[30] = $menu[15];
-	unset($menu[0]);
-	unset($menu[15]);
-}
-
-
-/**
  * add new adminstyle to usersettings
  * @param $file
  */
 function _mw_adminimize_admin_styles($file) {
 	global $wp_version;
-	
+
 	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
-	if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
+	if ( version_compare( $wp_version, '2.7dev', '>' ) ) {
 		// MW Adminimize Classic
 		$styleName = 'Adminimize:' . ' ' . __('Blue');
 		wp_admin_css_color (
 			'mw_classic', $styleName, $_mw_adminimize_path . 'mw_classic27.css',
 			array('#073447', '#21759b', '#eaf3fa', '#bbd8e7')
 		);
-	
+
 		// MW Adminimize Fresh
 		$styleName = 'Adminimize:' . ' ' . __('Gray');
 		wp_admin_css_color (
@@ -385,6 +391,19 @@ function _mw_adminimize_admin_styles($file) {
 			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
 		);
 		
+		// MW Adminimize Classic
+		$styleName = 'Adminimize:' . ' Fixed ' . __('Blue');
+		wp_admin_css_color (
+			'mw_classic_fixed', $styleName, $_mw_adminimize_path . 'mw_classic28_fixed.css',
+			array('#073447', '#21759b', '#eaf3fa', '#bbd8e7')
+		);
+
+		// MW Adminimize Fresh
+		$styleName = 'Adminimize:' . ' Fixed ' . __('Gray');
+		wp_admin_css_color (
+			'mw_fresh_fixed', $styleName, $_mw_adminimize_path . 'mw_fresh28_fixed.css',
+			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
+		);
 	} else {
 		// MW Adminimize Classic
 		$styleName = 'MW Adminimize:' . ' ' . __('Classic');
@@ -392,7 +411,7 @@ function _mw_adminimize_admin_styles($file) {
 			'mw_classic', $styleName, $_mw_adminimize_path . 'mw_classic.css',
 			array('#07273E', '#14568A', '#D54E21', '#2683AE')
 		);
-	
+
 		// MW Adminimize Fresh
 		$styleName = 'MW Adminimize:' . ' ' . __('Fresh');
 		wp_admin_css_color (
@@ -406,14 +425,14 @@ function _mw_adminimize_admin_styles($file) {
 			'mw_wp23', $styleName, $_mw_adminimize_path . 'mw_wp23.css',
 			array('#000000', '#14568A', '#448ABD', '#83B4D8')
 		);
-	
+
 		// MW Adminimize Colorblind
 		$styleName = 'MW Adminimize:' . ' ' . __('Maybe i\'m colorblind');
 		wp_admin_css_color (
 			'mw_colorblind', $styleName, $_mw_adminimize_path . 'mw_colorblind.css',
 			array('#FF9419', '#F0720C', '#710001', '#550007', '#CF4529')
 		);
-	
+
 		// MW Adminimize Grey
 		$styleName = 'MW Adminimize:' . ' ' . __('Grey');
 		wp_admin_css_color (
@@ -427,44 +446,44 @@ function _mw_adminimize_admin_styles($file) {
 	 * http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/
 	 */
 	if ( function_exists('wp_ozh_adminmenu') ) {
-		
+
 		// MW Adminimize Classic include ozh adminmenu
 		$styleName = 'MW Adminimize inc. Admin Drop Down Menu' . ' ' . __('Classic');
 		wp_admin_css_color (
 			'mw_classic_ozh_am', $styleName, $_mw_adminimize_path . 'mw_classic_ozh_am.css',
 			array('#07273E', '#14568A', '#D54E21', '#2683AE')
 		);
-	
+
 		// MW Adminimize Fresh include ozh adminmenu
 		$styleName = 'MW Adminimize inc. Admin Drop Down Menu' . ' ' . __('Fresh');
 		wp_admin_css_color (
 			'mw_fresh_ozh_am', $styleName, $_mw_adminimize_path . 'mw_fresh_ozh_am.css',
 			array('#464646', '#CEE1EF', '#D54E21', '#2683AE')
 		);
-	
+
 	}
-	
+
 	/**
 	 * style and changes for plugin Lighter Menus
 	 * by corpodibacco
 	 * http://www.italyisfalling.com/lighter-menus
 	 */
 	if ( function_exists('lm_build') ) {
-		
+
 		// MW Adminimize Classic include Lighter Menus
 		$styleName = 'MW Adminimize inc. Lighter Menus' . ' ' . __('Classic');
 		wp_admin_css_color (
 			'mw_classic_lm', $styleName, $_mw_adminimize_path . 'mw_classic_lm.css',
 			array('#07273E', '#14568A', '#D54E21', '#2683AE')
 		);
-	
+
 		// MW Adminimize Fresh include Lighter Menus
 		$styleName = 'MW Adminimize inc. Lighter Menus' . ' ' . __('Fresh');
 		wp_admin_css_color (
 			'mw_fresh_lm', $styleName, $_mw_adminimize_path . 'mw_fresh_lm.css',
 			array('#464646', '#CEE1EF', '#D54E21', '#2683AE')
 		);
-	
+
 	}
 }
 
@@ -475,85 +494,45 @@ function _mw_adminimize_admin_styles($file) {
  * http://www.ilfilosofo.com/blog/2006/05/24/plugin-remove-the-wordpress-dashboard/
  */
 function _mw_adminimize_remove_dashboard() {
-	global $menu, $submenu, $user_ID, $top_menu;
+	global $menu, $submenu, $user_ID;
+	
+	$user_roles = get_all_user_roles();
 
-	$disabled_menu_subscriber      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
-	$disabled_submenu_subscriber   = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
-	$disabled_top_menu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_subscriber_items');
-	$disabled_menu_contributor     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_contributor_items');
-	$disabled_submenu_contributor  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_contributor_items');
-	$disabled_top_menu_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_contributor_items');
-	$disabled_menu_author          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_author_items');
-	$disabled_submenu_author       = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_author_items');
-	$disabled_top_menu_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_author_items');
-	$disabled_menu                 = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
-	$disabled_submenu              = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
-	$disabled_top_menu             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_items');
-	$disabled_menu_adm             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
-	$disabled_submenu_adm          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
-	$disabled_top_menu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_adm_items');
+	foreach ($user_roles as $role) {
+		$disabled_menu_[$role]     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_'. $role .'_items');
+		$disabled_submenu_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_'. $role .'_items');
+	}
 
-	$disabled_menu_all = array();
-	array_push($disabled_menu_all, $disabled_menu_subscriber);
-	array_push($disabled_menu_all, $disabled_menu_contributor);
-	array_push($disabled_menu_all, $disabled_menu_author);
-	array_push($disabled_menu_all, $disabled_menu);
-	array_push($disabled_menu_all, $disabled_menu_adm);
-	
-	$disabled_submenu_all = array();
-	array_push($disabled_submenu_all, $disabled_submenu_subscriber);
-	array_push($disabled_submenu_all, $disabled_submenu_contributor);
-	array_push($disabled_submenu_all, $disabled_submenu_author);
-	array_push($disabled_submenu_all, $disabled_submenu);
-	array_push($disabled_submenu_all, $disabled_submenu_adm);
-	
-	$disabled_top_menu_all = array();
-	array_push($disabled_top_menu_all, $disabled_top_menu_subscriber);
-	array_push($disabled_top_menu_all, $disabled_top_menu_contributor);
-	array_push($disabled_top_menu_all, $disabled_top_menu_author);
-	array_push($disabled_top_menu_all, $disabled_top_menu);
-	array_push($disabled_top_menu_all, $disabled_top_menu_adm);
-	
+	$disabled_menu_all     = array();
+	$disabled_submenu_all  = array();
+
+	foreach ($user_roles as $role) {
+		array_push($disabled_menu_all, $disabled_menu_[$role]);
+		array_push($disabled_submenu_all, $disabled_submenu_[$role]);
+	}
+
 	// remove dashboard
-	if ($disabled_menu_all != '' || $disabled_submenu_all  != '' || $disabled_top_menu_all != '') {
+	if ( $disabled_menu_all != '' || $disabled_submenu_all  != '' ) {
 
-		if ( current_user_can('subscriber') ) {
-			if (
-					recursive_in_array('index.php', $disabled_menu_subscriber) ||
-					recursive_in_array('index.php', $disabled_submenu_subscriber) ||
-					recursive_in_array('index.php', $disabled_top_menu_subscriber) 
-				 )
-				 $redirect = 'true';
-		} elseif ( current_user_can('contributor') ) {  
-			if (
-					recursive_in_array('index.php', $disabled_menu_contributor) ||
-					recursive_in_array('index.php', $disabled_submenu_contributor) ||
-					recursive_in_array('index.php', $disabled_top_menu_contributor) 
-				 )
-				 $redirect = 'true';
-		} elseif ( current_user_can('author') ) {  
-			if (
-					recursive_in_array('index.php', $disabled_menu_author) ||
-					recursive_in_array('index.php', $disabled_submenu_author) ||
-					recursive_in_array('index.php', $disabled_top_menu_author) 
-				 )
-				 $redirect = 'true';
-		} elseif ( current_user_can('editor') ) {  
-			if (
-					recursive_in_array('index.php', $disabled_menu) ||
-					recursive_in_array('index.php', $disabled_submenu) ||
-					recursive_in_array('index.php', $disabled_top_menu) 
-				 )
-				 $redirect = 'true';
-		} elseif ( current_user_can('administrator') ) {  
-			if (
-					recursive_in_array('index.php', $disabled_menu_adm) ||
-					recursive_in_array('index.php', $disabled_submenu_adm) ||
-					recursive_in_array('index.php', $disabled_top_menu_adm) 
-				 )
-				 $redirect = 'true';
+		$i = 0;
+		foreach ($user_roles as $role) {
+
+			if ( current_user_can($role) && $i == 0 ) {
+				if (
+						recursive_in_array('index.php', $disabled_menu_[$role]) ||
+						recursive_in_array('index.php', $disabled_submenu_[$role])
+					 )
+					 $redirect = 'true';
+			} elseif ( current_user_can($role) ) {
+				if (
+						recursive_in_array('index.php', $disabled_menu_[$role]) ||
+						recursive_in_array('index.php', $disabled_submenu_[$role])
+					 )
+					$redirect = 'true';
+			}
+		$i++;
 		}
-		
+
 		if ( $redirect == 'true' ) {
 			$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect');
 			switch ($_mw_adminimize_db_redirect) {
@@ -582,17 +561,17 @@ function _mw_adminimize_remove_dashboard() {
 
 			$the_user = new WP_User($user_ID);
 			reset($menu); $page = key($menu);
-			
+
 			while ( (__('Dashboard') != $menu[$page][0]) && next($menu) || (__('Dashboard') != $menu[$page][1]) && next($menu) )
 				$page = key($menu);
-				
+
 			if (__('Dashboard') == $menu[$page][0] || __('Dashboard') == $menu[$page][1])
 				unset($menu[$page]);
 			reset($menu); $page = key($menu);
-			
+
 			while ( !$the_user->has_cap($menu[$page][1]) && next($menu) )
 				$page = key($menu);
-				
+
 			if ( preg_match('#wp-admin/?(index.php)?$#', $_SERVER['REQUEST_URI']) ) {
 				if ( function_exists('admin_url') ) {
 					wp_redirect( admin_url($_mw_adminimize_db_redirect) );
@@ -614,85 +593,22 @@ function _mw_adminimize_disable_flash_uploader() {
 
 
 /**
- * set user options from database in edit-area
- */
-function _mw_adminimize_set_user_option_edit() {
-	
-	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
-	
-	$_mw_adminimize_sidecat_admin_head = '';
-	$_mw_adminimize_sidebar_wight = _mw_adminimize_getOptionValue('_mw_adminimize_sidebar_wight');
-	switch ($_mw_adminimize_sidebar_wight) {
-	case 300:
-		$_mw_adminimize_sidecat_admin_head .= '<link rel="stylesheet" href="' . "\n";
-		$_mw_adminimize_sidecat_admin_head .= $_mw_adminimize_path . 'mw_300_sidebar.css';
-		$_mw_adminimize_sidecat_admin_head .= '" type="text/css" media="all" />' . "\n";
-		break;
-	case 400:
-		$_mw_adminimize_sidecat_admin_head .= '<link rel="stylesheet" href="' . "\n";
-		$_mw_adminimize_sidecat_admin_head .= $_mw_adminimize_path . 'mw_400_sidebar.css';
-		$_mw_adminimize_sidecat_admin_head .= '" type="text/css" media="all" />' . "\n";
-		break;
-	case 20:
-		$_mw_adminimize_sidecat_admin_head .= '<link rel="stylesheet" href="' . "\n";
-		$_mw_adminimize_sidecat_admin_head .= $_mw_adminimize_path . 'mw_20p_sidebar.css';
-		$_mw_adminimize_sidecat_admin_head .= '" type="text/css" media="all" />' . "\n";
-		break;
-	case 30:
-		$_mw_adminimize_sidecat_admin_head .= '<link rel="stylesheet" href="' . "\n";
-		$_mw_adminimize_sidecat_admin_head .= $_mw_adminimize_path . 'mw_30p_sidebar.css';
-		$_mw_adminimize_sidecat_admin_head .= '" type="text/css" media="all" />' . "\n";
-		break;
-	}
-
-	print($_mw_adminimize_sidecat_admin_head);
-}
-
-
-/**
  * set menu options from database
  */
 function _mw_adminimize_set_menu_option() {
-	global $pagenow, $menu, $submenu, $user_identity, $top_menu, $wp_version;
+	global $pagenow, $menu, $submenu, $user_identity, $wp_version;
 	
-	$disabled_menu_subscriber      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_subscriber_items');
-	$disabled_submenu_subscriber   = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_subscriber_items');
-	$disabled_top_menu_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_subscriber_items');
-	$disabled_menu_contributor     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_contributor_items');
-	$disabled_submenu_contributor  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_contributor_items');
-	$disabled_top_menu_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_contributor_items');
-	$disabled_menu_author          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_author_items');
-	$disabled_submenu_author       = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_author_items');
-	$disabled_top_menu_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_author_items');
-	$disabled_menu                 = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_items');
-	$disabled_submenu              = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_items');
-	$disabled_top_menu             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_items');
-	$disabled_menu_adm             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_adm_items');
-	$disabled_submenu_adm          = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_adm_items');
-	$disabled_top_menu_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_top_menu_adm_items');
-	
+	$user_roles = get_all_user_roles();
+
+	foreach ($user_roles as $role) {
+		$disabled_menu_[$role]     = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_'. $role .'_items');
+		$disabled_submenu_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_'. $role .'_items');
+	}
+
 	$_mw_adminimize_admin_head       = "\n";
-	$_mw_adminimize_favorite_actions = _mw_adminimize_getOptionValue('_mw_adminimize_favorite_actions');
-	$_mw_adminimize_screen_options   = _mw_adminimize_getOptionValue('_mw_adminimize_screen_options');
 	$_mw_adminimize_user_info        = _mw_adminimize_getOptionValue('_mw_adminimize_user_info');
 	$_mw_adminimize_ui_redirect      = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect');
 
-	switch ($_mw_adminimize_favorite_actions) {
-	case 1:
-		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
-		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#favorite-actions\').remove(); });' . "\n";
-		$_mw_adminimize_admin_head .= '</script>' . "\n";
-		break;
-	}
-	
-	switch ($_mw_adminimize_screen_options) {
-	case 1:
-		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
-		$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#screen-options\').remove(); });' . "\n";
-		$_mw_adminimize_admin_head .= '</script>' . "\n";
-		break;
-	}	
-	
 	switch ($_mw_adminimize_user_info) {
 	case 1:
 		$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
@@ -758,64 +674,75 @@ function _mw_adminimize_set_menu_option() {
 		break;
 	}
 
-	$_mw_adminimize_admin_head .= '<script type="text/javascript">
-	/* <![CDATA[ */
-	adminimizeL10n = {
-		all: "' . __('All', 'adminimize') . '", none: "' . __('None', 'adminimize') . '"
-	}
-	/* ]]> */
-	</script>';
-
 	// set menu
-	if ($disabled_menu != '') {
-	
+	if ($disabled_menu_['editor'] != '') {//changed!!!
+
 		// set admin-menu
-		if ( current_user_can('administrator') ) {
-			$mw_adminimize_menu     = $disabled_menu_adm;
-			$mw_adminimize_submenu  = $disabled_submenu_adm;
-			$mw_adminimize_top_menu = $disabled_top_menu_adm;
-		} elseif ( current_user_can('editor') ) {  
-			$mw_adminimize_menu     = $disabled_menu;
-			$mw_adminimize_submenu  = $disabled_submenu;
-			$mw_adminimize_top_menu = $disabled_top_menu;
-		} elseif ( current_user_can('author') ) {  
-			$mw_adminimize_menu     = $disabled_menu_author;
-			$mw_adminimize_submenu  = $disabled_submenu_author;
-			$mw_adminimize_top_menu = $disabled_top_menu_author;
-		} elseif ( current_user_can('contributor') ) {  
-			$mw_adminimize_menu     = $disabled_menu_contributor;
-			$mw_adminimize_submenu  = $disabled_submenu_contributor;
-			$mw_adminimize_top_menu = $disabled_top_menu_contributor;
-		} elseif ( current_user_can('subscriber') ) {  
-			$mw_adminimize_menu     = $disabled_menu_subscriber;
-			$mw_adminimize_submenu  = $disabled_submenu_subscriber;
-			$mw_adminimize_top_menu = $disabled_top_menu_subscriber;
+		foreach ($user_roles as $role) {
+
+			if($role == $role[0]){
+				if ( current_user_can($role) ) {
+					$mw_adminimize_menu     = $disabled_menu_[$role];
+					$mw_adminimize_submenu  = $disabled_submenu_[$role];
+				}
+			} elseif ( current_user_can($role) ) {
+					$mw_adminimize_menu     = $disabled_menu_[$role];
+					$mw_adminimize_submenu  = $disabled_submenu_[$role];
+			}
 		}
 		
 		foreach ($menu as $index => $item) {
 			if ($item == 'index.php')
 				continue;
-		
+
 			if ( isset($mw_adminimize_menu) && in_array($item[2], $mw_adminimize_menu) )
 				unset($menu[$index]);
-		
+
 			if ( isset($submenu) && !empty($submenu[$item[2]]) ) {
 				foreach ($submenu[$item[2]] as $subindex => $subitem) {
 					if ( isset($mw_adminimize_submenu) && in_array($subitem[2], $mw_adminimize_submenu))
 						unset($submenu[$item[2]][$subindex]);
 				}
 			}
-			
-			//top_menu, new in 2.7
-			if ( isset($top_menu) && !empty($top_menu[$item[2]]) ) {
-				foreach ($top_menu[$item[2]] as $subindex => $subitem) {
-					if ( isset($mw_adminimize_top_menu) && in_array($subitem[2], $mw_adminimize_top_menu))
-						unset($top_menu[$item[2]][$subindex]);
-				}
-			}
 		}
-				
+
 	}
+
+	print($_mw_adminimize_admin_head);
+}
+
+
+/**
+ * set metabox options from database
+ */
+function _mw_adminimize_set_global_option() {
+	
+	$user_roles = get_all_user_roles();
+
+	$_mw_adminimize_admin_head = "\n";
+
+	remove_action('admin_head', 'index_js');
+
+	foreach ($user_roles as $role) {
+		$disabled_global_option_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_global_option_'. $role .'_items');
+	}
+
+	foreach ($user_roles as $role) {
+		if ( !isset($disabled_global_option_[$role]['0']) )
+			$disabled_global_option_[$role]['0'] = '';
+	}
+
+	foreach ($user_roles as $role) {
+		if ($role == $role[0]) {
+			if ( current_user_can($role) ) {
+				 $global_options = implode(', ', $disabled_global_option_[$role]);
+			}
+		} elseif ( current_user_can($role) ) {
+			$global_options = implode(', ', $disabled_global_option_[$role]);
+		}
+	}
+
+	$_mw_adminimize_admin_head .= '<style type="text/css">' . $global_options . ' {display: none !important}</style>' . "\n";
 	
 	print($_mw_adminimize_admin_head);
 }
@@ -827,84 +754,62 @@ function _mw_adminimize_set_menu_option() {
 function _mw_adminimize_set_metabox_option() {
 	global $pagenow;
 	
+	$user_roles = get_all_user_roles();
+
 	$_mw_adminimize_admin_head = "\n";
-	
+
 	// post
 	if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
 
-		$disabled_metaboxes_post_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_subscriber_items');
-		$disabled_metaboxes_post_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_contributor_items');
-		$disabled_metaboxes_post_author      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_author_items');
-		$disabled_metaboxes_post             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_items');
-		$disabled_metaboxes_post_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_adm_items');
-		
-		if ( !isset($disabled_metaboxes_post_adm['0']) )
-			$disabled_metaboxes_post_adm['0'] = '';
-		if ( !isset($disabled_metaboxes_post['0']) )
-			$disabled_metaboxes_post['0'] = '';
-		if ( !isset($disabled_metaboxes_post_author['0']) )
-			$disabled_metaboxes_post_author['0'] = '';
-		if ( !isset($disabled_metaboxes_post_contributor['0']) )
-			$disabled_metaboxes_post_contributor['0'] = '';
-		if ( !isset($disabled_metaboxes_post_subscriber['0']) )
-			$disabled_metaboxes_post_subscriber['0'] = '';
-		if ( current_user_can('administrator') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_post_adm); // for admins
-		} elseif ( current_user_can('editor') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_post); // editor
-		} elseif ( current_user_can('author') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_post_author); // author
-		} elseif ( current_user_can('contributor') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_post_contributor); // contributor
-		} elseif ( current_user_can('subscriber') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_post_subscriber); // subscriber
+		foreach ($user_roles as $role) {
+			$disabled_metaboxes_post_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
 		}
-		
+
+		foreach ($user_roles as $role) {
+			if ( !isset($disabled_metaboxes_post_[$role]['0']) )
+				$disabled_metaboxes_post_[$role]['0'] = '';
+		}
+
+		foreach ($user_roles as $role) {
+			if($role == $role[0]){
+				if ( current_user_can($role) ) {
+					 $metaboxes = implode(',', $disabled_metaboxes_post_[$role]);
+				}
+			} elseif ( current_user_can($role) ) {
+				$metaboxes = implode(',', $disabled_metaboxes_post_[$role]);
+			}
+		}
+
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
 	}
-	
+
 	// page
 	if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 		remove_action('admin_head', 'index_js');
-		
-		$disabled_metaboxes_page_subscriber  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_subscriber_items');
-		$disabled_metaboxes_page_contributor = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_contributor_items');
-		$disabled_metaboxes_page_editor      = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_editor_items');
-		$disabled_metaboxes_page             = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_items');
-		$disabled_metaboxes_page_adm         = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_adm_items');
-		
-		if ( !isset($disabled_metaboxes_page_subscriber['0']) )
-			$disabled_metaboxes_page_subscriber['0'] = '';
-		if ( !isset($disabled_metaboxes_page_contributor['0']) )
-			$disabled_metaboxes_page_contributor['0'] = '';
-		if ( !isset($disabled_metaboxes_page_author['0']) )
-			$disabled_metaboxes_page_author['0'] = '';
-		if ( !isset($disabled_metaboxes_page['0']) )
-			$disabled_metaboxes_page['0'] = '';
-		if ( !isset($disabled_metaboxes_page_adm['0']) )
-			$disabled_metaboxes_page_adm['0'] = '';
 
-		if ( current_user_can('administrator') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_page_adm); // admin
-		} elseif ( current_user_can('editor') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_page); // editor
-		} elseif ( current_user_can('author') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_page_author); // author
-		} elseif ( current_user_can('contributor') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_page_contributor); // contributor
-		} elseif ( current_user_can('subscriber') ) {
-			$metaboxes = implode(',', $disabled_metaboxes_page_subscriber); // subscriber
+		foreach ($user_roles as $role) {
+			$disabled_metaboxes_page_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_'. $role .'_items');
 		}
-	
+
+		foreach ($user_roles as $role) {
+			if ( !isset($disabled_metaboxes_page_[$role]['0']) )
+				$disabled_metaboxes_page_[$role]['0'] = '';
+		}
+
+		foreach ($user_roles as $role) {
+			if($role == $role[0]){
+				if ( current_user_can($role) ) {
+					 $metaboxes = implode(',', $disabled_metaboxes_page_[$role]);
+				}
+			} elseif ( current_user_can($role) ) {
+				$metaboxes = implode(',', $disabled_metaboxes_page_[$role]);
+			}
+		}
+
 		$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
 	}
-	
-	// hide colorscheme
-	if ( ('profile.php' == $pagenow) && (_mw_adminimize_getOptionValue('mw_adminimize_disabled_colorscheme') == '1') ) {
-		$_mw_adminimize_admin_head .= '<style type="text/css">#your-profile .form-table fieldset {display: none !important}</style>' . "\n";
-	}
-	
+
 	print($_mw_adminimize_admin_head);
 }
 
@@ -936,7 +841,7 @@ function _mw_adminimize_admin_footer() {
 	$plugin_data['Title'] = $plugin_data['Name'];
 	if ( !empty($plugin_data['PluginURI']) && !empty($plugin_data['Name']) )
 		$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="'.__( 'Visit plugin homepage' ).'">' . $plugin_data['Name'] . '</a>';
-	
+
 	if ( basename($_SERVER['REQUEST_URI']) == 'adminimize.php') {
 		printf('%1$s ' . __('plugin') . ' | ' . __('Version') . ' <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie" title="' . __('History', 'adminimize') . '">%2$s</a> | ' . __('Author') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
 	}
@@ -975,7 +880,7 @@ if( isset($_GET['resource']) && !empty($_GET['resource'])) {
 		'H5BAEAAAQALAAAAAALAAsAAAMlSErTuw1Ix4a8s4mYgxZbE4wf'.
 		'OIzkAJqop64nWm7tULHu0+xLAgA7'.
 		'');
-	
+
 	if(array_key_exists($_GET['resource'], $resources)) {
 
 		$content = base64_decode($resources[ $_GET['resource'] ]);
@@ -1004,8 +909,20 @@ if( isset($_GET['resource']) && !empty($_GET['resource'])) {
  * @return $resourceID
  */
 function _mw_adminimize_get_resource_url($resourceID) {
-	
+
 	return trailingslashit( get_bloginfo('url') ) . '?resource=' . $resourceID;
+}
+
+
+/**
+ * content of help
+ *
+ * @package Secure WordPress
+ */
+function _mw_adminimize_contextual_help() {
+	
+	$content = __('<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', 'adminimize');
+	return $content;
 }
 
 
@@ -1016,7 +933,7 @@ function _mw_adminimize_add_settings_page() {
 	global $wp_version;
 
 	if( current_user_can('switch_themes') && function_exists('add_submenu_page') ) {
-		
+
 		$menutitle = '';
 		if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
 			$menutitle = '<img src="' . _mw_adminimize_get_resource_url('adminimize.gif') . '" alt="" />';
@@ -1024,7 +941,9 @@ function _mw_adminimize_add_settings_page() {
 		$menutitle .= ' ' . __('Adminimize', 'adminimize');
 
 		add_submenu_page('options-general.php', __('Adminimize Options', 'adminimize'), $menutitle, 8, __FILE__, '_mw_adminimize_options');
-		add_filter('plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2);
+		//add_contextual_help( $hook, __('<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', 'secure_wp') );
+		add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
+		add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2 );
 	}
 }
 
@@ -1064,259 +983,159 @@ function _mw_adminimize_getOptionValue($key) {
  */
 function _mw_adminimize_update() {
 	global $menu, $submenu, $adminimizeoptions;
+  $user_roles = get_all_user_roles();
 
-	if (isset($_POST['_mw_adminimize_favorite_actions'])) {
-		$adminimizeoptions['_mw_adminimize_favorite_actions'] = strip_tags(stripslashes($_POST['_mw_adminimize_favorite_actions']));
-	} else {
-		$adminimizeoptions['_mw_adminimize_favorite_actions'] = 0;
-	}
-	
-	if (isset($_POST['_mw_adminimize_screen_options'])) {
-		$adminimizeoptions['_mw_adminimize_screen_options'] = strip_tags(stripslashes($_POST['_mw_adminimize_screen_options']));
-	} else {
-		$adminimizeoptions['_mw_adminimize_screen_options'] = 0;
-	}
-
-	if (isset($_POST['_mw_adminimize_menu_order'])) {
-		$adminimizeoptions['_mw_adminimize_menu_order'] = strip_tags(stripslashes($_POST['_mw_adminimize_menu_order']));
-	} else {
-		$adminimizeoptions['_mw_adminimize_menu_order'] = 0;
-	}
-	
 	if (isset($_POST['_mw_adminimize_user_info'])) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes($_POST['_mw_adminimize_user_info']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_user_info'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_dashmenu'])) {
 		$adminimizeoptions['_mw_adminimize_dashmenu'] = strip_tags(stripslashes($_POST['_mw_adminimize_dashmenu']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_dashmenu'] = 0;
 	}
-	
-	if (isset($_POST['_mw_adminimize_sidebar_wight'])) {
-		$adminimizeoptions['_mw_adminimize_sidebar_wight'] = strip_tags(stripslashes($_POST['_mw_adminimize_sidebar_wight']));
-	} else {
-		$adminimizeoptions['_mw_adminimize_sidebar_wight'] = 0;
-	}
-	
+
 	if (isset($_POST['_mw_adminimize_footer'])) {
 		$adminimizeoptions['_mw_adminimize_footer'] = strip_tags(stripslashes($_POST['_mw_adminimize_footer']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_footer'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_writescroll'])) {
 		$adminimizeoptions['_mw_adminimize_writescroll'] = strip_tags(stripslashes($_POST['_mw_adminimize_writescroll']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_writescroll'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_tb_window'])) {
 		$adminimizeoptions['_mw_adminimize_tb_window'] = strip_tags(stripslashes($_POST['_mw_adminimize_tb_window']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_tb_window'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_db_redirect'])) {
 		$adminimizeoptions['_mw_adminimize_db_redirect'] = strip_tags(stripslashes($_POST['_mw_adminimize_db_redirect']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_db_redirect'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_ui_redirect'])) {
 		$adminimizeoptions['_mw_adminimize_ui_redirect'] = strip_tags(stripslashes($_POST['_mw_adminimize_ui_redirect']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_ui_redirect'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_advice'])) {
 		$adminimizeoptions['_mw_adminimize_advice'] = strip_tags(stripslashes($_POST['_mw_adminimize_advice']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_advice'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_advice_txt'])) {
 		$adminimizeoptions['_mw_adminimize_advice_txt'] = stripslashes($_POST['_mw_adminimize_advice_txt']);
 	} else {
 		$adminimizeoptions['_mw_adminimize_advice_txt'] = 0;
 	}
-	
+
 	if (isset($_POST['_mw_adminimize_timestamp'])) {
 		$adminimizeoptions['_mw_adminimize_timestamp'] = strip_tags(stripslashes($_POST['_mw_adminimize_timestamp']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_timestamp'] = 0;
 	}
 	
+	if (isset($_POST['_mw_adminimize_control_flashloader'])) {
+		$adminimizeoptions['_mw_adminimize_control_flashloader'] = strip_tags(stripslashes($_POST['_mw_adminimize_control_flashloader']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_control_flashloader'] = 0;
+	}
+
 	if (isset($_POST['_mw_adminimize_db_redirect_txt'])) {
 		$adminimizeoptions['_mw_adminimize_db_redirect_txt'] = stripslashes($_POST['_mw_adminimize_db_redirect_txt']);
 	} else {
 		$adminimizeoptions['_mw_adminimize_db_redirect_txt'] = 0;
 	}
-	
+
 	// menu update
-	if (isset($_POST['mw_adminimize_disabled_menu_subscriber_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_menu_subscriber_items'] = $_POST['mw_adminimize_disabled_menu_subscriber_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_menu_subscriber_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_submenu_subscriber_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_subscriber_items'] = $_POST['mw_adminimize_disabled_submenu_subscriber_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_subscriber_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_top_menu_subscriber_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_subscriber_items'] = $_POST['mw_adminimize_disabled_top_menu_subscriber_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_subscriber_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_menu_contributor_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_menu_contributor_items'] = $_POST['mw_adminimize_disabled_menu_contributor_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_menu_contributor_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_submenu_contributor_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_contributor_items'] = $_POST['mw_adminimize_disabled_submenu_contributor_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_contributor_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_top_menu_contributor_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_contributor_items'] = $_POST['mw_adminimize_disabled_top_menu_contributor_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_contributor_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_menu_author_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_menu_author_items'] = $_POST['mw_adminimize_disabled_menu_author_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_menu_author_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_submenu_author_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_author_items'] = $_POST['mw_adminimize_disabled_submenu_author_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_author_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_top_menu_author_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_author_items'] = $_POST['mw_adminimize_disabled_top_menu_author_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_author_items'] = array();
+	foreach ($user_roles as $role) {
+		if (isset($_POST['mw_adminimize_disabled_menu_'. $role .'_items'])) {
+			$adminimizeoptions['mw_adminimize_disabled_menu_'. $role .'_items']  = $_POST['mw_adminimize_disabled_menu_'. $role .'_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_menu_'. $role .'_items'] = array();
+		}
+
+		if (isset($_POST['mw_adminimize_disabled_submenu_'. $role .'_items'])) {
+			$adminimizeoptions['mw_adminimize_disabled_submenu_'. $role .'_items']  = $_POST['mw_adminimize_disabled_submenu_'. $role .'_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_submenu_'. $role .'_items'] = array();
+		}
 	}
 
-	if (isset($_POST['mw_adminimize_disabled_menu_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_menu_items'] = $_POST['mw_adminimize_disabled_menu_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_menu_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_submenu_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = $_POST['mw_adminimize_disabled_submenu_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_top_menu_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_items'] = $_POST['mw_adminimize_disabled_top_menu_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_items'] = array();
-	}
+	// global_options, metaboxes update
+	foreach ($user_roles as $role) {
+		if (isset($_POST['mw_adminimize_disabled_global_option_'. $role . '_items'])) {
+			$adminimizeoptions['mw_adminimize_disabled_global_option_'. $role . '_items']  = $_POST['mw_adminimize_disabled_global_option_'. $role . '_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_global_option_'. $role . '_items'] = array();
+		}
+		
+		if (isset($_POST['mw_adminimize_disabled_metaboxes_post_'. $role . '_items'])) {
+			$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_'. $role . '_items']  = $_POST['mw_adminimize_disabled_metaboxes_post_'. $role . '_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_'. $role . '_items'] = array();
+		}
 
-	if (isset($_POST['mw_adminimize_disabled_menu_adm_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_menu_adm_items'] = $_POST['mw_adminimize_disabled_menu_adm_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_menu_adm_items'] = array();
+		if (isset($_POST['mw_adminimize_disabled_metaboxes_page_'. $role . '_items'])) {
+			$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_'. $role . '_items']  = $_POST['mw_adminimize_disabled_metaboxes_page_'. $role . '_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_'. $role . '_items'] = array();
+		}
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_submenu_adm_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = $_POST['mw_adminimize_disabled_submenu_adm_items'];
+	// own options
+	if (isset($_POST['_mw_adminimize_own_values'])) {
+		$adminimizeoptions['_mw_adminimize_own_values'] = stripslashes($_POST['_mw_adminimize_own_values']);
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = array();
+		$adminimizeoptions['_mw_adminimize_own_values'] = 0;
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_top_menu_adm_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_adm_items'] = $_POST['mw_adminimize_disabled_top_menu_adm_items'];
+	if (isset($_POST['_mw_adminimize_own_options'])) {
+		$adminimizeoptions['_mw_adminimize_own_options'] = stripslashes($_POST['_mw_adminimize_own_options']);
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_top_menu_adm_items'] = array();
+		$adminimizeoptions['_mw_adminimize_own_options'] = 0;
 	}
 	
-	// metaboxes update
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_adm_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_adm_items'];
+	// own post options
+	if (isset($_POST['_mw_adminimize_own_post_values'])) {
+		$adminimizeoptions['_mw_adminimize_own_post_values'] = stripslashes($_POST['_mw_adminimize_own_post_values']);
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
+		$adminimizeoptions['_mw_adminimize_own_post_values'] = 0;
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_adm_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_adm_items'];
+	if (isset($_POST['_mw_adminimize_own_post_options'])) {
+		$adminimizeoptions['_mw_adminimize_own_post_options'] = stripslashes($_POST['_mw_adminimize_own_post_options']);
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
+		$adminimizeoptions['_mw_adminimize_own_post_options'] = 0;
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_items'];
+	// own page options
+	if (isset($_POST['_mw_adminimize_own_page_values'])) {
+		$adminimizeoptions['_mw_adminimize_own_page_values'] = stripslashes($_POST['_mw_adminimize_own_page_values']);
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
+		$adminimizeoptions['_mw_adminimize_own_page_values'] = 0;
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_items'];
+	if (isset($_POST['_mw_adminimize_own_page_options'])) {
+		$adminimizeoptions['_mw_adminimize_own_page_options'] = stripslashes($_POST['_mw_adminimize_own_page_options']);
 	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
+		$adminimizeoptions['_mw_adminimize_own_page_options'] = 0;
 	}
 	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_author_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_author_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_author_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_author_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_contributor_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_contributor_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_contributor_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_contributor_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_post_subscriber_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_subscriber_items'] = $_POST['mw_adminimize_disabled_metaboxes_post_subscriber_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_subscriber_items'] = array();
-	}
-	
-	if (isset($_POST['mw_adminimize_disabled_metaboxes_page_subscriber_items'])) {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = $_POST['mw_adminimize_disabled_metaboxes_page_subscriber_items'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = array();
-	}
-	
-	// color scheme
-	if (isset($_POST['mw_adminimize_disabled_colorscheme'])) {
-		$adminimizeoptions['mw_adminimize_disabled_colorscheme'] = $_POST['mw_adminimize_disabled_colorscheme'];
-	} else {
-		$adminimizeoptions['mw_adminimize_disabled_colorscheme'] = array();
-	}
-	
+	// update
 	update_option('mw_adminimize', $adminimizeoptions);
 	$adminimizeoptions = get_option('mw_adminimize');
-	
+
 	$myErrors = new _mw_adminimize_message_class();
 	$myErrors = '<div id="message" class="updated fade"><p>' . $myErrors->get_error('_mw_adminimize_update') . '</p></div>';
 	echo $myErrors;
@@ -1336,42 +1155,22 @@ function _mw_adminimize_deinstall() {
  * Install options in database
  */
 function _mw_adminimize_install() {
-	global $menu, $submenu, $top_menu;
-
+	global $menu, $submenu;
+	
+	$user_roles = get_all_user_roles();
 	$adminimizeoptions = array();
-	
-	$adminimizeoptions['mw_adminimize_disabled_menu_subscriber_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_submenu_subscriber_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_top_menu_subscriber_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_menu_contributor_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_submenu_contributor_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_top_menu_contributor_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_menu_author_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_submenu_author_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_top_menu_author_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_menu_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_submenu_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_top_menu_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_menu_adm_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_submenu_adm_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_top_menu_adm_items'] = array();
-	
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_subscriber_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_subscriber_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_contributor_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_contributor_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_author_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_author_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_adm_items'] = array();
-	$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_adm_items'] = array();
-	
+
+	foreach ($user_roles as $role) {
+		$adminimizeoptions['mw_adminimize_disabled_menu_'. $role .'_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_submenu_'. $role .'_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_global_option_'. $role .'_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_'. $role .'_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_'. $role .'_items'] = array();
+	}
+
 	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
-	if ( isset($top_menu) )
-		$adminimizeoptions['mw_adminimize_default_top_menu'] = $top_menu;
-	
+
 	add_option('mw_adminimize', $adminimizeoptions);
 }
 ?>
