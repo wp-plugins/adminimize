@@ -60,6 +60,8 @@ The plugin changes the administration backend and gives you the power to assign 
 1. all menu and sub menu points can be completely deactivated for admins and non-admins
 1. most of these changes are only loaded when needed - i.e. only in the write screen
 1. set a backend-theme for difficult user
+1. you can set an role to view the areas on link page, edit post, edit page and global
+1. you can add own options for set rights to role
 1. ... many more
 
 == Installation ==

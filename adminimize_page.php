@@ -66,12 +66,12 @@ function _mw_adminimize_options() {
 	}
 ?>
 	<div class="wrap">
-		<h2><?php _e('Adminimize', 'adminimize'); ?></h2>
+		<h2><?php _e('Adminimize', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h2>
 		<br class="clear" />
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle"><?php _e('Backend Options', 'adminimize'); ?></h3>
+				<h3 class="hndle"><?php _e('Backend Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 
 				<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
@@ -80,87 +80,87 @@ function _mw_adminimize_options() {
 					<table summary="config" class="widefat">
 						<tbody>
 							<tr valign="top">
-								<td><?php _e('User-Info', 'adminimize'); ?></td>
+								<td><?php _e('User-Info', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_user_info = _mw_adminimize_getOptionValue('_mw_adminimize_user_info'); ?>
 									<select name="_mw_adminimize_user_info">
-										<option value="0"<?php if ($_mw_adminimize_user_info == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', 'adminimize'); ?></option>
-										<option value="2"<?php if ($_mw_adminimize_user_info == '2') { echo ' selected="selected"'; } ?>><?php _e('Only logout', 'adminimize'); ?></option>
-										<option value="3"<?php if ($_mw_adminimize_user_info == '3') { echo ' selected="selected"'; } ?>><?php _e('User &amp; Logout', 'adminimize'); ?></option>
-									</select> <?php _e('The &quot;User-Info-area&quot; is on the top right side of the backend. You can hide or reduced show.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_user_info == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_user_info == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="2"<?php if ($_mw_adminimize_user_info == '2') { echo ' selected="selected"'; } ?>><?php _e('Only logout', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="3"<?php if ($_mw_adminimize_user_info == '3') { echo ' selected="selected"'; } ?>><?php _e('User &amp; Logout', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('The &quot;User-Info-area&quot; is on the top right side of the backend. You can hide or reduced show.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<?php if ( ($_mw_adminimize_user_info == '') || ($_mw_adminimize_user_info == '1') || ($_mw_adminimize_user_info == '0') ) $disabled_item = ' disabled="disabled"' ?>
 							<tr valign="top" class="form-invalid">
-								<td><?php _e('Change User-Info, redirect to', 'adminimize'); ?></td>
+								<td><?php _e('Change User-Info, redirect to', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_ui_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect'); ?>
 									<select name="_mw_adminimize_ui_redirect" <?php echo $disabled_item ?>>
-										<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Frontpage of the Blog', 'adminimize'); ?>
-									</select> <?php _e('When the &quot;User-Info-area&quot; change it, then it is possible to change the redirect.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Frontpage of the Blog', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									</select> <?php _e('When the &quot;User-Info-area&quot; change it, then it is possible to change the redirect.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('Footer', 'adminimize'); ?></td>
+								<td><?php _e('Footer', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_footer = _mw_adminimize_getOptionValue('_mw_adminimize_footer'); ?>
 									<select name="_mw_adminimize_footer">
-										<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', 'adminimize'); ?></option>
-									</select> <?php _e('The Footer-area kann hide, include all links and details.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('The Footer-area kann hide, include all links and details.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('WriteScroll', 'adminimize'); ?></td>
+								<td><?php _e('WriteScroll', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_writescroll = _mw_adminimize_getOptionValue('_mw_adminimize_writescroll'); ?>
 									<select name="_mw_adminimize_writescroll">
-										<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
-									</select> <?php _e('With the WriteScroll option active, these pages will automatically scroll to an optimal position for editing, when you visit Write Post or Write Page.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('With the WriteScroll option active, these pages will automatically scroll to an optimal position for editing, when you visit Write Post or Write Page.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('Timestamp', 'adminimize'); ?></td>
+								<td><?php _e('Timestamp', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_timestamp = _mw_adminimize_getOptionValue('_mw_adminimize_timestamp'); ?>
 									<select name="_mw_adminimize_timestamp">
-										<option value="0"<?php if ($_mw_adminimize_timestamp == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_timestamp == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
-									</select> <?php _e('Opens the post timestamp editing fields without you having to click the "Edit" link every time.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_timestamp == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_timestamp == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('Opens the post timestamp editing fields without you having to click the "Edit" link every time.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('Thickbox FullScreen', 'adminimize'); ?></td>
+								<td><?php _e('Thickbox FullScreen', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_tb_window = _mw_adminimize_getOptionValue('_mw_adminimize_tb_window'); ?>
 									<select name="_mw_adminimize_tb_window">
-										<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
-									</select> <?php _e('All Thickbox-function use the full area of the browser. Thickbox is for examble in upload media-files.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('All Thickbox-function use the full area of the browser. Thickbox is for examble in upload media-files.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('Flashuploader', 'adminimize'); ?></td>
+								<td><?php _e('Flashuploader', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_control_flashloader = _mw_adminimize_getOptionValue('_mw_adminimize_control_flashloader'); ?>
 									<select name="_mw_adminimize_control_flashloader">
-										<option value="0"<?php if ($_mw_adminimize_control_flashloader == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_control_flashloader == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
-									</select> <?php _e('Disable the flashuploader and users use only the standard uploader.', 'adminimize'); ?>
+										<option value="0"<?php if ($_mw_adminimize_control_flashloader == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_control_flashloader == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('Disable the flashuploader and users use only the standard uploader.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('Advice in Footer', 'adminimize'); ?></td>
+								<td><?php _e('Advice in Footer', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_advice = _mw_adminimize_getOptionValue('_mw_adminimize_advice'); ?>
 									<select name="_mw_adminimize_advice">
-										<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', 'adminimize'); ?></option>
+										<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 									</select>
-									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('In the Footer kann you display a advice for change the Default-design, (x)HTML is possible.', 'adminimize'); ?>
+									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('In the Footer kann you display a advice for change the Default-design, (x)HTML is possible.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<?php
@@ -184,20 +184,20 @@ function _mw_adminimize_options() {
 								}
 								?>
 								<tr valign="top" class="form-invalid">
-									<td><?php _e('Dashboard deaktivate, redirect to', 'adminimize'); ?></td>
+									<td><?php _e('Dashboard deaktivate, redirect to', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 									<td>
 										<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
 										<select name="_mw_adminimize_db_redirect"<?php echo $disabled_item2; ?>>
-											<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', 'adminimize'); ?> (profile.php)</option>
-											<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Manage Posts', 'adminimize'); ?> (edit.php)</option>
-											<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Manage Pages', 'adminimize'); ?> (edit-pages.php)</option>
-											<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Write Post', 'adminimize'); ?> (post-new.php)</option>
-											<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Write Page', 'adminimize'); ?> (page-new.php)</option>
-											<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Comments', 'adminimize'); ?> (edit-comments.php)</option>
-											<option value="6"<?php if ($_mw_adminimize_db_redirect == '6') { echo ' selected="selected"'; } ?>><?php _e('other Page', 'adminimize'); ?></option>
+											<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (profile.php)</option>
+											<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Manage Posts', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (edit.php)</option>
+											<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Manage Pages', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (edit-pages.php)</option>
+											<option value="3"<?php if ($_mw_adminimize_db_redirect == '3') { echo ' selected="selected"'; } ?>><?php _e('Write Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (post-new.php)</option>
+											<option value="4"<?php if ($_mw_adminimize_db_redirect == '4') { echo ' selected="selected"'; } ?>><?php _e('Write Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (page-new.php)</option>
+											<option value="5"<?php if ($_mw_adminimize_db_redirect == '5') { echo ' selected="selected"'; } ?>><?php _e('Comments', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (edit-comments.php)</option>
+											<option value="6"<?php if ($_mw_adminimize_db_redirect == '6') { echo ' selected="selected"'; } ?>><?php _e('other Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										</select>
 										<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_db_redirect_txt" id="_mw_adminimize_db_redirect_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt'))); ?></textarea>
-										<br /><?php _e('You have deaktivate the Dashboard, please select a page for redirect?', 'adminimize'); ?>
+										<br /><?php _e('You have deaktivate the Dashboard, please select a page for redirect?', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 									</td>
 								</tr>
 								<?php
@@ -206,7 +206,7 @@ function _mw_adminimize_options() {
 						</tbody>
 					</table>
 					<p id="submitbutton">
-						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 
 				</div>
@@ -216,17 +216,17 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="global_options"><?php _e('Global &amp; your own options', 'adminimize'); ?></h3>
+				<h3 class="hndle" id="global_options"><?php _e('Global &amp; your own options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 
 					<table summary="config_edit_post" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Option', 'adminimize'); ?></th>
+								<th><?php _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 								<?php
 									foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', 'adminimize'); echo '<br/>' . $role; ?></th>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
 								<?php } ?>
 							</tr>
 						</thead>
@@ -292,25 +292,25 @@ function _mw_adminimize_options() {
 					<table summary="config_edit_post" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Your own options', 'adminimize'); echo '<br />'; _e('ID or class', 'adminimize'); ?></th>
-								<th><?php echo '<br />'; _e('Option', 'adminimize'); ?></th>
+								<th><?php _e('Your own options', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br />'; _e('ID or class', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
+								<th><?php echo '<br />'; _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<tr valign="top">
-								<td colspan="2"><?php _e('It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line.', 'adminimize'); ?></td>
+								<td colspan="2"><?php _e('It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line.', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 							</tr>
 							<tr valign="top">
 								<td>
 									<textarea class="code" name="_mw_adminimize_own_values" cols="60" rows="3" id="_mw_adminimize_own_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_values'); ?></textarea>
 									<br />
-									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', 'adminimize'); ?>
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 								<td>
 									<textarea name="_mw_adminimize_own_options" cols="60" rows="3" id="_mw_adminimize_own_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_options'); ?></textarea>
 									<br />
-									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', 'adminimize'); ?>
+									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 						</tbody>
@@ -318,7 +318,7 @@ function _mw_adminimize_options() {
 					
 					<p id="submitbutton">
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
-						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 
 				</div>
@@ -328,16 +328,16 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="config_menu"><?php _e('Menu Options', 'adminimize'); ?></h3>
+				<h3 class="hndle" id="config_menu"><?php _e('Menu Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 					<table summary="config_menu" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Menu options - Menu, <span style=\"font-weight: 400;\">Submenu</span>', 'adminimize'); ?></th>
+								<th><?php _e('Menu options - Menu, <span style=\"font-weight: 400;\">Submenu</span>', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 
 								<?php foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', 'adminimize'); echo '<br/>' . $role; ?></th>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
 								<?php } ?>
 
 							</tr>
@@ -389,24 +389,24 @@ function _mw_adminimize_options() {
 								array_push($metaboxes, '#poststickystatusdiv');
 
 							$metaboxes_names = array(
-								__('Permalink', 'adminimize'),
-								__('Tags', 'adminimize'),
-								__('Categories', 'adminimize'),
-								__('Add New Category', 'adminimize'),
-								__('Excerpt', 'adminimize'),
-								__('Trackbacks', 'adminimize'),
-								__('Custom Fields', 'adminimize'),
-								__('Comments &amp; Pings', 'adminimize'),
-								__('Password Protect This Post', 'adminimize'),
-								__('Post Author', 'adminimize'),
-								__('Post Revisions', 'adminimize'),
-								__('Related, Shortcuts', 'adminimize'),
-								__('Messenges', 'adminimize'),
-								__('h2: Advanced Options', 'adminimize'),
-								__('Media Buttons (all)', 'adminimize'),
-								__('Word count', 'adminimize'),
-								__('Post Slug, Slug Box', 'adminimize'),
-								__('Publish Actions', 'adminimize'),
+								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Tags', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Categories', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Add New Category', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Excerpt', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Trackbacks', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Custom Fields', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Comments &amp; Pings', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Password Protect This Post', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Post Author', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Post Revisions', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Related, Shortcuts', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Messenges', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('h2: Advanced Options', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Media Buttons (all)', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Word count', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Post Slug, Slug Box', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Publish Actions', FB_ADMINIMIZE_TEXTDOMAIN ),
 							);
 							
 							if (class_exists('SimpleTagsAdmin'))
@@ -471,26 +471,26 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_page, '#post_notification');
 
 							$metaboxes_names_page = array(
-								__('Permalink', 'adminimize'),
-								__('Custom Fields', 'adminimize'),
-								__('Comments &amp; Pings', 'adminimize'),
-								__('Password Protect This Page', 'adminimize'),
-								__('Page Parent', 'adminimize'),
-								__('Page Template', 'adminimize'),
-								__('Page Order', 'adminimize'),
-								__('Page Author', 'adminimize'),
-								__('Page Revisions', 'adminimize'),
-								__('Related', 'adminimize'),
-								__('Messenges', 'adminimize'),
-								__('h2: Advanced Options', 'adminimize'),
-								__('Media Buttons (all)', 'adminimize'),
-								__('Word count', 'adminimize'),
-								__('Page Slug, Slug Box', 'adminimize'),
-								__('Publish Actions', 'adminimize'),
+								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Custom Fields', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Comments &amp; Pings', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Password Protect This Page', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Parent', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Template', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Order', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Author', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Revisions', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Related', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Messenges', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('h2: Advanced Options', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Media Buttons (all)', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Word count', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Slug, Slug Box', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Publish Actions', FB_ADMINIMIZE_TEXTDOMAIN ),
 							);
 
 							if (class_exists('SimpleTagsAdmin'))
-								array_push($metaboxes_names_page, __('Suggested tags from', 'adminimize'));
+								array_push($metaboxes_names_page, __('Suggested tags from', FB_ADMINIMIZE_TEXTDOMAIN ));
 							if (class_exists('HTMLSpecialCharactersHelper'))
 								array_push($metaboxes_names_page, __('HTML Special Characters'));
 							if (class_exists('All_in_One_SEO_Pack'))
@@ -583,7 +583,7 @@ function _mw_adminimize_options() {
 					</table>
 					
 					<p id="submitbutton">
-						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 
 				</div>
@@ -593,17 +593,17 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="config_edit"><?php _e('Write options - Post', 'adminimize'); ?></h3>
+				<h3 class="hndle" id="config_edit"><?php _e('Write options - Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 
 					<table summary="config_edit_post" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Write options - Post', 'adminimize'); ?></th>
+								<th><?php _e('Write options - Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 								<?php
 									foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', 'adminimize'); echo '<br/>' . $role; ?></th>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
 								<?php } ?>
 							</tr>
 						</thead>
@@ -639,25 +639,25 @@ function _mw_adminimize_options() {
 					<table summary="config_own_post" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Your own post options', 'adminimize'); echo '<br />'; _e('ID or class', 'adminimize'); ?></th>
-								<th><?php echo '<br />'; _e('Option', 'adminimize'); ?></th>
+								<th><?php _e('Your own post options', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br />'; _e('ID or class', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
+								<th><?php echo '<br />'; _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<tr valign="top">
-								<td colspan="2"><?php _e('It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line.', 'adminimize'); ?></td>
+								<td colspan="2"><?php _e('It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line.', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 							</tr>
 							<tr valign="top">
 								<td>
 									<textarea class="code" name="_mw_adminimize_own_post_values" cols="60" rows="3" id="_mw_adminimize_own_post_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_post_values'); ?></textarea>
 									<br />
-									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', 'adminimize'); ?>
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 								<td>
 									<textarea name="_mw_adminimize_own_post_options" cols="60" rows="3" id="_mw_adminimize_own_post_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_post_options'); ?></textarea>
 									<br />
-									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', 'adminimize'); ?>
+									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 						</tbody>
@@ -665,7 +665,7 @@ function _mw_adminimize_options() {
 					
 					<p id="submitbutton">
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
-						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 
 				</div>
@@ -675,17 +675,17 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="config_edit"><?php _e('Write options - Page', 'adminimize'); ?></h3>
+				<h3 class="hndle" id="config_edit"><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 
 					<table summary="config_edit_page" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Write options - Page', 'adminimize'); ?></th>
+								<th><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 								<?php
 									foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', 'adminimize'); echo '<br />' . $role; ?></th>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br />' . $role; ?></th>
 								<?php } ?>
 							</tr>
 						</thead>
@@ -721,25 +721,25 @@ function _mw_adminimize_options() {
 					<table summary="config_own_page" class="widefat">
 						<thead>
 							<tr>
-								<th><?php _e('Your own page options', 'adminimize'); echo '<br />'; _e('ID or class', 'adminimize'); ?></th>
-								<th><?php echo '<br />'; _e('Option', 'adminimize'); ?></th>
+								<th><?php _e('Your own page options', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br />'; _e('ID or class', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
+								<th><?php echo '<br />'; _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<tr valign="top">
-								<td colspan="2"><?php _e('It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line.', 'adminimize'); ?></td>
+								<td colspan="2"><?php _e('It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line.', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 							</tr>
 							<tr valign="top">
 								<td>
 									<textarea class="code" name="_mw_adminimize_own_page_values" cols="60" rows="3" id="_mw_adminimize_own_page_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_page_values'); ?></textarea>
 									<br />
-									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', 'adminimize'); ?>
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 								<td>
 									<textarea name="_mw_adminimize_own_page_options" cols="60" rows="3" id="_mw_adminimize_own_page_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_page_options'); ?></textarea>
 									<br />
-									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', 'adminimize'); ?>
+									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 						</tbody>
@@ -747,9 +747,8 @@ function _mw_adminimize_options() {
 					
 					<p id="submitbutton">
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
-						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', 'adminimize'); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
-				</form>
 
 				</div>
 			</div>
@@ -758,7 +757,128 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="set_theme"><?php _e('Set Theme', 'adminimize') ?></h3>
+				<h3 class="hndle" id="global_options"><?php _e('Links options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
+				<div class="inside">
+					<br class="clear" />
+
+					<table summary="config_edit_links" class="widefat">
+						<thead>
+							<tr>
+								<th><?php _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
+								<?php
+									foreach ($user_roles as $role){ ?>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
+								<?php } ?>
+							</tr>
+						</thead>
+
+						<tbody>
+						<?php
+							foreach ($user_roles as $role) {
+								$disabled_link_option_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_link_option_'. $role .'_items');
+							}
+								
+							$link_options = array(
+																			'#namediv',
+																			'#addressdiv',
+																			'#descriptiondiv',
+																			'#linkcategorydiv',
+																			'#linktargetdiv',
+																			'#linkxfndiv',
+																			'#linkadvanceddiv',
+																			'#misc-publishing-actions'
+																			);
+							
+							$link_options_names = array(
+																			__('Name'),
+																			__('Web Address'),
+																			__('Description'),
+																			__('Categories'),
+																			__('Target'),
+																			__('Link Relationship (XFN)'),
+																			__('Advanced'),
+																			__('Publish Actions', FB_ADMINIMIZE_TEXTDOMAIN)
+																			);
+							
+							$_mw_adminimize_own_link_values  = _mw_adminimize_getOptionValue('_mw_adminimize_own_link_values');
+							$_mw_adminimize_own_link_values = preg_split( "/\r\n/", $_mw_adminimize_own_link_values );
+							foreach ( (array) $_mw_adminimize_own_link_values as $key => $_mw_adminimize_own_link_value ) {
+								$_mw_adminimize_own_link_value = trim($_mw_adminimize_own_link_value);
+								array_push($link_options, $_mw_adminimize_own_link_value);
+							}
+							
+							$_mw_adminimize_own_link_options = _mw_adminimize_getOptionValue('_mw_adminimize_own_link_options');
+							$_mw_adminimize_own_link_options = preg_split( "/\r\n/", $_mw_adminimize_own_link_options );
+							foreach ( (array) $_mw_adminimize_own_link_options as $key => $_mw_adminimize_own_link_option ) {
+								$_mw_adminimize_own_link_option = trim($_mw_adminimize_own_link_option);
+								array_push($link_options_names, $_mw_adminimize_own_link_option);
+							}
+							
+							$x = 0;
+							foreach ($link_options as $index => $link_option) {
+								if ( $link_option != '') {
+									$checked_user_role_ = array();
+									foreach ($user_roles as $role) {
+										$checked_user_role_[$role]  = ( isset($disabled_link_option_[$role]) && in_array($link_option, $disabled_link_option_[$role]) ) ? ' checked="checked"' : '';
+									}
+									echo '<tr>' . "\n";
+									echo '<td>' . $link_options_names[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $link_option . ')</span> </td>' . "\n";
+									foreach ($user_roles as $role) {
+										echo '<td class="num"><input id="check_post'. $role . $x .'" type="checkbox"' . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_link_option_'. $role .'_items[]" value="' . $link_option . '" /></td>' . "\n";
+									}
+									echo '</tr>' . "\n";
+									$x++;
+								}
+							}
+						?>
+						</tbody>
+					</table>
+					
+					<?php
+					//ypur own global options
+					?>
+					<br style="margin-top: 10px;" />
+					<table summary="config_edit_post" class="widefat">
+						<thead>
+							<tr>
+								<th><?php _e('Your own options', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br />'; _e('ID or class', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
+								<th><?php echo '<br />'; _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr valign="top">
+								<td colspan="2"><?php _e('It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line.', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
+							</tr>
+							<tr valign="top">
+								<td>
+									<textarea class="code" name="_mw_adminimize_own_link_values" cols="60" rows="3" id="_mw_adminimize_own_link_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_link_values'); ?></textarea>
+									<br />
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+								<td>
+									<textarea name="_mw_adminimize_own_link_options" cols="60" rows="3" id="_mw_adminimize_own_link_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_link_options'); ?></textarea>
+									<br />
+									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<p id="submitbutton">
+						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
+						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
+					</p>
+				</form>
+				
+				</div>
+			</div>
+		</div>
+
+		<div id="poststuff" class="ui-sortable meta-box-sortables">
+			<div class="postbox closed" >
+				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
+				<h3 class="hndle" id="set_theme"><?php _e('Set Theme', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
 				<div class="inside">
 					<br class="clear" />
 					<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="?page=<?php echo $_GET['page'];?>" >
@@ -824,7 +944,7 @@ function _mw_adminimize_options() {
 						</table>
 						<p id="submitbutton">
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_set_theme" />
-							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Set Theme', 'adminimize'); ?> &raquo;" class="button button-primary" />
+							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Set Theme', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" class="button button-primary" />
 						</p>
 					</form>
 
@@ -835,14 +955,14 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="uninstall"><?php _e('Deinstall Options', 'adminimize') ?></h3>
+				<h3 class="hndle" id="uninstall"><?php _e('Deinstall Options', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
 				<div class="inside">
 
-					<p><?php _e('Use this option for clean your database from all entries of this plugin. When you deactivate the plugin, the deinstall of the plugin <strong>clean not</strong> all entries in the database.', 'adminimize'); ?></p>
+					<p><?php _e('Use this option for clean your database from all entries of this plugin. When you deactivate the plugin, the deinstall of the plugin <strong>clean not</strong> all entries in the database.', FB_ADMINIMIZE_TEXTDOMAIN ); ?></p>
 					<form name="deinstall_options" method="post" id="_mw_adminimize_options_deinstall" action="?page=<?php echo $_GET['page'];?>">
 						<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 						<p id="submitbutton">
-							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Delete Options', 'adminimize'); ?> &raquo;" class="button-secondary" />
+							<input type="submit" name="_mw_adminimize_deinstall" value="<?php _e('Delete Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" class="button-secondary" />
 							<input type="checkbox" name="_mw_adminimize_deinstall_yes" value="_mw_adminimize_deinstall" />
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_deinstall" />
 						</p>
@@ -855,7 +975,7 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="about"><?php _e('About the plugin', 'adminimize') ?></h3>
+				<h3 class="hndle" id="about"><?php _e('About the plugin', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
 				<div class="inside">
 					<p><?php _e('Further information: Visit the <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">plugin homepage</a> for further information or to grab the latest version of this plugin.', FB_ADMINIMIZE_TEXTDOMAIN); ?></p>
 					<p>
