@@ -5,8 +5,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.6.2
-Last Update: 23.04.2009 11:59:28
+Version: 1.6.3
+Last Update: 24.04.2009 16:24:58
 */
 
 /**
@@ -104,17 +104,31 @@ class _mw_adminimize_message_class {
  * code by Vincent Weber, www.webRtistik.nl
  * @uses $wp_roles                          *
  */
-function get_all_user_roles(){
+function get_all_user_roles() {
 	global $wp_roles;
 	
 	$user_roles = array();
 
-	foreach ($wp_roles->roles as $role => $data){
+	foreach ($wp_roles->roles as $role => $data) {
 		array_push($user_roles, $role);
 		//$data contains caps, maybe for later use..
 	}
 	
 	return $user_roles;
+}
+
+
+function get_all_user_roles_names() {
+	global $wp_roles;
+	
+	$user_roles_names = array();
+
+	foreach ($wp_roles->role_names as $role_name => $data) {
+		$data = before_last_bar( $data, 'User role' );
+		array_push($user_roles_names, $data );
+	}
+	
+	return $user_roles_names;
 }
 
 

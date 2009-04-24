@@ -3,12 +3,14 @@
  * options-page in wp-admin
  */
 function _mw_adminimize_options() {
-	global $wpdb, $_wp_admin_css_colors, $wp_version;
+	global $wpdb, $_wp_admin_css_colors, $wp_version, $wp_roles;
 
 	$_mw_adminimize_user_info = '';
 
 	//get array with userroles
 	$user_roles = get_all_user_roles();
+	$user_roles_names = get_all_user_roles_names();
+	
 
 	// update options
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
@@ -166,17 +168,16 @@ function _mw_adminimize_options() {
 							<?php
 							// when remove dashboard
 							foreach ($user_roles as $role) {
-
-							$disabled_menu_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_'. $role .'_items');
-							$disabled_submenu_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_'. $role .'_items');
+								$disabled_menu_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_menu_'. $role .'_items');
+								$disabled_submenu_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_submenu_'. $role .'_items');
 							}
 
 							$disabled_menu_all = array();
 
-									foreach ($user_roles as $role) {
-										array_push($disabled_menu_all, $disabled_menu_[$role]);
-										array_push($disabled_menu_all, $disabled_submenu_[$role]);
-									}
+							foreach ($user_roles as $role) {
+								array_push($disabled_menu_all, $disabled_menu_[$role]);
+								array_push($disabled_menu_all, $disabled_submenu_[$role]);
+							}
 
 							if ($disabled_menu_all != '') {
 								if ( !recursive_in_array('index.php', $disabled_menu_all) ) {
@@ -216,7 +217,7 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox closed" >
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="global_options"><?php _e('Global &amp; your own options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
+				<h3 class="hndle" id="global_options"><?php _e('Global options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 
@@ -225,8 +226,9 @@ function _mw_adminimize_options() {
 							<tr>
 								<th><?php _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 								<?php
-									foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
+									foreach ($user_roles_names as $role_name) {
+										?>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role_name; ?></th>
 								<?php } ?>
 							</tr>
 						</thead>
@@ -241,6 +243,7 @@ function _mw_adminimize_options() {
 																			'#favorite-actions',
 																			'#screen-meta',
 																			'#screen-options, #screen-options-link-wrap',
+																			'#contextual-help-link-wrap',
 																			'#your-profile .form-table fieldset'
 																			);
 							
@@ -248,6 +251,7 @@ function _mw_adminimize_options() {
 																			'Favorite Actions',
 																			'Screen-Meta',
 																			'Screen Options',
+																			'Contextual Help',
 																			'Admin Color Scheme'
 																			);
 							
@@ -336,8 +340,8 @@ function _mw_adminimize_options() {
 							<tr>
 								<th><?php _e('Menu options - Menu, <span style=\"font-weight: 400;\">Submenu</span>', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 
-								<?php foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
+								<?php foreach ($user_roles_names as $role_name) { ?>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role_name; ?></th>
 								<?php } ?>
 
 							</tr>
@@ -602,8 +606,8 @@ function _mw_adminimize_options() {
 							<tr>
 								<th><?php _e('Write options - Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 								<?php
-									foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
+									foreach ($user_roles_names as $role_name) { ?>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role_name; ?></th>
 								<?php } ?>
 							</tr>
 						</thead>
@@ -684,8 +688,8 @@ function _mw_adminimize_options() {
 							<tr>
 								<th><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 								<?php
-									foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br />' . $role; ?></th>
+									foreach ($user_roles_names as $role_name) { ?>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br />' . $role_name; ?></th>
 								<?php } ?>
 							</tr>
 						</thead>
@@ -766,8 +770,8 @@ function _mw_adminimize_options() {
 							<tr>
 								<th><?php _e('Option', FB_ADMINIMIZE_TEXTDOMAIN ); ?></th>
 								<?php
-									foreach ($user_roles as $role){ ?>
-										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role; ?></th>
+									foreach ($user_roles_names as $role_name) { ?>
+										<th><?php _e('Deactivate for', FB_ADMINIMIZE_TEXTDOMAIN ); echo '<br/>' . $role_name; ?></th>
 								<?php } ?>
 							</tr>
 						</thead>
@@ -909,6 +913,7 @@ function _mw_adminimize_options() {
 									$user_object   = new WP_User($user_id);
 									$roles         = $user_object->roles;
 									$role          = array_shift($roles);
+									$role_name     = before_last_bar( $wp_roles->role_names[$role], 'User role' );
 
 									$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 									$return  = '';
@@ -919,7 +924,7 @@ function _mw_adminimize_options() {
 									$return .= "\t" . '<td>'. $display_name .'</td>' . "\n";
 									$return .= "\t" . '<td>'. $current_color . '</td>' . "\n";
 									$return .= "\t" . '<td class="num">'. $user_level . '</td>' . "\n";
-									$return .= "\t" . '<td>'. $role . '</td>' . "\n";
+									$return .= "\t" . '<td>'. $role_name . '</td>' . "\n";
 									$return .= '</tr>' . "\n";
 
 									print($return);
