@@ -102,7 +102,7 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 == Frequently Asked Questions ==
 = History? =
-Please see the changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize")!
+Please see the changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")!
 
 = Where can I get more information? =
 Please visit [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize") for the latest information on this plugin.
