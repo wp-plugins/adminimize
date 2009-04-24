@@ -72,7 +72,7 @@ final directory tree should look like `/wp-content/plugins/adminimize/adminimize
 
 3. Activate the plugin through the `Plugins` menu in WordPress
 
-4. Colour Scheme and Theme selection in Your Profile Go to your User Profile (under `Users` > `Your Profile` or by clicking on your name at the top right corner of the administration panel).
+4. Selecting Colour Scheme and Theme, selection in Your Profile, go to your User Profile (under `Users` > `Your Profile` or by clicking on your name at the top right corner of the administration panel).
 
 4. Administrator can go to `Options` > `Adminimize` menu and configure the plugin (Menu, Submenu, Metaboxes, ...)
 
