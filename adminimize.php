@@ -6,7 +6,7 @@ Description: Visually compresses the administratrive meta-boxes so that more adm
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
 Version: 1.6.4
-Last Update: 27.04.2009 09:12:25
+Last Update: 27.04.2009 10:48:01
 */
 
 /**
@@ -102,7 +102,7 @@ class _mw_adminimize_message_class {
  * get_all_user_roles() - Returns an array with all user roles(names) in it.
  * Inclusive self defined roles (for example with the 'Role Manager' plugin).
  * code by Vincent Weber, www.webRtistik.nl
- * @uses $wp_roles                          *
+ * @uses $wp_roles
  */
 function get_all_user_roles() {
 	global $wp_roles;
@@ -118,13 +118,21 @@ function get_all_user_roles() {
 }
 
 
+/**
+ * get_all_user_roles_names() - Returns an array with all user roles_names in it.
+ * Inclusive self defined roles (for example with the 'Role Manager' plugin).
+ * @uses $wp_roles
+ */
 function get_all_user_roles_names() {
 	global $wp_roles;
 	
 	$user_roles_names = array();
 
 	foreach ($wp_roles->role_names as $role_name => $data) {
-		$data = before_last_bar( $data, 'User role' );
+		if ( function_exists('translate_user_role') )
+			$data = translate_user_role( $data );
+		else
+			$data = translate_with_context( $data );
 		array_push($user_roles_names, $data );
 	}
 	
@@ -158,7 +166,7 @@ function _mw_adminimize_init() {
 		$disabled_global_option_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_global_option_'. $role .'_items');
 		$disabled_metaboxes_post_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
 		$disabled_metaboxes_page_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_'. $role .'_items');
-		$disabled_link_option_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_link_option_'. $role .'_items');
+		$disabled_link_option_[$role]    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_link_option_'. $role .'_items');
 	}
 
 	$disabled_metaboxes_post_all = array();
