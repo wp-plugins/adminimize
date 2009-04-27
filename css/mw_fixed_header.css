@@ -8,13 +8,18 @@
 	padding-top: 46px;
 }
 
-#small_user_info {
+#screen-meta {
 	position: fixed;
+	z-index: 999;
+	right: 0;
 }
 
+#user_info p, #small_user_info p {
+	position: fixed;
+	right: 15px;
+	z-index: 999;
+}
 
-#screen-meta {
-position: fixed;
-z-index: 999;
-right: 0;
+#favorite-actions {
+	right: 250px;
 }

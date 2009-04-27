@@ -5,8 +5,8 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.6.3
-Last Update: 24.04.2009 16:24:58
+Version: 1.6.4
+Last Update: 27.04.2009 09:12:25
 */
 
 /**
@@ -418,7 +418,7 @@ function _mw_adminimize_admin_styles($file) {
 
 	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
-	if ( version_compare( $wp_version, '2.7dev', '>' ) ) {
+	if ( version_compare( $wp_version, '2.7dev', '>=' ) ) {
 		// MW Adminimize Classic
 		$styleName = 'Adminimize:' . ' ' . __('Blue');
 		wp_admin_css_color (
@@ -433,19 +433,34 @@ function _mw_adminimize_admin_styles($file) {
 			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
 		);
 		
-		// MW Adminimize Classic
+		// MW Adminimize Classic Fixed
 		$styleName = 'Adminimize:' . ' Fixed ' . __('Blue');
 		wp_admin_css_color (
 			'mw_classic_fixed', $styleName, $_mw_adminimize_path . 'mw_classic28_fixed.css',
 			array('#073447', '#21759b', '#eaf3fa', '#bbd8e7')
 		);
 
-		// MW Adminimize Fresh
+		// MW Adminimize Fresh Fixed
 		$styleName = 'Adminimize:' . ' Fixed ' . __('Gray');
 		wp_admin_css_color (
 			'mw_fresh_fixed', $styleName, $_mw_adminimize_path . 'mw_fresh28_fixed.css',
 			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
 		);
+		
+		// MW Adminimize Classic Tweak
+		$styleName = 'Adminimize:' . ' Tweak ' . __('Blue');
+		wp_admin_css_color (
+			'mw_classic_tweak', $styleName, $_mw_adminimize_path . 'mw_classic28_tweak.css',
+			array('#073447', '#21759b', '#eaf3fa', '#bbd8e7')
+		);
+
+		// MW Adminimize Fresh Tweak
+		$styleName = 'Adminimize:' . ' Tweak ' . __('Gray');
+		wp_admin_css_color (
+			'mw_fresh_tweak', $styleName, $_mw_adminimize_path . 'mw_fresh28_tweak.css',
+			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
+		);
+		
 	} else {
 		// MW Adminimize Classic
 		$styleName = 'MW Adminimize:' . ' ' . __('Classic');

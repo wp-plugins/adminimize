@@ -20,6 +20,5 @@
 }
 
 #favorite-actions {
-	position:absolute;
-	right:250px;
+	margin-right: 250px;
 }
