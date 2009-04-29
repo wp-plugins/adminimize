@@ -598,7 +598,7 @@ function _mw_adminimize_remove_dashboard() {
 		$i++;
 		}
 
-		if ( $redirect == 'true' ) {
+		if ( isset($redirect) && $redirect == 'true' ) {
 			$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect');
 			switch ($_mw_adminimize_db_redirect) {
 			case 0:
