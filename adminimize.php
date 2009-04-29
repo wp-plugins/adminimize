@@ -6,6 +6,7 @@ Description: Visually compresses the administratrive meta-boxes so that more adm
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
 Version: 1.6.4
+License: GPL
 Last Update: 27.04.2009 10:48:01
 */
 
