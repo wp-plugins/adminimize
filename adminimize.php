@@ -5,9 +5,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.6.4
+Version: 1.6.5
 License: GPL
-Last Update: 27.04.2009 10:48:01
+Last Update: 08.05.2009 12:23:52
 */
 
 /**
@@ -1024,9 +1024,9 @@ function _mw_adminimize_add_settings_page() {
 		}
 		$menutitle .= ' ' . __('Adminimize', FB_ADMINIMIZE_TEXTDOMAIN );
 
-		add_submenu_page('options-general.php', __('Adminimize Options', FB_ADMINIMIZE_TEXTDOMAIN ), $menutitle, 8, __FILE__, '_mw_adminimize_options');
-		//add_contextual_help( $hook, __('<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', 'secure_wp') );
-		add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
+		$hook = add_submenu_page('options-general.php', __('Adminimize Options', FB_ADMINIMIZE_TEXTDOMAIN ), $menutitle, 8, __FILE__, '_mw_adminimize_options');
+		add_contextual_help( $hook, __('<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', 'secure_wp') );
+		//add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
 		add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2 );
 	}
 }
