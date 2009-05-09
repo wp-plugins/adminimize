@@ -281,7 +281,7 @@ msgstr "Flashuploader"
 
 #: adminimize_page.php:153
 msgid "Disable the flashuploader and users use only the standard uploader."
-msgstr "Deaktiviere den Flashuploader und Nutzer können nur den Standard-Uploader erreichen."
+msgstr "Deaktiviere den Flashuploader und Nutzer kÃ¶nnen nur den Standard-Uploader erreichen."
 
 #: adminimize_page.php:157
 msgid "Advice in Footer"
@@ -351,7 +351,7 @@ msgstr "Einstellung"
 #: adminimize_page.php:689
 #: adminimize_page.php:771
 msgid "Deactivate for"
-msgstr "Deaktiviere für"
+msgstr "Deaktiviere fÃ¼r"
 
 #: adminimize_page.php:248
 msgid "Favorite Actions"
@@ -363,11 +363,11 @@ msgstr "Screen-Meta"
 
 #: adminimize_page.php:250
 msgid "Screen Options"
-msgstr "kontextabhängige Optionen"
+msgstr "kontextabhÃ¤ngige Optionen"
 
 #: adminimize_page.php:251
 msgid "Contextual Help"
-msgstr "kontextabhängig Hilfe"
+msgstr "kontextabhÃ¤ngig Hilfe"
 
 #: adminimize_page.php:252
 msgid "Admin Color Scheme"
@@ -390,21 +390,21 @@ msgstr "ID oder Klasse"
 #: adminimize_page.php:732
 #: adminimize_page.php:852
 msgid "It is possible to add your own IDs or classes from elements and tags. You can find IDs and classes with the FireBug Add-on for Firefox. Assign a value and the associate name per line."
-msgstr "Es ist möglich, dass du eigene IDs und Klassen eines Elementes oder Tags hinzufügst. Du findest IDs und Klassen sehr einfach mit dem Firebug Add-on für den Firefox. Füge pro Zeile einen Wert und dazugehörigen Namen ein."
+msgstr "Es ist mÃ¶glich, dass du eigene IDs und Klassen eines Elementes oder Tags hinzufÃ¼gst. Du findest IDs und Klassen sehr einfach mit dem Firebug Add-on fÃ¼r den Firefox. FÃ¼ge pro Zeile einen Wert und dazugehÃ¶rigen Namen ein."
 
 #: adminimize_page.php:309
 #: adminimize_page.php:656
 #: adminimize_page.php:738
 #: adminimize_page.php:858
 msgid "Possible IDs or classes. Separate multiple values through a carriage return."
-msgstr "Mögliche IDs oder Klassen. Trenne Werte durch eine neue Zeile."
+msgstr "MÃ¶gliche IDs oder Klassen. Trenne Werte durch eine neue Zeile."
 
 #: adminimize_page.php:314
 #: adminimize_page.php:661
 #: adminimize_page.php:743
 #: adminimize_page.php:863
 msgid "Possible nomination for ID or class. Separate multiple nomination through a carriage return."
-msgstr "Mögliche IDs oder Klassen. Trenne Werte durch eine neue Zeile."
+msgstr "MÃ¶gliche IDs oder Klassen. Trenne Werte durch eine neue Zeile."
 
 #: adminimize_page.php:332
 msgid "Menu Options"
@@ -614,7 +614,7 @@ msgstr "Nutze diese Option, um die Einstellungen f&uuml;r das Plugin in der Date
 
 #: adminimize_page.php:970
 msgid "Delete Options"
-msgstr "Einstellungen Löschen"
+msgstr "Einstellungen LÃ¶schen"
 
 #: adminimize_page.php:983
 msgid "About the plugin"
