@@ -7,7 +7,7 @@ Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
 Version: 1.6.6
 License: GPL
-Last Update: 09.06.2009 12:09:50
+Last Update: 11.06.2009 09:19:52
 */
 
 /**
@@ -18,9 +18,9 @@ Last Update: 09.06.2009 12:09:50
 
 
 global $wp_version;
-if ( !function_exists ('add_action') || version_compare($wp_version, "2.5dev", "<") ) {
+if ( !function_exists ('add_action') || version_compare($wp_version, "2.5alpha", "<") ) {
 	if (function_exists ('add_action'))
-		$exit_msg = 'The plugin <em>Page Tags</em> requires WordPress 2.5 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update WordPress</a> or delete the plugin.';
+		$exit_msg = 'The plugin <em><a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">Adminimize</a></em> requires WordPress 2.5 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update WordPress</a> or delete the plugin.';
 	else
 		$exit_msg = '';
 	header('Status: 403 Forbidden');
