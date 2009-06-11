@@ -5,9 +5,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.6.6
+Version: 1.6.7
 License: GPL
-Last Update: 11.06.2009 09:19:52
+Last Update: 11.06.2009 11:12:38
 */
 
 /**
@@ -19,7 +19,7 @@ Last Update: 11.06.2009 09:19:52
 
 global $wp_version;
 if ( !function_exists ('add_action') || version_compare($wp_version, "2.5alpha", "<") ) {
-	if (function_exists ('add_action'))
+	if ( function_exists ('add_action') )
 		$exit_msg = 'The plugin <em><a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">Adminimize</a></em> requires WordPress 2.5 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update WordPress</a> or delete the plugin.';
 	else
 		$exit_msg = '';
@@ -42,6 +42,7 @@ if ( function_exists('add_action') ) {
 	// plugin definitions
 	define( 'FB_ADMINIMIZE_BASENAME', plugin_basename( __FILE__ ) );
 	define( 'FB_ADMINIMIZE_BASEFOLDER', plugin_basename( dirname( __FILE__ ) ) );
+	define( 'FB_ADMINIMIZE_FILENAME', str_replace( FB_ADMINIMIZE_BASEFOLDER.'/', '', plugin_basename(__FILE__) ) );
 	define( 'FB_ADMINIMIZE_TEXTDOMAIN', 'adminimize' );
 }
 
@@ -427,7 +428,7 @@ function _mw_adminimize_admin_styles($file) {
 
 	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
-	if ( version_compare( $wp_version, '2.7dev', '>=' ) ) {
+	if ( version_compare( $wp_version, '2.7alpha', '>=' ) ) {
 		// MW Adminimize Classic
 		$styleName = 'Adminimize:' . ' ' . __('Blue');
 		wp_admin_css_color (
@@ -936,36 +937,24 @@ function _mw_adminimize_admin_footer() {
 
 
 /**
+ * @version WP 2.8
  * Add action link(s) to plugins page
- * Thanks Dion Hulse -- http://dd32.id.au/wordpress-plugins/?configure-link
- */
-function _mw_adminimize_filter_plugin_actions($links, $file){
-	static $this_plugin;
-
-	if( !$this_plugin ) $this_plugin = plugin_basename(__FILE__);
-
-	if( $file == $this_plugin ){
-		$settings_link = '<a href="options-general.php?page=adminimize/adminimize.php">' . __('Settings') . '</a>';
-		$links = array_merge( array($settings_link), $links); // before other links
-	}
-	return $links;
-}
-
-/**
- * add meta links higher 2.8
+ *
+ * @package Secure WordPress
+ *
+ * @param $links, $file
+ * @return $links
  */
 function _mw_adminimize_filter_plugin_meta($links, $file) {
 	
-	$plugin = plugin_basename(__FILE__);
-
 	/* create link */
-	if ($file == $plugin) {
-		return array_merge(
+	if ( $file == FB_ADMINIMIZE_BASENAME ) {
+		array_unshift(
 			$links,
-			array( sprintf( '<a href="options-general.php?page=%s">%s</a>', $plugin, __('Settings') ) )
+			sprintf( '<a href="options-general.php?page=%s">%s</a>', FB_ADMINIMIZE_FILENAME, __('Settings') )
 		);
 	}
-
+	
 	return $links;
 }
 
@@ -1037,7 +1026,7 @@ function _mw_adminimize_add_settings_page() {
 	if( current_user_can('switch_themes') && function_exists('add_submenu_page') ) {
 
 		$menutitle = '';
-		if ( version_compare( $wp_version, '2.6.999', '>' ) ) {
+		if ( version_compare( $wp_version, '2.7alpha', '>' ) ) {
 			$menutitle = '<img src="' . _mw_adminimize_get_resource_url('adminimize.gif') . '" alt="" />';
 		}
 		$menutitle .= ' ' . __('Adminimize', FB_ADMINIMIZE_TEXTDOMAIN );
@@ -1045,10 +1034,9 @@ function _mw_adminimize_add_settings_page() {
 		$hook = add_submenu_page('options-general.php', __('Adminimize Options', FB_ADMINIMIZE_TEXTDOMAIN ), $menutitle, 8, __FILE__, '_mw_adminimize_options');
 		add_contextual_help( $hook, __('<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', 'secure_wp') );
 		//add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
-		if ( version_compare( $wp_version, '2.8.dev', '>' ) )
+		if ( version_compare( $wp_version, '2.8alpha', '>' ) )
 			add_filter( 'plugin_row_meta', '_mw_adminimize_filter_plugin_meta', 10, 2 );
-		else
-			add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_actions', 10, 2 );
+		add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_meta', 10, 2 );
 	}
 }
 
