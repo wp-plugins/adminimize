@@ -1002,7 +1002,7 @@ function _mw_adminimize_options() {
 
 		<script type="text/javascript">
 		<!--
-		<?php if ( version_compare( substr($wp_version, 0, 3), '2.7', '<' ) ) { ?>
+		<?php if ( version_compare( $wp_version, '2.7alpha', '<' ) ) { ?>
 		jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
 		<?php } ?>
 		jQuery('.postbox h3').click( function() { jQuery(jQuery(this).parent().get(0)).toggleClass('closed'); } );
