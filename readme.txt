@@ -102,7 +102,7 @@ Good news, this plugin is free for everyone! Since it's released under the GPL, 
 The plugin comes with various translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the sitemap.pot file which contains all defintions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/) (Windows).
 
 == Frequently Asked Questions ==
-= History? =
+= Changelog =
 Please see the changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")!
 
 = Where can I get more information? =
@@ -110,3 +110,6 @@ Please visit [the official website](http://bueltge.de/wordpress-admin-theme-admi
 
 = I love this plugin! How can I show the developer how much I appreciate his work? =
 Please visit [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize") and let him know your care or see the [wishlist](http://bueltge.de/wunschliste/ "Wishlist") of the author.
+
+== Changelog ==
+Please see the changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")
