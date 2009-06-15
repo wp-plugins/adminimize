@@ -110,6 +110,3 @@ Please visit [the official website](http://bueltge.de/wordpress-admin-theme-admi
 
 = I love this plugin! How can I show the developer how much I appreciate his work? =
 Please visit [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize") and let him know your care or see the [wishlist](http://bueltge.de/wunschliste/ "Wishlist") of the author.
-
-== Changelog ==
-Please see the changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")
