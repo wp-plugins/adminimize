@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Adminimize\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-27 10:55+0100\n"
-"PO-Revision-Date: 2009-04-27 10:58+0100\n"
+"PO-Revision-Date: 2009-06-18 15:13+0100\n"
 "Last-Translator: Frank Bueltge <frank@bueltge.de>\n"
 "Language-Team: Frank Bueltge <frank@bueltge.de>\n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: d:\\WP-Plugins\\adminimize\\trunk\\\n"
+"X-Poedit-Basepath: ../\n"
 ": \n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -404,7 +404,7 @@ msgstr "Mögliche IDs oder Klassen. Trenne Werte durch eine neue Zeile."
 #: adminimize_page.php:743
 #: adminimize_page.php:863
 msgid "Possible nomination for ID or class. Separate multiple nomination through a carriage return."
-msgstr "Mögliche IDs oder Klassen. Trenne Werte durch eine neue Zeile."
+msgstr "Mögliche Benennung der ID oder Klasse. Trenne Werte durch eine neue Zeile."
 
 #: adminimize_page.php:332
 msgid "Menu Options"
