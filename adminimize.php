@@ -5,9 +5,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.6.8
+Version: 1.6.9
 License: GPL
-Last Update: 18.06.2009 15:14:11
+Last Update: 19.06.2009 08:13:52
 */
 
 /**
@@ -42,7 +42,6 @@ if ( function_exists('add_action') ) {
 	// plugin definitions
 	define( 'FB_ADMINIMIZE_BASENAME', plugin_basename( __FILE__ ) );
 	define( 'FB_ADMINIMIZE_BASEFOLDER', plugin_basename( dirname( __FILE__ ) ) );
-	define( 'FB_ADMINIMIZE_FILENAME', str_replace( FB_ADMINIMIZE_BASEFOLDER.'/', '', plugin_basename(__FILE__) ) );
 	define( 'FB_ADMINIMIZE_TEXTDOMAIN', 'adminimize' );
 }
 
@@ -951,7 +950,7 @@ function _mw_adminimize_filter_plugin_meta($links, $file) {
 	if ( $file == FB_ADMINIMIZE_BASENAME ) {
 		array_unshift(
 			$links,
-			sprintf( '<a href="options-general.php?page=%s">%s</a>', FB_ADMINIMIZE_FILENAME, __('Settings') )
+			sprintf( '<a href="options-general.php?page=%s">%s</a>', FB_ADMINIMIZE_BASENAME, __('Settings') )
 		);
 	}
 	

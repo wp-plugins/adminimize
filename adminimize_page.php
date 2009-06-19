@@ -304,14 +304,14 @@ function _mw_adminimize_options() {
 							</tr>
 							<tr valign="top">
 								<td>
-									<textarea class="code" name="_mw_adminimize_own_values" cols="60" rows="3" id="_mw_adminimize_own_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_values'); ?></textarea>
-									<br />
-									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
-								</td>
-								<td>
 									<textarea name="_mw_adminimize_own_options" cols="60" rows="3" id="_mw_adminimize_own_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_options'); ?></textarea>
 									<br />
 									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+								<td>
+									<textarea class="code" name="_mw_adminimize_own_values" cols="60" rows="3" id="_mw_adminimize_own_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_values'); ?></textarea>
+									<br />
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 						</tbody>
@@ -500,11 +500,9 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_names_page, 'TDOMF');
 							if (function_exists('post_notification_form'))
 								array_push($metaboxes_names_page, 'Post Notification');
-							if (class_exists('HTMLSpecialCharactersHelper'))
-								array_push($metaboxes_names_page, 'HTML Special Characters');
 							
 							// add own page options
-							$_mw_adminimize_own_page_values  = _mw_adminimize_getOptionValue('_mw_adminimize_own_page_values');
+							$_mw_adminimize_own_page_values = _mw_adminimize_getOptionValue('_mw_adminimize_own_page_values');
 							$_mw_adminimize_own_page_values = preg_split( "/\r\n/", $_mw_adminimize_own_page_values );
 							foreach ( (array) $_mw_adminimize_own_page_values as $key => $_mw_adminimize_own_page_value ) {
 								$_mw_adminimize_own_page_value = trim($_mw_adminimize_own_page_value);
@@ -651,14 +649,14 @@ function _mw_adminimize_options() {
 							</tr>
 							<tr valign="top">
 								<td>
-									<textarea class="code" name="_mw_adminimize_own_post_values" cols="60" rows="3" id="_mw_adminimize_own_post_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_post_values'); ?></textarea>
-									<br />
-									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
-								</td>
-								<td>
 									<textarea name="_mw_adminimize_own_post_options" cols="60" rows="3" id="_mw_adminimize_own_post_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_post_options'); ?></textarea>
 									<br />
 									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+								<td>
+									<textarea class="code" name="_mw_adminimize_own_post_values" cols="60" rows="3" id="_mw_adminimize_own_post_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_post_values'); ?></textarea>
+									<br />
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 						</tbody>
@@ -733,14 +731,14 @@ function _mw_adminimize_options() {
 							</tr>
 							<tr valign="top">
 								<td>
-									<textarea class="code" name="_mw_adminimize_own_page_values" cols="60" rows="3" id="_mw_adminimize_own_page_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_page_values'); ?></textarea>
-									<br />
-									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
-								</td>
-								<td>
 									<textarea name="_mw_adminimize_own_page_options" cols="60" rows="3" id="_mw_adminimize_own_page_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_page_options'); ?></textarea>
 									<br />
 									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+								<td>
+									<textarea class="code" name="_mw_adminimize_own_page_values" cols="60" rows="3" id="_mw_adminimize_own_page_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_page_values'); ?></textarea>
+									<br />
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 						</tbody>
@@ -853,14 +851,14 @@ function _mw_adminimize_options() {
 							</tr>
 							<tr valign="top">
 								<td>
-									<textarea class="code" name="_mw_adminimize_own_link_values" cols="60" rows="3" id="_mw_adminimize_own_link_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_link_values'); ?></textarea>
-									<br />
-									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
-								</td>
-								<td>
 									<textarea name="_mw_adminimize_own_link_options" cols="60" rows="3" id="_mw_adminimize_own_link_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_link_options'); ?></textarea>
 									<br />
 									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+								<td>
+									<textarea class="code" name="_mw_adminimize_own_link_values" cols="60" rows="3" id="_mw_adminimize_own_link_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_link_values'); ?></textarea>
+									<br />
+									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 						</tbody>
@@ -995,7 +993,7 @@ function _mw_adminimize_options() {
 					<?php _e('You want to thank me? Visit my <a href="http://bueltge.de/wunschliste/">wishlist</a> or donate.', FB_ADMINIMIZE_TEXTDOMAIN); ?>
 					</p>
 					<p>&copy; Copyright 2008 - <?php echo date('Y'); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a></p>
-					<p class="textright"><small><?php echo $wpdb->num_queries; ?>q, <?php timer_stop(1); ?>s</small></p>
+					<p class="textright" style="color:#ccc"><small><?php echo $wpdb->num_queries; ?>q, <?php timer_stop(1); ?>s</small></p>
 				</div>
 			</div>
 		</div>
