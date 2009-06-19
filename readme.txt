@@ -95,6 +95,9 @@ Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the S
 Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "Gürkan Gür") for translation in turkish.
 Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
 
+= Changelog =
+Please see the changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")!
+
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishliste and Donate") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
 
