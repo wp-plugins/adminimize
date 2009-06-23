@@ -70,7 +70,7 @@ function _mw_adminimize_options() {
 		<h2><?php _e('Adminimize', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h2>
 		<br class="clear" />
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle"><?php _e('Backend Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
@@ -213,7 +213,7 @@ function _mw_adminimize_options() {
 		</div>
 
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="global_options"><?php _e('Global options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
@@ -287,7 +287,7 @@ function _mw_adminimize_options() {
 					</table>
 					
 					<?php
-					//ypur own global options
+					//your own global options
 					?>
 					<br style="margin-top: 10px;" />
 					<table summary="config_edit_post" class="widefat">
@@ -327,7 +327,7 @@ function _mw_adminimize_options() {
 		</div>
 
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="config_menu"><?php _e('Menu Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
@@ -590,7 +590,7 @@ function _mw_adminimize_options() {
 		</div>
 
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="config_edit"><?php _e('Write options - Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
@@ -632,7 +632,7 @@ function _mw_adminimize_options() {
 					</table>
 					
 					<?php
-					//ypur own post options
+					//your own post options
 					?>
 					<br style="margin-top: 10px;" />
 					<table summary="config_own_post" class="widefat">
@@ -672,7 +672,7 @@ function _mw_adminimize_options() {
 		</div>
 
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="config_edit"><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
@@ -714,7 +714,7 @@ function _mw_adminimize_options() {
 					</table>
 					
 					<?php
-					//ypur own post options
+					//ypur own page options
 					?>
 					<br style="margin-top: 10px;" />
 					<table summary="config_own_page" class="widefat">
@@ -754,7 +754,7 @@ function _mw_adminimize_options() {
 		</div>
 
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="global_options"><?php _e('Links options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
@@ -834,7 +834,7 @@ function _mw_adminimize_options() {
 					</table>
 					
 					<?php
-					//ypur own global options
+					//your own global options
 					?>
 					<br style="margin-top: 10px;" />
 					<table summary="config_edit_post" class="widefat">
@@ -875,7 +875,7 @@ function _mw_adminimize_options() {
 		</div>
 
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="set_theme"><?php _e('Set Theme', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
 				<div class="inside">
@@ -910,9 +910,11 @@ function _mw_adminimize_options() {
 									$role          = array_shift($roles);
 									if ( function_exists('translate_user_role') )
 										$role_name   = translate_user_role( $wp_roles->role_names[$role] );
-									else
+									elseif ( function_exists('before_last_bar') )
 										$role_name   = before_last_bar( $wp_roles->role_names[$role], 'User role' );
-
+									else
+										$role_name   = strrpos( $wp_roles->role_names[$role], '|' );
+									
 									$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 									$return  = '';
 									$return .= '<tr>' . "\n";
@@ -956,7 +958,7 @@ function _mw_adminimize_options() {
 		</div>
 
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
-			<div class="postbox closed" >
+			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="uninstall"><?php _e('Deinstall Options', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
 				<div class="inside">

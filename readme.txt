@@ -90,7 +90,11 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
-Please see the changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")!
+= v1.7 (23/06/2009) =
+* Bugfix for WordPress 2.6; Settings-Link
+* alternate for `before_last_bar()` and change class of div
+
+Please see the older changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")!
 
 == Other Notes ==
 = Acknowledgements =
