@@ -90,6 +90,13 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.1 (16/06/2009)
+* changes for load userdate on settings themes; better for performance on blogs with many Users
+* small bugfixes on texdomain
+* changes on hint for settings on menu
+* new de_DE language file
+* comments meta box add to options on post
+
 = v1.7 (23/06/2009) =
 * Bugfix for WordPress 2.6; Settings-Link
 * alternate for `before_last_bar()` and change class of div

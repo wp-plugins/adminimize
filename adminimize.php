@@ -2,7 +2,7 @@
 /**
  * @package Adminimize
  * @author Frank B&uuml;ltge
- * @version 1.7
+ * @version 1.7.1
  */
  
 /*
@@ -11,9 +11,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7
+Version: 1.7.1
 License: GNU
-Last Update: 23.06.2009 10:15:35
+Last Update: 16.07.2009 15:27:37
 */
 
 /**
@@ -101,6 +101,7 @@ class _mw_adminimize_message_class {
 		$this->errors->add('_mw_adminimize_deinstall_yes', __('Set the checkbox on deinstall-button.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_get_option', __('Can\'t load menu and submenu.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_set_theme', __('Backend-Theme was activated!', $this->localizionName));
+		$this->errors->add('_mw_adminimize_load_theme', __('Load user data to themes was successful.', $this->localizionName));
 	}
 }
 
@@ -1038,7 +1039,7 @@ function _mw_adminimize_add_settings_page() {
 
 		$hook = add_submenu_page('options-general.php', __('Adminimize Options', FB_ADMINIMIZE_TEXTDOMAIN ), $menutitle, 8, __FILE__, '_mw_adminimize_options');
 		if ( version_compare( $wp_version, '2.7alpha', '>' ) )
-			add_contextual_help( $hook, __('<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', 'secure_wp') );
+			add_contextual_help( $hook, __( '<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', FB_ADMINIMIZE_TEXTDOMAIN ) );
 		else
 			add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
 			
