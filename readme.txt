@@ -101,6 +101,114 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * Bugfix for WordPress 2.6; Settings-Link
 * alternate for `before_last_bar()` and change class of div
 
+= 1.6.9 (19/06/2009) =
+* Bugfix, Settingslink gefixt;
+* Changes on own defines with css selectors; first name, second css selector
+* Bugfix in own options to pages
+
+= 1.6.8 (18/06/2009) =
+* Bugfix in german language file
+
+= 1.6.6-7 (10/06/2009) =
+* Add Meta Link in 2.8
+
+= 1.6.5 (08/05/2009) =
+* Bugfix, Doculink only on admin page of Adminimize
+
+= 1.6.4 (27/04/2009) =
+* new Backend-Themes
+* more options
+* multilanguage for role-names
+
+= 1.6.1, 1.6.3 (24/05/2009) =
+* ready for own roles
+* new options for link-area on WP backend
+* own options for all areas, use css selectors
+* ...
+
+= v1.6 =
+* ready for WP 2.7
+* new options area, parting of page and post options
+* add wp_nonce for own logout
+* ...
+
+= v1.5.3-8 =
+* Changes for WP 2.7
+* changes on CSS design
+* ...
+
+= v1.5.2 =
+* own redirects possible
+
+= v1.5.1 =
+* Bugfix für rekursiven Array; Redirect bei deaktivem Dashboard funktionierte nicht
+
+= v1.5 =
+* Für jede Nutzerrolle besteht nun die Möglichkeit, eigene Menus und Metaboxes zu setzen. Erweiterungen im Backend-Bereich und Vorbereitung für WordPress Version 2.7
+
+= v1.4.7 =
+* Bugfix CSS-Adresse für WP 2.5
+
+= v1.4.3-6 =
+* Aufrufe diverser JS geändert, einige übergreifende Funktionen nun auch ohne aktives Adminimize-Theme
+
+= v1.4.2 =
+* kleine Erweiterungen, Variablenabfragen geändert
+
+= v1.4.1 =
+* Bugfixes und Umstellung Sprache
+
+= v1.4 =
+* Performanceoptimierung; <strong>Achtung:</strong> nur noch 1 Db-Eintrag, bei Update auf Version 1.4 zuvor die Deinstallation-Option nutzen und die Db von überflüssigen Einträgen befreien.
+
+= v1.3 =
+* Backendfunktn. erweitert, Update für PressThis im Bereich Schreiben, etc.
+
+= v1.2 =
+* Erweiterungen der MetaBoxen
+
+= v1.1 =
+* Schreiben-, Verwalten-Bereich ist deaktivierbar; CSS-Erweiterungen des WP 2.3 Themes für WP 2.6; Sidebar im Schreiben-Bereich noch mehr konfigurierbar, Optionsseite ausgebaut, kleine Code-Veränderungen
+
+= v1.0 =
+* JavaScript schlanker durch die Hilfe von <a href="http://www.schloebe.de/">Oliver Schlöbe</a>
+
+= v0.8.1 =
+* Hinweis im Footer möglich, optional mit optionalen Text, Weiterleitung immer ersichtlich
+
+= v0.8 =
+* Weiterleitung nach Logout möglich
+
+= v0.7.9 =
+* Zusätzlich ist innerhalb der Kategorien nur "Kategorien hinzufügen" deaktiverbar
+
+= v0.7.8 =
+* Mehrsprachigkeit erweitert
+
+= v0.7.7 =
+* Bugfix für Metabox ausblenden in Write Page
+
+= v0.7.6 =
+* Checkbox für alle auswählen auch in Page und Post, Korrektur in Texten
+
+= v0.7.5 =
+* Checkbox für alle auswählen, Theme zuweisen
+
+= v0.7.3 =
+* Optionale Weiterleitung bei deaktiviertem Dashboard, Einstellungen per Plugin-Seite möglich, Admin-Footer ergänzt um Plugin-infos
+
+= v0.7.2 =
+* Update Options Button zusätzlich im oberen Abschnitt
+
+= v0.7.1 =
+* Thickbox Funktion optional
+
+= v0.7 =
+* WriteScroll optional, MediaButtons deaktivierbar
+
+= v0.6.9 =
+* Theme WordPress 2.3 hinzugekommen, Footer deaktivierbar
+
 Please see the older changes on version on the [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/#historie "Adminimize")!
 
 == Other Notes ==
