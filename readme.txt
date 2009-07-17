@@ -140,64 +140,64 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * own redirects possible
 
 = v1.5.1 =
-* Bugfix für rekursiven Array; Redirect bei deaktivem Dashboard funktionierte nicht
+* Bugfix f&uuml;r rekursiven Array; Redirect bei deaktivem Dashboard funktionierte nicht
 
 = v1.5 =
-* Für jede Nutzerrolle besteht nun die Möglichkeit, eigene Menus und Metaboxes zu setzen. Erweiterungen im Backend-Bereich und Vorbereitung für WordPress Version 2.7
+* F&uuml;r jede Nutzerrolle besteht nun die M&uuml;glichkeit, eigene Menus und Metaboxes zu setzen. Erweiterungen im Backend-Bereich und Vorbereitung f&uuml;r WordPress Version 2.7
 
 = v1.4.7 =
-* Bugfix CSS-Adresse für WP 2.5
+* Bugfix CSS-Adresse f&uuml;r WP 2.5
 
 = v1.4.3-6 =
-* Aufrufe diverser JS geändert, einige übergreifende Funktionen nun auch ohne aktives Adminimize-Theme
+* Aufrufe diverser JS ge&auml;ndert, einige &uuml;bergreifende Funktionen nun auch ohne aktives Adminimize-Theme
 
 = v1.4.2 =
-* kleine Erweiterungen, Variablenabfragen geändert
+* kleine Erweiterungen, Variablenabfragen ge&auml;ndert
 
 = v1.4.1 =
 * Bugfixes und Umstellung Sprache
 
 = v1.4 =
-* Performanceoptimierung; <strong>Achtung:</strong> nur noch 1 Db-Eintrag, bei Update auf Version 1.4 zuvor die Deinstallation-Option nutzen und die Db von überflüssigen Einträgen befreien.
+* Performanceoptimierung; <strong>Achtung:</strong> nur noch 1 Db-Eintrag, bei Update auf Version 1.4 zuvor die Deinstallation-Option nutzen und die Db von &uuml;berfl&uuml;ssigen Eintr&auml;gen befreien.
 
 = v1.3 =
-* Backendfunktn. erweitert, Update für PressThis im Bereich Schreiben, etc.
+* Backendfunktn. erweitert, Update f&uuml;r PressThis im Bereich Schreiben, etc.
 
 = v1.2 =
 * Erweiterungen der MetaBoxen
 
 = v1.1 =
-* Schreiben-, Verwalten-Bereich ist deaktivierbar; CSS-Erweiterungen des WP 2.3 Themes für WP 2.6; Sidebar im Schreiben-Bereich noch mehr konfigurierbar, Optionsseite ausgebaut, kleine Code-Veränderungen
+* Schreiben-, Verwalten-Bereich ist deaktivierbar; CSS-Erweiterungen des WP 2.3 Themes f&uuml;r WP 2.6; Sidebar im Schreiben-Bereich noch mehr konfigurierbar, Optionsseite ausgebaut, kleine Code-Ver&auml;nderungen
 
 = v1.0 =
-* JavaScript schlanker durch die Hilfe von <a href="http://www.schloebe.de/">Oliver Schlöbe</a>
+* JavaScript schlanker durch die Hilfe von <a href="http://www.schloebe.de/">Oliver Schl&uuml;be</a>
 
 = v0.8.1 =
-* Hinweis im Footer möglich, optional mit optionalen Text, Weiterleitung immer ersichtlich
+* Hinweis im Footer m&uuml;glich, optional mit optionalen Text, Weiterleitung immer ersichtlich
 
 = v0.8 =
-* Weiterleitung nach Logout möglich
+* Weiterleitung nach Logout m&uuml;glich
 
 = v0.7.9 =
-* Zusätzlich ist innerhalb der Kategorien nur "Kategorien hinzufügen" deaktiverbar
+* Zus&auml;tzlich ist innerhalb der Kategorien nur "Kategorien hinzuf&uuml;gen" deaktiverbar
 
 = v0.7.8 =
 * Mehrsprachigkeit erweitert
 
 = v0.7.7 =
-* Bugfix für Metabox ausblenden in Write Page
+* Bugfix f&uuml;r Metabox ausblenden in Write Page
 
 = v0.7.6 =
-* Checkbox für alle auswählen auch in Page und Post, Korrektur in Texten
+* Checkbox f&uuml;r alle ausw&auml;hlen auch in Page und Post, Korrektur in Texten
 
 = v0.7.5 =
-* Checkbox für alle auswählen, Theme zuweisen
+* Checkbox f&uuml;r alle ausw&auml;hlen, Theme zuweisen
 
 = v0.7.3 =
-* Optionale Weiterleitung bei deaktiviertem Dashboard, Einstellungen per Plugin-Seite möglich, Admin-Footer ergänzt um Plugin-infos
+* Optionale Weiterleitung bei deaktiviertem Dashboard, Einstellungen per Plugin-Seite m&uuml;glich, Admin-Footer erg&auml;nzt um Plugin-infos
 
 = v0.7.2 =
-* Update Options Button zusätzlich im oberen Abschnitt
+* Update Options Button zus&auml;tzlich im oberen Abschnitt
 
 = v0.7.1 =
 * Thickbox Funktion optional
@@ -212,7 +212,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 == Other Notes ==
 = Acknowledgements =
 * Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend and thanks to [Alphawolf](http://www.schloebe.de/ "Alphawolf") for write a smaller javascript with jQuery.
-* Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "Gürkan Gür") for translation in turkish.
+* Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "G&uuml;rkan G&uuml;r") for translation in turkish.
 * Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 
