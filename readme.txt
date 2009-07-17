@@ -26,6 +26,7 @@ With version 1.6.1 it is possible to add own options for hide areas in the backe
 1. [TDO Mini Forms](http://thedeadone.net/software/tdo-mini-forms-wordpress-plugin/ "TDO Mini Forms") by Mark Cunningham
 1. [Post Notification](http://pn.xn--strbe-mva.de/ "Post Notification") by Moritz Str&uuml;be
 1. [HTML Special Characters Helper](http://coffee2code.com/wp-plugins/html-special-characters-helper "HTML Special Characters Helper") by Scott Reilly
+1. You can add your own options, you must only see for css selectors
 
 = Requirements =
 1. WordPress version 2.5 and later
@@ -66,15 +67,11 @@ The plugin changes the administration backend and gives you the power to assign 
 
 == Installation ==
 1. Unpack the download-package
-
 2. Upload folder include all files to the `/wp-content/plugins/` directory.  The
 final directory tree should look like `/wp-content/plugins/adminimize/adminimize.php`, `/wp-content/plugins/adminimize/adminimize_page.php`, `/wp-content/plugins/adminimize/css/` and `/wp-content/plugins/adminimize/languages`
-
 3. Activate the plugin through the `Plugins` menu in WordPress
-
 4. Selecting Colour Scheme and Theme, selection in Your Profile, go to your User Profile (under `Users` > `Your Profile` or by clicking on your name at the top right corner of the administration panel).
-
-4. Administrator can go to `Options` > `Adminimize` menu and configure the plugin (Menu, Submenu, Metaboxes, ...)
+5. Administrator can go to `Options` > `Adminimize` menu and configure the plugin (Menu, Submenu, Metaboxes, ...)
 
 = Advice =
 Please use the `Deinstall-Function` in the option-area before update to version 1.4! Version 1.4 and higher have only one database entry and the `Deinstall-Option` deinstall the old entrys.
@@ -90,6 +87,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.1 (17/06/2009)
+* Add belarussian language file, thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow")
+
 = v1.7.1 (16/06/2009) =
 * changes for load userdate on settings themes; better for performance on blogs with many Users
 * small bugfixes on texdomain
@@ -105,9 +105,10 @@ Please see the older changes on version on the [the official website](http://bue
 
 == Other Notes ==
 = Acknowledgements =
-Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend and thanks to [Alphawolf](http://www.schloebe.de/ "Alphawolf") for write a smaller javascript with jQuery.
-Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "Gürkan Gür") for translation in turkish.
-Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
+* Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend and thanks to [Alphawolf](http://www.schloebe.de/ "Alphawolf") for write a smaller javascript with jQuery.
+* Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "Gürkan Gür") for translation in turkish.
+* Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
+* Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishliste and Donate") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
