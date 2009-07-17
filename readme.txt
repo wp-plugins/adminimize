@@ -3,7 +3,7 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 2.8
+Tested up to: 2.9-rare
 Stable tag: 0.5
 
 At first: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
@@ -90,7 +90,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
-= v1.7.1 (16/06/2009)
+= v1.7.1 (16/06/2009) =
 * changes for load userdate on settings themes; better for performance on blogs with many Users
 * small bugfixes on texdomain
 * changes on hint for settings on menu
