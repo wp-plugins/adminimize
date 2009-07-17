@@ -86,7 +86,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
-= v1.7.1 (17/06/2009)
+= v1.7.1 (17/06/2009) =
 * Add belarussian language file, thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow")
 
 = v1.7.1 (16/06/2009) =
