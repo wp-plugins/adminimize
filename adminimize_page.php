@@ -540,6 +540,9 @@ function _mw_adminimize_options() {
 								$x = 0;
 								$class = '';
 								
+								$users = array( 0 => 'Profile', 1 => 'edit_users', 2 => 'profile.php', 3 => '', 4 => 'menu-top', 5 => 'menu-users', 6 => 'div' );
+								//array_push( $menu, $users );
+								
 								foreach ($menu as $item) {
 									
 									// non checked items
@@ -568,11 +571,23 @@ function _mw_adminimize_options() {
 												$disabled_item_adm = '';
 												$disabled_item_adm_hint = '';
 											}
-											echo "\t" . '<td class="num">' . $disabled_item_adm_hint . '<input id="check_menu'. $role.$x .'" type="checkbox"' . $disabled_item_adm . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_menu_'. $role .'_items[]" value="' . $item[2] . '" />' . $disabled_item_adm_hint . '</td>' . "\n";
+											echo "\t" . '<td class="num">' . $disabled_item_adm_hint . '<input id="check_menu'. $role . $x .'" type="checkbox"' . $disabled_item_adm . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_menu_'. $role .'_items[]" value="' . $item[2] . '" />' . $disabled_item_adm_hint . '</td>' . "\n";
 										}
 										echo '</tr>';
+										
+										// only for user smaller administrator, change user-Profile-File
+										if ( $item[2] === 'users.php' ) {
+											$x++;
+											echo '<tr class="form-invalid">' . "\n";
+											echo "\t" . '<th>' . __('Profile') . ' <span style="color:#ccc; font-weight: 400;">(profile.php)</span> </th>';
+											foreach ($user_roles as $role) {
+												echo "\t" . '<td class="num"><input disabled="disabled" id="check_menu'. $role . $x .'" type="checkbox"' . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_menu_'. $role .'_items[]" value="profile.php" /></td>' . "\n";
+											}
+											echo '</tr>';
+										}
+
 										$x++;
-	
+
 										if ( !isset($submenu[$item[2]]) )
 											continue;
 
