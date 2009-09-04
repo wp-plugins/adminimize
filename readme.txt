@@ -65,6 +65,11 @@ The plugin changes the administration backend and gives you the power to assign 
 1. you can add own options for set rights to role
 1. ... many more
 
+= Localizations =
+* Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "G&uuml;rkan G&uuml;r") for translation in turkish.
+* Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
+* Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
+
 == Installation ==
 1. Unpack the download-package
 2. Upload folder include all files to the `/wp-content/plugins/` directory. The final directory tree should look like `/wp-content/plugins/adminimize/adminimize.php`, `/wp-content/plugins/adminimize/adminimize_page.php`, `/wp-content/plugins/adminimize/css/` and `/wp-content/plugins/adminimize/languages`
@@ -86,7 +91,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
-= v1.7.2 (07/08/2009)=
+= v1.7.2 (07/08/2009) =
 * Add fix for deactive user.php/profile.php
 
 = v1.7.1 (17/06/2009) =
