@@ -3,7 +3,7 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 2.9-rare
+Tested up to: 3.0-alpha
 Stable tag: 0.5
 
 At first: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
@@ -21,8 +21,8 @@ With version 1.6.1 it is possible to add own options for hide areas in the backe
 
 = Compatibility with the plugins for MetaBoxes in Write-area =
 1. [Simple Tag](http://wordpress.org/extend/plugins/simple-tags "Simple Tag") by Amaury BALMER
-1. [Text Control](http://dev.wp-plugins.org/wiki/TextControl "Text Control") by Michael Torbert
-1. [All in One SEO Pack](http://semperfiwebdesign.com "All in One SEO Pack") by Jeff Minard and Frank Bueltge
+1. [Text Control](http://dev.wp-plugins.org/wiki/TextControl "Text Control") by Jeff Minard and Frank Bueltge
+1. [All in One SEO Pack](http://semperfiwebdesign.com "All in One SEO Pack") by Michael Torbert
 1. [TDO Mini Forms](http://thedeadone.net/software/tdo-mini-forms-wordpress-plugin/ "TDO Mini Forms") by Mark Cunningham
 1. [Post Notification](http://pn.xn--strbe-mva.de/ "Post Notification") by Moritz Str&uuml;be
 1. [HTML Special Characters Helper](http://coffee2code.com/wp-plugins/html-special-characters-helper "HTML Special Characters Helper") by Scott Reilly
@@ -93,6 +93,12 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.3 (01/08/2010) =
+* Add Im-/Export function
+* Add new meta boxes from WP 2.9 post_thumbnail, if active from the Theme
+* Small modifications and code and css
+* Add new functions: hide tab for help and options on edit post or edit page; category meta box with ful height, etc.
+
 = v1.7.2 (07/08/2009) =
 * Add fix for deactive user.php/profile.php
 
@@ -226,6 +232,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 
+= Help with "Your own options" =
+My english ist very bad and you can see the [entry on the WP community forum](http://wordpress.org/support/topic/328449 "Plugin: Adminimize Help with Your own options (3 posts)") for help with great function.
+
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishliste and Donate") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
 
@@ -234,6 +243,8 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 
 
 == Frequently Asked Questions ==
+= Help with "Your own options" =
+My english ist very bad and you can see the [entry on the WP community forum](http://wordpress.org/support/topic/328449 "[Plugin: Adminimize] Help with "Your own options" (3 posts)") for help with great function.
 
 = Where can I get more information? =
 Please visit [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize") for the latest information on this plugin.

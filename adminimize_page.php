@@ -2,6 +2,13 @@
 /**
  * options-page in wp-admin
  */
+
+// export options
+if ( isset( $_GET['_mw_adminimize_export'] ) ) {
+	_mw_adminimize_export();
+	die();
+}
+
 function _mw_adminimize_options() {
 	global $wpdb, $_wp_admin_css_colors, $wp_version, $wp_roles;
 
@@ -14,7 +21,7 @@ function _mw_adminimize_options() {
 	// update options
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
 
-		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
+		if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 			check_admin_referer('mw_adminimize_nonce');
 
 			_mw_adminimize_update();
@@ -25,17 +32,33 @@ function _mw_adminimize_options() {
 			wp_die($myErrors);
 		}
 	}
+	
+	// import options
+	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_import') && $_POST['_mw_adminimize_save'] ) {
 
+		if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
+			check_admin_referer('mw_adminimize_nonce');
+			
+			_mw_adminimize_import();
+			
+		} else {
+			$myErrors = new _mw_adminimize_message_class();
+			$myErrors = '<div id="message" class="error"><p>' . $myErrors->get_error('_mw_adminimize_access_denied') . '</p></div>';
+			wp_die($myErrors);
+		}
+	}
+	
 	// deinstall options
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_deinstall') &&  ($_POST['_mw_adminimize_deinstall_yes'] != '_mw_adminimize_deinstall') ) {
-			$myErrors = new _mw_adminimize_message_class();
-			$myErrors = '<div id="message" class="error"><p>' . $myErrors->get_error('_mw_adminimize_deinstall_yes') . '</p></div>';
-			wp_die($myErrors);
+
+		$myErrors = new _mw_adminimize_message_class();
+		$myErrors = '<div id="message" class="error"><p>' . $myErrors->get_error('_mw_adminimize_deinstall_yes') . '</p></div>';
+		wp_die($myErrors);
 	}
 
 	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_deinstall') && $_POST['_mw_adminimize_deinstall'] && ($_POST['_mw_adminimize_deinstall_yes'] == '_mw_adminimize_deinstall') ) {
 
-		if ( function_exists('current_user_can') && current_user_can('edit_plugins') ) {
+		if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 			check_admin_referer('mw_adminimize_nonce');
 
 			_mw_adminimize_deinstall();
@@ -82,12 +105,86 @@ function _mw_adminimize_options() {
 	}
 ?>
 	<div class="wrap">
+		<?php screen_icon('tools'); ?>
 		<h2><?php _e('Adminimize', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h2>
-		<br class="clear" />
+		<div id="poststuff" class="metabox-holder has-right-sidebar">
+			
+			<div id="side-info-column" class="inner-sidebar">
+				<div class="meta-box-sortables">
+					<div id="about" class="postbox ">
+						<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
+						<h3 class="hndle" id="about-sidebar"><?php _e('About the plugin', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
+						<div class="inside">
+							<p><?php _e('Further information: Visit the <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">plugin homepage</a> for further information or to grab the latest version of this plugin.', FB_ADMINIMIZE_TEXTDOMAIN); ?></p>
+							<p>
+							<span style="float: left;">
+								<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+								<input type="hidden" name="cmd" value="_s-xclick">
+								<input type="hidden" name="hosted_button_id" value="4578111">
+								<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="<?php _e('PayPal - The safer, easier way to pay online!', FB_ADMINIMIZE_TEXTDOMAIN); ?>">
+								<img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+							</form>
+							</span>
+							<?php _e('You want to thank me? Visit my <a href="http://bueltge.de/wunschliste/">wishlist</a> or donate.', FB_ADMINIMIZE_TEXTDOMAIN); ?>
+							</p>
+							<p>&copy; Copyright 2008 - <?php echo date('Y'); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="post-body" class="has-sidebar">
+				<div id="post-body-content" class="has-sidebar-content">
+					<div id="normal-sortables" class="meta-box-sortables">
+						<div id="about" class="postbox ">
+							<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
+							<h3 class="hndle" id="menu"><?php _e('MiniMenu', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
+							<div class="inside">
+								<table class="widefat" cellspacing="0">
+									<tr class="alternate">
+										<td class="row-title"><a href="#backend_options"><?php _e('Backend Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr>
+										<td class="row-title"><a href="#global_options"><?php _e('Global options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr class="alternate">
+										<td class="row-title"><a href="#config_menu"><?php _e('Menu Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr>
+										<td class="row-title"><a href="#config_edit_post"><?php _e('Write options - Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr class="alternate">
+										<td class="row-title"><a href="#config_edit_page"><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr>
+										<td class="row-title"><a href="#links_options"><?php _e('Links options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr class="alternate">
+										<td class="row-title"><a href="#set_theme"><?php _e('Set Theme', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr>
+										<td class="row-title"><a href="#import"><?php _e('Export/Import Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr class="alternate">
+										<td class="row-title"><a href="#uninstall"><?php _e('Deinstall Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+									<tr>
+										<td class="row-title"><a href="#about"><?php _e('About the plugin', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br class="clear"/>
+		
+		</div>
+		
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle"><?php _e('Backend Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
+				<h3 class="hndle" id="backend_options"><?php _e('Backend Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 
 				<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
@@ -169,6 +266,16 @@ function _mw_adminimize_options() {
 								</td>
 							</tr>
 							<tr valign="top">
+								<td><?php _e('Category Height', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
+								<td>
+									<?php $_mw_adminimize_cat_full = _mw_adminimize_getOptionValue('_mw_adminimize_cat_full'); ?>
+									<select name="_mw_adminimize_cat_full">
+										<option value="0"<?php if ($_mw_adminimize_cat_full == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_cat_full == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('View the Meta Box with Categories in the full height, no scrollbar or whitespace.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+							</tr>
+							<tr valign="top">
 								<td><?php _e('Advice in Footer', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_advice = _mw_adminimize_getOptionValue('_mw_adminimize_advice'); ?>
@@ -222,6 +329,7 @@ function _mw_adminimize_options() {
 					<p id="submitbutton">
 						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
 
 				</div>
 			</div>
@@ -336,6 +444,7 @@ function _mw_adminimize_options() {
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
 						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
 
 				</div>
 			</div>
@@ -347,6 +456,7 @@ function _mw_adminimize_options() {
 				<h3 class="hndle" id="config_menu"><?php _e('Menu Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
+					
 					<table summary="config_menu" class="widefat">
 						<thead>
 							<tr>
@@ -360,8 +470,9 @@ function _mw_adminimize_options() {
 						</thead>
 						<tbody>
 							<?php
-							$menu    = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
-							$submenu = _mw_adminimize_getOptionValue('mw_adminimize_default_submenu');
+							global $menu, $submenu;
+							//$menu    = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
+							//$submenu = _mw_adminimize_getOptionValue('mw_adminimize_default_submenu');
 
 							foreach ($user_roles as $role) {
 								$disabled_metaboxes_post_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
@@ -369,6 +480,8 @@ function _mw_adminimize_options() {
 							}
 
 							$metaboxes = array(
+								'#contextual-help-link-wrap',
+								'#screen-options-link-wrap',
 								'#pageslugdiv',
 								'#tagsdiv,#tagsdivsb,#tagsdiv-post_tag',
 								'#categorydiv,#categorydivsb',
@@ -376,7 +489,6 @@ function _mw_adminimize_options() {
 								'#postexcerpt',
 								'#trackbacksdiv',
 								'#postcustom',
-								'#commentstatusdiv',
 								'#commentsdiv',
 								'#passworddiv',
 								'#authordiv',
@@ -387,9 +499,12 @@ function _mw_adminimize_options() {
 								'#media-buttons',
 								'#wp-word-count',
 								'#slugdiv,#edit-slug-box',
-								'#misc-publishing-actions'
+								'#misc-publishing-actions',
+								'#commentstatusdiv'
 							);
 
+							if ( current_theme_supports( 'post-thumbnails', 'post' ) )
+								array_push($metaboxes, '#postimagediv');
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes, '#suggestedtags');
 							if (function_exists('tc_post'))
@@ -406,27 +521,31 @@ function _mw_adminimize_options() {
 								array_push($metaboxes, '#poststickystatusdiv');
 
 							$metaboxes_names = array(
+								__('Screen Options'),
+								__('Help'),
 								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Tags', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Categories', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Add New Category', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Excerpt', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Trackbacks', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Custom Fields', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Comments &amp; Pings', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Custom Fields'),
 								__('Comments', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Password Protect This Post', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Post Author', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Post Revisions', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Post Author'),
+								__('Post Revisions'),
 								__('Related, Shortcuts', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Messenges', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('h2: Advanced Options', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Media Buttons (all)', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Word count', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Post Slug, Slug Box', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Post Slug'),
 								__('Publish Actions', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Discussion')
 							);
 							
+							if ( current_theme_supports( 'post-thumbnails', 'post' ) )
+								array_push($metaboxes_names, __('Post Thumbnail') );
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes_names, __('Suggested tags from'));
 							if (function_exists('tc_post'))
@@ -434,7 +553,7 @@ function _mw_adminimize_options() {
 							if (class_exists('HTMLSpecialCharactersHelper'))
 								array_push($metaboxes_names, __('HTML Special Characters'));
 							if (class_exists('All_in_One_SEO_Pack'))
-								array_push($metaboxes_names, 'All in One SEO Pack');
+								array_push($metaboxes_names, __('All in One SEO Pack'));
 							if (function_exists('tdomf_edit_post_panel_admin_head'))
 								array_push($metaboxes_names, 'TDOMF');
 							if (function_exists('post_notification_form'))
@@ -459,8 +578,10 @@ function _mw_adminimize_options() {
 							
 							// pages
 							$metaboxes_page = array(
+								'#contextual-help-link-wrap',
+								'#screen-options-link-wrap',
 								'#pageslugdiv',
-								'#pagepostcustom, #pagecustomdiv',
+								'#pagepostcustom, #pagecustomdiv, #postcustom',
 								'#pagecommentstatusdiv',
 								'#pagepassworddiv',
 								'#pageparentdiv',
@@ -474,9 +595,12 @@ function _mw_adminimize_options() {
 								'#media-buttons',
 								'#wp-word-count',
 								'#slugdiv,#edit-slug-box',
-								'#misc-publishing-actions'
+								'#misc-publishing-actions',
+								'#commentstatusdiv'
 							);
 
+							if ( current_theme_supports( 'post-thumbnails', 'page' ) )
+								array_push($metaboxes_page, '#postimagediv' );
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes_page, '#suggestedtags');
 							if (class_exists('HTMLSpecialCharactersHelper'))
@@ -489,24 +613,29 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_page, '#post_notification');
 
 							$metaboxes_names_page = array(
+								__('Screen Options'),
+								__('Help'),
 								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Custom Fields', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Custom Fields'),
 								__('Comments &amp; Pings', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Password Protect This Page', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Page Parent', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Attributes'),
 								__('Page Template', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Page Order', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Page Author', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Page Revisions', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Author'),
+								__('Page Revisions'),
 								__('Related', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Messenges', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('h2: Advanced Options', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Media Buttons (all)', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Word count', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Page Slug, Slug Box', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Page Slug'),
 								__('Publish Actions', FB_ADMINIMIZE_TEXTDOMAIN ),
+								__('Discussion')
 							);
 
+							if ( current_theme_supports( 'post-thumbnails', 'page' ) )
+								array_push($metaboxes_names_page, __('Page Image') );
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes_names_page, __('Suggested tags from', FB_ADMINIMIZE_TEXTDOMAIN ));
 							if (class_exists('HTMLSpecialCharactersHelper'))
@@ -634,6 +763,7 @@ function _mw_adminimize_options() {
 					<p id="submitbutton">
 						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
 
 				</div>
 			</div>
@@ -642,7 +772,7 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="config_edit"><?php _e('Write options - Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
+				<h3 class="hndle" id="config_edit_post"><?php _e('Write options - Post', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 
@@ -716,6 +846,7 @@ function _mw_adminimize_options() {
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
 						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
 
 				</div>
 			</div>
@@ -724,7 +855,7 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="config_edit"><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
+				<h3 class="hndle" id="config_edit_page"><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 
@@ -798,6 +929,7 @@ function _mw_adminimize_options() {
 						<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_insert" />
 						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
 
 				</div>
 			</div>
@@ -806,7 +938,7 @@ function _mw_adminimize_options() {
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox">
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
-				<h3 class="hndle" id="global_options"><?php _e('Links options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
+				<h3 class="hndle" id="links_options"><?php _e('Links options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></h3>
 				<div class="inside">
 					<br class="clear" />
 
@@ -919,6 +1051,7 @@ function _mw_adminimize_options() {
 						<input class="button button-primary" type="submit" name="_mw_adminimize_save" value="<?php _e('Update Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?> &raquo;" /><input type="hidden" name="page_options" value="'dofollow_timeout'" />
 					</p>
 				</form>
+				<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
 				
 				</div>
 			</div>
@@ -1016,6 +1149,43 @@ function _mw_adminimize_options() {
 							</p>
 						</form>
 					<?php } ?>
+					
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
+				</div>
+			</div>
+		</div>
+		
+		<div id="poststuff" class="ui-sortable meta-box-sortables">
+			<div class="postbox">
+				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
+				<h3 class="hndle" id="import"><?php _e('Export/Import Options', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
+				<div class="inside">
+					<br class="clear" />
+					
+					<h4><?php _e('Export', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h4>
+					<form name="export_options" method="get" action="">
+						<p><?php _e('You can save a .seq file with your options.', FB_ADMINIMIZE_TEXTDOMAIN ) ?></p>
+						<p id="submitbutton">
+							<input type="hidden" name="_mw_adminimize_export" value="true" />
+							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Export &raquo;', FB_ADMINIMIZE_TEXTDOMAIN ) ?>" class="button" />
+						</p>
+					</form>
+					
+					<h4><?php _e('Import', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h4>
+					<form name="import_options" enctype="multipart/form-data" method="post" action="?page=<?php echo $_GET['page'];?>">
+						<?php wp_nonce_field('mw_adminimize_nonce'); ?> 
+						<p><?php _e('Choose a Adminimize (<em>.seq</em>) file to upload, then click <em>Upload file and import</em>.', FB_ADMINIMIZE_TEXTDOMAIN ) ?></p>
+						<p>
+							<label for="datei_id"><?php _e('Choose a file from your computer', FB_ADMINIMIZE_TEXTDOMAIN ) ?>: </label>
+							<input name="datei" id="datei_id" type="file" />
+						</p>
+						<p id="submitbutton">
+							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_import" />
+							<input type="submit" name="_mw_adminimize_save" value="<?php _e('Upload file and import &raquo;', FB_ADMINIMIZE_TEXTDOMAIN ) ?>" class="button" />
+						</p>
+					</form>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
+					
 				</div>
 			</div>
 		</div>
@@ -1035,6 +1205,7 @@ function _mw_adminimize_options() {
 							<input type="hidden" name="_mw_adminimize_action" value="_mw_adminimize_deinstall" />
 						</p>
 					</form>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
 
 				</div>
 			</div>
@@ -1045,6 +1216,7 @@ function _mw_adminimize_options() {
 				<div class="handlediv" title="<?php _e('Click to toggle'); ?>"><br/></div>
 				<h3 class="hndle" id="about"><?php _e('About the plugin', FB_ADMINIMIZE_TEXTDOMAIN ) ?></h3>
 				<div class="inside">
+				
 					<p><?php _e('Further information: Visit the <a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">plugin homepage</a> for further information or to grab the latest version of this plugin.', FB_ADMINIMIZE_TEXTDOMAIN); ?></p>
 					<p>
 					<span style="float: left;">
@@ -1059,6 +1231,8 @@ function _mw_adminimize_options() {
 					</p>
 					<p>&copy; Copyright 2008 - <?php echo date('Y'); ?> <a href="http://bueltge.de">Frank B&uuml;ltge</a></p>
 					<p class="textright" style="color:#ccc"><small><?php echo $wpdb->num_queries; ?>q, <?php timer_stop(1); ?>s</small></p>
+					<p><a class="alignright button" href="javascript:void(0);" onclick="window.scrollTo(0,0);" style="margin:3px 0 0 30px;"><?php _e('scroll to top', FB_ADMINIMIZE_TEXTDOMAIN); ?></a><br class="clear" /></p>
+					
 				</div>
 			</div>
 		</div>

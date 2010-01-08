@@ -2,7 +2,7 @@
 /**
  * @package Adminimize
  * @author Frank B&uuml;ltge
- * @version 1.7.2
+ * @version 1.7.3
  */
  
 /*
@@ -11,9 +11,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.2
+Version: 1.7.3
 License: GNU
-Last Update: 07.08.2009 10:21:46
+Last Update: 04.01.2010 15:53:38
 */
 
 /**
@@ -97,6 +97,7 @@ class _mw_adminimize_message_class {
 	function initialize_errors() {
 		$this->errors->add('_mw_adminimize_update', __('The updates was saved.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_access_denied', __('You have not enough rights for edit entries in the database.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_import', __('All entries in the database was imported.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_deinstall', __('All entries in the database was delleted.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_deinstall_yes', __('Set the checkbox on deinstall-button.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_get_option', __('Can\'t load menu and submenu.', $this->localizionName));
@@ -218,7 +219,15 @@ function _mw_adminimize_init() {
 			wp_enqueue_script( '_mw_adminimize_timestamp', WP_PLUGIN_URL . '/' . FB_ADMINIMIZE_BASEFOLDER . '/js/timestamp.js', array('jquery') );
 			break;
 		}
-
+		
+		//category options
+		$_mw_adminimize_cat_full = _mw_adminimize_getOptionValue('_mw_adminimize_cat_full');
+		switch ($_mw_adminimize_cat_full) {
+		case 1:
+			wp_enqueue_style( 'adminimize-ful-category', WP_PLUGIN_URL . '/' . FB_ADMINIMIZE_BASEFOLDER . '/css/mw_cat_full.css' );
+			break;
+		}
+		
 		//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 	}
 	
@@ -239,7 +248,7 @@ function _mw_adminimize_init() {
 				($_mw_admin_color == 'mw_classic_lm') ||
 				($_mw_admin_color == 'mw_wp23')
 		 ) {
-
+		
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 			if ( version_compare( substr($wp_version, 0, 3), '2.7', '<' ) )
 				add_action('admin_head', '_mw_adminimize_remove_box', 99);
@@ -258,7 +267,7 @@ function _mw_adminimize_init() {
 			if ( recursive_in_array('media_buttons', $disabled_metaboxes_post_all) )
 				remove_action('media_buttons', 'media_buttons');
 		}
-
+		
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 
 			// check for array empty
@@ -269,7 +278,7 @@ function _mw_adminimize_init() {
 			if ( recursive_in_array('media_buttons', $disabled_metaboxes_page_all) )
 				remove_action('media_buttons', 'media_buttons');
 		}
-
+	
 	}
 
 	// set menu option
@@ -1037,14 +1046,12 @@ function _mw_adminimize_add_settings_page() {
 		}
 		$menutitle .= ' ' . __('Adminimize', FB_ADMINIMIZE_TEXTDOMAIN );
 
-		$hook = add_submenu_page('options-general.php', __('Adminimize Options', FB_ADMINIMIZE_TEXTDOMAIN ), $menutitle, 8, __FILE__, '_mw_adminimize_options');
+		$pagehook = add_submenu_page('options-general.php', __('Adminimize Options', FB_ADMINIMIZE_TEXTDOMAIN ), $menutitle, 'unfiltered_html', __FILE__, '_mw_adminimize_options');
 		if ( version_compare( $wp_version, '2.7alpha', '>' ) )
-			add_contextual_help( $hook, __( '<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', FB_ADMINIMIZE_TEXTDOMAIN ) );
+			add_contextual_help( $pagehook, __( '<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', FB_ADMINIMIZE_TEXTDOMAIN ) );
 		else
 			add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
 			
-		if ( version_compare( $wp_version, '2.8alpha', '>' ) )
-			add_filter( 'plugin_row_meta', '_mw_adminimize_filter_plugin_meta', 10, 2 );
 		add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_meta', 10, 2 );
 	}
 }
@@ -1076,7 +1083,8 @@ function _mw_adminimize_set_theme() {
 function _mw_adminimize_getOptionValue($key) {
 
 	$adminimizeoptions = get_option('mw_adminimize');
-	return ($adminimizeoptions[$key]);
+	if ( isset($adminimizeoptions[$key]) )
+		return ($adminimizeoptions[$key]);
 }
 
 
@@ -1115,6 +1123,12 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['_mw_adminimize_tb_window'] = strip_tags(stripslashes($_POST['_mw_adminimize_tb_window']));
 	} else {
 		$adminimizeoptions['_mw_adminimize_tb_window'] = 0;
+	}
+
+	if (isset($_POST['_mw_adminimize_cat_full'])) {
+		$adminimizeoptions['_mw_adminimize_cat_full'] = strip_tags(stripslashes($_POST['_mw_adminimize_cat_full']));
+	} else {
+		$adminimizeoptions['_mw_adminimize_cat_full'] = 0;
 	}
 
 	if (isset($_POST['_mw_adminimize_db_redirect'])) {
@@ -1293,5 +1307,62 @@ function _mw_adminimize_install() {
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
 
 	add_option('mw_adminimize', $adminimizeoptions);
+}
+
+/**
+ * export options in file 
+ */
+function _mw_adminimize_export() {
+	global $wpdb;
+
+	$filename = 'adminimize_export-' . date('Y-m-d_G-i-s') . '.seq';
+		
+	header("Content-Description: File Transfer");
+	header("Content-Disposition: attachment; filename=" . urlencode($filename));
+	header("Content-Type: application/force-download");
+	header("Content-Type: application/octet-stream");
+	header("Content-Type: application/download");
+	header('Content-Type: text/seq; charset=' . get_option('blog_charset'), true);
+	flush();
+		
+	$export_data = mysql_query("SELECT option_value FROM $wpdb->options WHERE option_name = 'mw_adminimize'");
+	$export_data = mysql_result($export_data, 0);
+	echo $export_data;
+	flush();
+}
+
+/**
+ * import options in table _options
+ */
+function _mw_adminimize_import() {
+	
+	// check file extension
+	$str_file_name = $_FILES['datei']['name'];
+	$str_file_ext  = explode(".", $str_file_name);
+
+	if ($str_file_ext[1] != 'seq') {
+		$addreferer = 'notexist';
+	} elseif (file_exists($_FILES['datei']['name'])) {
+		$addreferer = 'exist';
+	} else {
+		// path for file
+		$str_ziel = WP_CONTENT_DIR . '/' . $_FILES['datei']['name'];
+		// transfer
+		move_uploaded_file($_FILES['datei']['tmp_name'], $str_ziel);
+		// access authorisation
+		chmod($str_ziel, 0644);
+		// SQL import
+		ini_set('default_socket_timeout', 120);
+		$import_file = file_get_contents($str_ziel);
+		_mw_adminimize_deinstall();
+		$import_file = unserialize($import_file);
+		update_option('mw_adminimize', $import_file);
+		unlink($str_ziel);
+		$addreferer = 'true';
+	}
+
+	$myErrors = new _mw_adminimize_message_class();
+	$myErrors = '<div id="message" class="updated fade"><p>' . $myErrors->get_error('_mw_adminimize_import') . '</p></div>';
+	echo $myErrors;
 }
 ?>
