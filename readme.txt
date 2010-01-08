@@ -21,7 +21,7 @@ With version 1.6.1 it is possible to add own options for hide areas in the backe
 
 = Compatibility with the plugins for MetaBoxes in Write-area =
 1. [Simple Tag](http://wordpress.org/extend/plugins/simple-tags "Simple Tag") by Amaury BALMER
-1. [Text Control](http://dev.wp-plugins.org/wiki/TextControl "Text Control") by Jeff Minard and Frank Bueltge
+1. [Text Control](http://wordpress.org/extend/plugins/text-control-2/ "Text Control") by Jeff Minard and Frank Bueltge
 1. [All in One SEO Pack](http://semperfiwebdesign.com "All in One SEO Pack") by Michael Torbert
 1. [TDO Mini Forms](http://thedeadone.net/software/tdo-mini-forms-wordpress-plugin/ "TDO Mini Forms") by Mark Cunningham
 1. [Post Notification](http://pn.xn--strbe-mva.de/ "Post Notification") by Moritz Str&uuml;be
