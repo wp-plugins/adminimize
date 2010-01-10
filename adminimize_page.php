@@ -470,9 +470,8 @@ function _mw_adminimize_options() {
 						</thead>
 						<tbody>
 							<?php
-							global $menu, $submenu;
-							//$menu    = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
-							//$submenu = _mw_adminimize_getOptionValue('mw_adminimize_default_submenu');
+							$menu    = _mw_adminimize_getOptionValue('mw_adminimize_default_menu');
+							$submenu = _mw_adminimize_getOptionValue('mw_adminimize_default_submenu');
 
 							foreach ($user_roles as $role) {
 								$disabled_metaboxes_post_[$role]  = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
