@@ -13,7 +13,7 @@ Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
 Version: 1.7.4
 License: GNU
-Last Update: 09.01.2010 11:53:38
+Last Update: 10.01.2010 11:53:38
 */
 
 /**

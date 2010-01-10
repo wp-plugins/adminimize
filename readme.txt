@@ -93,6 +93,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.4 (01/10/2010) =
+* Refresh menu and submenu on settings-page
+
 = v1.7.3 (01/08/2010) =
 * Add Im-/Export function
 * Add new meta boxes from WP 2.9 post_thumbnail, if active from the Theme
