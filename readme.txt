@@ -94,7 +94,8 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 
 == Changelog ==
 = v1.7.4 (01/10/2010) =
-* Refresh menu and submenu on settings-page
+* Fix on Refresh menu and submenu on settings-page
+* Fix for older WordPress verisons and  function current_theme_supports 
 
 = v1.7.3 (01/08/2010) =
 * Add Im-/Export function

@@ -502,7 +502,7 @@ function _mw_adminimize_options() {
 								'#commentstatusdiv'
 							);
 
-							if ( current_theme_supports( 'post-thumbnails', 'post' ) )
+							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'post' ) )
 								array_push($metaboxes, '#postimagediv');
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes, '#suggestedtags');
@@ -543,7 +543,7 @@ function _mw_adminimize_options() {
 								__('Discussion')
 							);
 							
-							if ( current_theme_supports( 'post-thumbnails', 'post' ) )
+							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'post' ) )
 								array_push($metaboxes_names, __('Post Thumbnail') );
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes_names, __('Suggested tags from'));
@@ -598,7 +598,7 @@ function _mw_adminimize_options() {
 								'#commentstatusdiv'
 							);
 
-							if ( current_theme_supports( 'post-thumbnails', 'page' ) )
+							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'page' ) )
 								array_push($metaboxes_page, '#postimagediv' );
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes_page, '#suggestedtags');
@@ -633,7 +633,7 @@ function _mw_adminimize_options() {
 								__('Discussion')
 							);
 
-							if ( current_theme_supports( 'post-thumbnails', 'page' ) )
+							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'page' ) )
 								array_push($metaboxes_names_page, __('Page Image') );
 							if (class_exists('SimpleTagsAdmin'))
 								array_push($metaboxes_names_page, __('Suggested tags from', FB_ADMINIMIZE_TEXTDOMAIN ));
