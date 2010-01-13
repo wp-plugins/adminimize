@@ -11,9 +11,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.4
+Version: 1.7.5
 License: GNU
-Last Update: 10.01.2010 11:53:38
+Last Update: 13.01.2010 16:18:03
 */
 
 /**
@@ -797,7 +797,7 @@ function _mw_adminimize_set_global_option() {
 		}
 	}
 	$_mw_adminimize_admin_head .= '<!-- global options -->' . "\n";
-	$_mw_adminimize_admin_head .= '<style type="text/css">' . $global_options . ' {display: none !important}</style>' . "\n";
+	$_mw_adminimize_admin_head .= '<style type="text/css">' . $global_options . ' {display: none !important;}</style>' . "\n";
 	
 	if ($global_options)
 		print($_mw_adminimize_admin_head);
@@ -825,7 +825,7 @@ function _mw_adminimize_set_metabox_post_option() {
 	}
 
 	foreach ($user_roles as $role) {
-		if($role == $role[0]){
+		if ($role == $role[0]) {
 			if ( current_user_can($role) ) {
 				 $metaboxes = implode(',', $disabled_metaboxes_post_[$role]);
 			}
@@ -834,7 +834,13 @@ function _mw_adminimize_set_metabox_post_option() {
 		}
 	}
 
-	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
+	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important;}</style>' . "\n";
+	
+	// set default editor tinymce
+	foreach ($user_roles as $role) {
+		if ( in_array( '#editor-toolbar #edButtonHTML, #quicktags', $disabled_metaboxes_post_[$role] ) )
+			add_filter( 'wp_default_editor', create_function('', 'return "tinymce";') );
+	}
 	
 	if ($metaboxes)
 		print($_mw_adminimize_admin_head);
@@ -870,7 +876,13 @@ function _mw_adminimize_set_metabox_page_option() {
 		}
 	}
 	
-	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important}</style>' . "\n";
+	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important;}</style>' . "\n";
+	
+	// set default editor tinymce
+	foreach ($user_roles as $role) {
+		if ( in_array( '#editor-toolbar #edButtonHTML, #quicktags', $disabled_metaboxes_post_[$role] ) )
+			add_filter( 'wp_default_editor', create_function('', 'return "tinymce";') );
+	}
 	
 	if ($metaboxes)
 		print($_mw_adminimize_admin_head);
@@ -907,7 +919,7 @@ function _mw_adminimize_set_link_option() {
 		}
 	}
 
-	$_mw_adminimize_admin_head .= '<style type="text/css">' . $link_options . ' {display: none !important}</style>' . "\n";
+	$_mw_adminimize_admin_head .= '<style type="text/css">' . $link_options . ' {display: none !important;}</style>' . "\n";
 	
 	if ($link_options)
 		print($_mw_adminimize_admin_head);

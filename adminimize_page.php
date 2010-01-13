@@ -499,7 +499,8 @@ function _mw_adminimize_options() {
 								'#wp-word-count',
 								'#slugdiv,#edit-slug-box',
 								'#misc-publishing-actions',
-								'#commentstatusdiv'
+								'#commentstatusdiv',
+								'#editor-toolbar #edButtonHTML, #quicktags'
 							);
 
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'post' ) )
@@ -540,7 +541,8 @@ function _mw_adminimize_options() {
 								__('Word count', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Post Slug'),
 								__('Publish Actions', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Discussion')
+								__('Discussion'),
+								__('HTML Editor Button')
 							);
 							
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'post' ) )
@@ -595,7 +597,8 @@ function _mw_adminimize_options() {
 								'#wp-word-count',
 								'#slugdiv,#edit-slug-box',
 								'#misc-publishing-actions',
-								'#commentstatusdiv'
+								'#commentstatusdiv',
+								'#editor-toolbar #edButtonHTML, #quicktags'
 							);
 
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'page' ) )
@@ -630,7 +633,8 @@ function _mw_adminimize_options() {
 								__('Word count', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Page Slug'),
 								__('Publish Actions', FB_ADMINIMIZE_TEXTDOMAIN ),
-								__('Discussion')
+								__('Discussion'),
+								__('HTML Editor Button')
 							);
 
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'page' ) )

@@ -63,6 +63,7 @@ The plugin changes the administration backend and gives you the power to assign 
 1. set a backend-theme for difficult user
 1. you can set an role to view the areas on link page, edit post, edit page and global
 1. you can add own options for set rights to role
+1. it is possible to disable HTML-Editor on edit-area, only Visual-tab
 1. ... many more
 
 = Localizations =
@@ -70,6 +71,7 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 
+= Interested in WordPress tips and tricks =
 You may also be interested in WordPress tips and tricks at [WP Enginner](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
 
 == Installation ==
@@ -93,6 +95,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.5 (01/13/2010) =
+* new function: disable HTML Editor on edit post/page
+
 = v1.7.4 (01/10/2010) =
 * Fix on Refresh menu and submenu on settings-page
 * Fix for older WordPress verisons and  function current_theme_supports 
