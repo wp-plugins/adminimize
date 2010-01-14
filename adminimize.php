@@ -11,9 +11,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.5
+Version: 1.7.6
 License: GNU
-Last Update: 13.01.2010 16:18:03
+Last Update: 14.01.2010 11:27:55
 */
 
 /**
@@ -228,6 +228,16 @@ function _mw_adminimize_init() {
 			break;
 		}
 		
+		// set default editor tinymce
+		if ( recursive_in_array('#editor-toolbar #edButtonHTML, #quicktags', $disabled_metaboxes_page_all)
+			|| recursive_in_array('#editor-toolbar #edButtonHTML, #quicktags', $disabled_metaboxes_post_all) )
+			add_filter( 'wp_default_editor', create_function('', 'return "tinymce";') );
+		
+		// remove media bottons
+		if ( recursive_in_array('media_buttons', $disabled_metaboxes_page_all)
+			|| recursive_in_array('media_buttons', $disabled_metaboxes_post_all) )
+			remove_action('media_buttons', 'media_buttons');
+			
 		//add_filter('image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 	}
 	
@@ -249,6 +259,7 @@ function _mw_adminimize_init() {
 				($_mw_admin_color == 'mw_wp23')
 		 ) {
 		
+		// only posts
 		if ( ('post-new.php' == $pagenow) || ('post.php' == $pagenow) ) {
 			if ( version_compare( substr($wp_version, 0, 3), '2.7', '<' ) )
 				add_action('admin_head', '_mw_adminimize_remove_box', 99);
@@ -264,10 +275,9 @@ function _mw_adminimize_init() {
 				if ( !recursive_in_array('#tagsdivsb', $disabled_metaboxes_post_all) )
 					add_action('submitpost_box', '_mw_adminimize_sidecat_list_tag_box');
 			}
-			if ( recursive_in_array('media_buttons', $disabled_metaboxes_post_all) )
-				remove_action('media_buttons', 'media_buttons');
 		}
 		
+		// only pages
 		if ( ('page-new.php' == $pagenow) || ('page.php' == $pagenow) ) {
 
 			// check for array empty
@@ -275,8 +285,6 @@ function _mw_adminimize_init() {
 				$disabled_metaboxes_page_['editor']['0'] = '';
 			if ( isset($disabled_metaboxes_page_['administrator']['0']) )
 			 $disabled_metaboxes_page_['administrator']['0'] = '';
-			if ( recursive_in_array('media_buttons', $disabled_metaboxes_page_all) )
-				remove_action('media_buttons', 'media_buttons');
 		}
 	
 	}
@@ -819,6 +827,11 @@ function _mw_adminimize_set_metabox_post_option() {
 		$disabled_metaboxes_post_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
 	}
 
+	$disabled_metaboxes_post_all = array();
+	foreach ($user_roles as $role) {
+		array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_[$role]);
+	}
+
 	foreach ($user_roles as $role) {
 		if ( !isset($disabled_metaboxes_post_[$role]['0']) )
 			$disabled_metaboxes_post_[$role]['0'] = '';
@@ -835,12 +848,6 @@ function _mw_adminimize_set_metabox_post_option() {
 	}
 
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important;}</style>' . "\n";
-	
-	// set default editor tinymce
-	foreach ($user_roles as $role) {
-		if ( in_array( '#editor-toolbar #edButtonHTML, #quicktags', $disabled_metaboxes_post_[$role] ) )
-			add_filter( 'wp_default_editor', create_function('', 'return "tinymce";') );
-	}
 	
 	if ($metaboxes)
 		print($_mw_adminimize_admin_head);
@@ -861,6 +868,11 @@ function _mw_adminimize_set_metabox_page_option() {
 		$disabled_metaboxes_page_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_'. $role .'_items');
 	}
 	
+	$disabled_metaboxes_page_all = array();
+	foreach ($user_roles as $role) {
+		array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_[$role]);
+	}
+	
 	foreach ($user_roles as $role) {
 		if ( !isset($disabled_metaboxes_page_[$role]['0']) )
 			$disabled_metaboxes_page_[$role]['0'] = '';
@@ -877,12 +889,6 @@ function _mw_adminimize_set_metabox_page_option() {
 	}
 	
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important;}</style>' . "\n";
-	
-	// set default editor tinymce
-	foreach ($user_roles as $role) {
-		if ( in_array( '#editor-toolbar #edButtonHTML, #quicktags', $disabled_metaboxes_post_[$role] ) )
-			add_filter( 'wp_default_editor', create_function('', 'return "tinymce";') );
-	}
 	
 	if ($metaboxes)
 		print($_mw_adminimize_admin_head);

@@ -95,6 +95,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.6 (01/14/2010) =
+* fix array-check on new option disable HTML Editor
+
 = v1.7.5 (01/13/2010) =
 * new function: disable HTML Editor on edit post/page
 
