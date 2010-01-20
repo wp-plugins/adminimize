@@ -2,7 +2,7 @@
 /**
  * @package Adminimize
  * @author Frank B&uuml;ltge
- * @version 1.7.4
+ * @version 1.7.6
  */
  
 /*
@@ -13,7 +13,7 @@ Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
 Version: 1.7.6
 License: GNU
-Last Update: 14.01.2010 11:27:55
+Last Update: 20.01.2010 12:16:49
 */
 
 /**
@@ -437,7 +437,7 @@ function _mw_adminimize_remove_box() {
 		$_mw_adminimize_sidecat_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#tagsdiv\').remove(); });' . "\n";
 		$_mw_adminimize_sidecat_admin_head .= '</script>' . "\n";
 
-		print($_mw_adminimize_sidecat_admin_head);
+		echo $_mw_adminimize_sidecat_admin_head;
 	}
 }
 
@@ -771,7 +771,7 @@ function _mw_adminimize_set_menu_option() {
 
 	}
 
-	print($_mw_adminimize_admin_head);
+	echo $_mw_adminimize_admin_head;
 }
 
 
@@ -808,7 +808,7 @@ function _mw_adminimize_set_global_option() {
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $global_options . ' {display: none !important;}</style>' . "\n";
 	
 	if ($global_options)
-		print($_mw_adminimize_admin_head);
+		echo $_mw_adminimize_admin_head;
 }
 
 
@@ -825,19 +825,10 @@ function _mw_adminimize_set_metabox_post_option() {
 
 	foreach ($user_roles as $role) {
 		$disabled_metaboxes_post_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
-	}
-
-	$disabled_metaboxes_post_all = array();
-	foreach ($user_roles as $role) {
-		array_push($disabled_metaboxes_post_all, $disabled_metaboxes_post_[$role]);
-	}
-
-	foreach ($user_roles as $role) {
+		
 		if ( !isset($disabled_metaboxes_post_[$role]['0']) )
 			$disabled_metaboxes_post_[$role]['0'] = '';
-	}
-
-	foreach ($user_roles as $role) {
+		
 		if ($role == $role[0]) {
 			if ( current_user_can($role) ) {
 				 $metaboxes = implode(',', $disabled_metaboxes_post_[$role]);
@@ -850,8 +841,9 @@ function _mw_adminimize_set_metabox_post_option() {
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important;}</style>' . "\n";
 	
 	if ($metaboxes)
-		print($_mw_adminimize_admin_head);
+		echo $_mw_adminimize_admin_head;
 }
+
 
 /**
  * set metabox options from database an area page
@@ -866,19 +858,10 @@ function _mw_adminimize_set_metabox_page_option() {
 	
 	foreach ($user_roles as $role) {
 		$disabled_metaboxes_page_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_'. $role .'_items');
-	}
-	
-	$disabled_metaboxes_page_all = array();
-	foreach ($user_roles as $role) {
-		array_push($disabled_metaboxes_page_all, $disabled_metaboxes_page_[$role]);
-	}
-	
-	foreach ($user_roles as $role) {
+		
 		if ( !isset($disabled_metaboxes_page_[$role]['0']) )
 			$disabled_metaboxes_page_[$role]['0'] = '';
-	}
-	
-	foreach ($user_roles as $role) {
+
 		if($role == $role[0]){
 			if ( current_user_can($role) ) {
 				 $metaboxes = implode(',', $disabled_metaboxes_page_[$role]);
@@ -891,7 +874,7 @@ function _mw_adminimize_set_metabox_page_option() {
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $metaboxes . ' {display: none !important;}</style>' . "\n";
 	
 	if ($metaboxes)
-		print($_mw_adminimize_admin_head);
+		echo $_mw_adminimize_admin_head;
 }
 
 
@@ -928,7 +911,7 @@ function _mw_adminimize_set_link_option() {
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $link_options . ' {display: none !important;}</style>' . "\n";
 	
 	if ($link_options)
-		print($_mw_adminimize_admin_head);
+		echo $_mw_adminimize_admin_head;
 }
 
 

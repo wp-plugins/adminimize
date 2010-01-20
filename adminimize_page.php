@@ -283,7 +283,7 @@ function _mw_adminimize_options() {
 										<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 									</select>
-									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('In the Footer kann you display a advice for change the Default-design, (x)HTML is possible.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('In Footer kann you display a advice for change the Default-design, (x)HTML is possible.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<?php
@@ -305,7 +305,7 @@ function _mw_adminimize_options() {
 								}
 								?>
 								<tr valign="top" class="form-invalid">
-									<td><?php _e('Dashboard deaktivate, redirect to', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
+									<td><?php _e('Dashboard deactivate, redirect to', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 									<td>
 										<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
 										<select name="_mw_adminimize_db_redirect"<?php echo $disabled_item2; ?>>
@@ -318,7 +318,7 @@ function _mw_adminimize_options() {
 											<option value="6"<?php if ($_mw_adminimize_db_redirect == '6') { echo ' selected="selected"'; } ?>><?php _e('other Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										</select>
 										<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_db_redirect_txt" id="_mw_adminimize_db_redirect_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt'))); ?></textarea>
-										<br /><?php _e('You have deaktivate the Dashboard, please select a page for redirect?', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+										<br /><?php _e('You have deactivate the Dashboard, please select a page for redirect?', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 									</td>
 								</tr>
 								<?php
@@ -521,8 +521,8 @@ function _mw_adminimize_options() {
 								array_push($metaboxes, '#poststickystatusdiv');
 
 							$metaboxes_names = array(
-								__('Screen Options'),
 								__('Help'),
+								__('Screen Options'),
 								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Tags', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Categories', FB_ADMINIMIZE_TEXTDOMAIN ),
@@ -615,8 +615,8 @@ function _mw_adminimize_options() {
 								array_push($metaboxes_page, '#post_notification');
 
 							$metaboxes_names_page = array(
-								__('Screen Options'),
 								__('Help'),
+								__('Screen Options'),
 								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Custom Fields'),
 								__('Comments &amp; Pings', FB_ADMINIMIZE_TEXTDOMAIN ),
@@ -1125,7 +1125,7 @@ function _mw_adminimize_options() {
 										$return .= "\t" . '<td>'. $role_name . '</td>' . "\n";
 										$return .= '</tr>' . "\n";
 	
-										print($return);
+										echo $return;
 									}
 									?>
 										<tr valign="top">
