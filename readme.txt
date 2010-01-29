@@ -69,6 +69,7 @@ The plugin changes the administration backend and gives you the power to assign 
 = Localizations =
 * Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "G&uuml;rkan G&uuml;r") for translation in turkish.
 * Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
+* Thanks to [Andrea Piccinelli] for the italian language files.
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 
 = Interested in WordPress tips and tricks =
@@ -242,6 +243,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend and thanks to [Alphawolf](http://www.schloebe.de/ "Alphawolf") for write a smaller javascript with jQuery.
 * Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "G&uuml;rkan G&uuml;r") for translation in turkish.
 * Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
+* Thanks to [Andrea Piccinelli] for the italian language files.
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 
 = Help with "Your own options" =
