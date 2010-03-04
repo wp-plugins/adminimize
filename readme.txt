@@ -73,7 +73,7 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 
 = Interested in WordPress tips and tricks =
-You may also be interested in WordPress tips and tricks at [WP Enginner](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
+You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
 
 == Installation ==
 1. Unpack the download-package
