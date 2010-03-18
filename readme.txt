@@ -71,6 +71,7 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
 * Thanks to [Andrea Piccinelli] for the italian language files.
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
+* Thanks to [Rene](http://wpwebshop.com/ "wpwebshop.com") for dutch translation.
 
 = Interested in WordPress tips and tricks =
 You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
@@ -96,6 +97,10 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.7 (03/18/2010) =
+* small fixes for redirect on deactivate Dashbaord
+* add dutch language file
+
 = v1.7.6 (01/14/2010) =
 * fix array-check on new option disable HTML Editor
 

@@ -2,7 +2,7 @@
 /**
  * @package Adminimize
  * @author Frank B&uuml;ltge
- * @version 1.7.6
+ * @version 1.7.7
  */
  
 /*
@@ -11,9 +11,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.6
+Version: 1.7.7
 License: GNU
-Last Update: 20.01.2010 12:16:49
+Last Update: 18.03.2010 09:59:41
 */
 
 /**
@@ -95,10 +95,10 @@ class _mw_adminimize_message_class {
 
 	// Initializes all the error messages
 	function initialize_errors() {
-		$this->errors->add('_mw_adminimize_update', __('The updates was saved.', $this->localizionName));
-		$this->errors->add('_mw_adminimize_access_denied', __('You have not enough rights for edit entries in the database.', $this->localizionName));
-		$this->errors->add('_mw_adminimize_import', __('All entries in the database was imported.', $this->localizionName));
-		$this->errors->add('_mw_adminimize_deinstall', __('All entries in the database was delleted.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_update', __('The updates were saved.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_access_denied', __('You have not enough rights to edit entries in the database.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_import', __('All entries in the database were imported.', $this->localizionName));
+		$this->errors->add('_mw_adminimize_deinstall', __('All entries in the database were deleted.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_deinstall_yes', __('Set the checkbox on deinstall-button.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_get_option', __('Can\'t load menu and submenu.', $this->localizionName));
 		$this->errors->add('_mw_adminimize_set_theme', __('Backend-Theme was activated!', $this->localizionName));
@@ -663,11 +663,7 @@ function _mw_adminimize_remove_dashboard() {
 				$page = key($menu);
 
 			if ( preg_match('#wp-admin/?(index.php)?$#', $_SERVER['REQUEST_URI']) ) {
-				if ( function_exists('admin_url') ) {
-					wp_redirect( admin_url($_mw_adminimize_db_redirect) );
-				} else {
-					wp_redirect( get_option('siteurl') . '/wp-admin/' . $_mw_adminimize_db_redirect );
-				}
+				wp_redirect( get_option('siteurl') . '/wp-admin/' . $_mw_adminimize_db_redirect );
 			}
 		}
 	}

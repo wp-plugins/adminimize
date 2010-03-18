@@ -26,17 +26,17 @@ msgstr ""
 
 #: adminimize.php:98
 #@ adminimize
-msgid "The updates was saved."
+msgid "The updates were saved."
 msgstr ""
 
 #: adminimize.php:99
 #@ adminimize
-msgid "You have not enough rights for edit entries in the database."
+msgid "You have not enough rights to edit entries in the database."
 msgstr ""
 
 #: adminimize.php:101
 #@ adminimize
-msgid "All entries in the database was delleted."
+msgid "All entries in the database were deleted."
 msgstr ""
 
 #: adminimize.php:102
@@ -140,62 +140,62 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: adminimize.php:717
-#: adminimize.php:719
-#: adminimize.php:732
-#: adminimize.php:734
-#: adminimize.php:925
+#: adminimize.php:713
+#: adminimize.php:715
+#: adminimize.php:728
+#: adminimize.php:730
+#: adminimize.php:921
 msgid "Log Out"
 msgstr ""
 
-#: adminimize.php:944
+#: adminimize.php:940
 msgid "Visit plugin homepage"
 msgstr ""
 
-#: adminimize.php:947
+#: adminimize.php:943
 msgid "plugin"
 msgstr ""
 
-#: adminimize.php:947
+#: adminimize.php:943
 msgid "Version"
 msgstr ""
 
-#: adminimize.php:947
+#: adminimize.php:943
 #@ adminimize
 msgid "History"
 msgstr ""
 
-#: adminimize.php:947
+#: adminimize.php:943
 msgid "Author"
 msgstr ""
 
-#: adminimize.php:950
+#: adminimize.php:946
 #@ adminimize
 msgid "plugin activate"
 msgstr ""
 
-#: adminimize.php:970
+#: adminimize.php:966
 msgid "Settings"
 msgstr ""
 
-#: adminimize.php:1031
-#: adminimize.php:1052
+#: adminimize.php:1027
+#: adminimize.php:1048
 #@ adminimize
 msgid "<a href=\"http://wordpress.org/extend/plugins/adminimize/\">Documentation</a>"
 msgstr ""http://bueltge.de/wordpress-admin-theme-adminimize/674/\">Dokumentation</a> (<a href=\"http://wordpress.org/extend/plugins/adminimize/\">en</a>)"
 
-#: adminimize.php:1048
+#: adminimize.php:1044
 #: adminimize_page.php:109
 #@ adminimize
 msgid "Adminimize"
 msgstr ""
 
-#: adminimize.php:1050
+#: adminimize.php:1046
 #@ adminimize
 msgid "Adminimize Options"
 msgstr ""
 
-#: adminimize.php:1067
+#: adminimize.php:1063
 msgid "Cheatin&#8217; uh?"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 
 #: adminimize_page.php:225
 #@ adminimize
-msgid "The Footer-area kann hide, include all links and details."
+msgid "The Footer-area can hide, include all links and details."
 msgstr ""
 
 #: adminimize_page.php:229
@@ -318,11 +318,6 @@ msgstr ""
 #: adminimize_page.php:249
 #@ adminimize
 msgid "Thickbox FullScreen"
-msgstr ""
-
-#: adminimize_page.php:255
-#@ adminimize
-msgid "All Thickbox-function use the full area of the browser. Thickbox is for examble in upload media-files."
 msgstr ""
 
 #: adminimize_page.php:259
@@ -460,7 +455,7 @@ msgstr ""
 #: adminimize_page.php:920
 #: adminimize_page.php:1041
 #@ adminimize
-msgid "Possible nomination for ID or class. Separate multiple nomination through a carriage return."
+msgid "Possible nomination for ID or class. Separate multiple nominations through a carriage return."
 msgstr ""
 
 #: adminimize_page.php:437
@@ -782,7 +777,7 @@ msgstr ""http://bueltge.de/wunschliste/\">Wunschliste</a> oder spende."
 
 #: adminimize.php:100
 #@ adminimize
-msgid "All entries in the database was imported."
+msgid "All entries in the database were imported."
 msgstr ""
 
 #: adminimize_page.php:166
@@ -857,7 +852,7 @@ msgstr ""
 
 #: adminimize_page.php:286
 #@ adminimize
-msgid "In Footer kann you display a advice for change the Default-design, (x)HTML is possible."
+msgid "In the Footer you can display an  advice for changing the Default-design, (x)HTML is possible."
 msgstr ""
 
 #: adminimize_page.php:308
@@ -867,11 +862,16 @@ msgstr ""
 
 #: adminimize_page.php:321
 #@ adminimize
-msgid "You have deactivate the Dashboard, please select a page for redirect?"
+msgid "You have deactivated the Dashboard, please select a page for redirection?"
 msgstr ""
 
 #: adminimize_page.php:545
 #: adminimize_page.php:637
 msgid "HTML Editor Button"
+msgstr ""
+
+#: adminimize_page.php:255
+#@ adminimize
+msgid "All Thickbox-function use the full area of the browser. Thickbox is for example in upload media-files."
 msgstr ""
 

@@ -222,7 +222,7 @@ function _mw_adminimize_options() {
 									<select name="_mw_adminimize_footer">
 										<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
-									</select> <?php _e('The Footer-area kann hide, include all links and details.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									</select> <?php _e('The Footer-area can hide, include all links and details.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -252,7 +252,7 @@ function _mw_adminimize_options() {
 									<select name="_mw_adminimize_tb_window">
 										<option value="0"<?php if ($_mw_adminimize_tb_window == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_tb_window == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
-									</select> <?php _e('All Thickbox-function use the full area of the browser. Thickbox is for examble in upload media-files.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									</select> <?php _e('All Thickbox-function use the full area of the browser. Thickbox is for example in upload media-files.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -283,7 +283,7 @@ function _mw_adminimize_options() {
 										<option value="0"<?php if ($_mw_adminimize_advice == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_advice == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 									</select>
-									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('In Footer kann you display a advice for change the Default-design, (x)HTML is possible.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_advice_txt" id="_mw_adminimize_advice_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_advice_txt'))); ?></textarea><br /><?php _e('In the Footer you can display an  advice for changing the Default-design, (x)HTML is possible.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<?php
@@ -318,7 +318,7 @@ function _mw_adminimize_options() {
 											<option value="6"<?php if ($_mw_adminimize_db_redirect == '6') { echo ' selected="selected"'; } ?>><?php _e('other Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										</select>
 										<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_db_redirect_txt" id="_mw_adminimize_db_redirect_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt'))); ?></textarea>
-										<br /><?php _e('You have deactivate the Dashboard, please select a page for redirect?', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+										<br /><?php _e('You have deactivated the Dashboard, please select a page for redirection?', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 									</td>
 								</tr>
 								<?php
@@ -429,7 +429,7 @@ function _mw_adminimize_options() {
 								<td>
 									<textarea name="_mw_adminimize_own_options" cols="60" rows="3" id="_mw_adminimize_own_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_options'); ?></textarea>
 									<br />
-									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									<?php _e('Possible nomination for ID or class. Separate multiple nominations through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 								<td>
 									<textarea class="code" name="_mw_adminimize_own_values" cols="60" rows="3" id="_mw_adminimize_own_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_values'); ?></textarea>
@@ -834,7 +834,7 @@ function _mw_adminimize_options() {
 								<td>
 									<textarea name="_mw_adminimize_own_post_options" cols="60" rows="3" id="_mw_adminimize_own_post_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_post_options'); ?></textarea>
 									<br />
-									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									<?php _e('Possible nomination for ID or class. Separate multiple nominations through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 								<td>
 									<textarea class="code" name="_mw_adminimize_own_post_values" cols="60" rows="3" id="_mw_adminimize_own_post_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_post_values'); ?></textarea>
@@ -917,7 +917,7 @@ function _mw_adminimize_options() {
 								<td>
 									<textarea name="_mw_adminimize_own_page_options" cols="60" rows="3" id="_mw_adminimize_own_page_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_page_options'); ?></textarea>
 									<br />
-									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									<?php _e('Possible nomination for ID or class. Separate multiple nominations through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 								<td>
 									<textarea class="code" name="_mw_adminimize_own_page_values" cols="60" rows="3" id="_mw_adminimize_own_page_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_page_values'); ?></textarea>
@@ -1038,7 +1038,7 @@ function _mw_adminimize_options() {
 								<td>
 									<textarea name="_mw_adminimize_own_link_options" cols="60" rows="3" id="_mw_adminimize_own_link_options" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_link_options'); ?></textarea>
 									<br />
-									<?php _e('Possible nomination for ID or class. Separate multiple nomination through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+									<?php _e('Possible nomination for ID or class. Separate multiple nominations through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 								<td>
 									<textarea class="code" name="_mw_adminimize_own_link_values" cols="60" rows="3" id="_mw_adminimize_own_link_values" style="width: 95%;" ><?php echo _mw_adminimize_getOptionValue('_mw_adminimize_own_link_values'); ?></textarea>
