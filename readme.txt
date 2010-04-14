@@ -72,7 +72,7 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [Andrea Piccinelli] for the italian language files.
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 * Thanks to [Rene](http://wpwebshop.com/ "wpwebshop.com") for dutch translation.
-* Thanks to [GeorgWP](http://wordpress.blogos.dk/) for danish translation.
+* Thanks to [GeorgWP](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208 "wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208") for danish language files.
 
 = Interested in WordPress tips and tricks =
 You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
@@ -245,15 +245,6 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 
 
 == Other Notes ==
-= Acknowledgements =
-* Thanks to [Eric Meyer](http://meyerweb.com/ "Eric Meyer") for the Idea and the Stylesheet to minimize the header of backend and thanks to [Alphawolf](http://www.schloebe.de/ "Alphawolf") for write a smaller javascript with jQuery.
-* Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "G&uuml;rkan G&uuml;r") for translation in turkish.
-* Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
-* Thanks to [Andrea Piccinelli] for the italian language files.
-* Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
-* Thanks to [Rene](http://wpwebshop.com/ "wpwebshop.com") for dutch translation.
-* Thanks to [GeorgWP](http://wordpress.blogos.dk/) for danish translation.
-
 = Help with "Your own options" =
 My english ist very bad and you can see the [entry on the WP community forum](http://wordpress.org/support/topic/328449 "Plugin: Adminimize Help with Your own options (3 posts)") for help with great function.
 
