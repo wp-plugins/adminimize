@@ -73,6 +73,7 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 * Thanks to [Rene](http://wpwebshop.com/ "wpwebshop.com") for dutch translation.
 * Thanks to [GeorgWP](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208 "wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208") for danish language files.
+* Thanks to [Scavenger](http://www.photos-marseille.fr) for french language files.
 
 = Interested in WordPress tips and tricks =
 You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
