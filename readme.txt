@@ -3,7 +3,7 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 3.0-alpha
+Tested up to: 3.1-alpha
 Stable tag: 0.5
 
 At first: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
@@ -99,8 +99,17 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.8 (09/13/2010) =
+* changes for WPMU and WP 3.0 MultiSite
+* bugfix for admin-menu in WPMU and WP 3.0 MultiSite
+* bugfix for metaboxes in WPMU and WP 3.0 MultiSite
+* bugfix for global settings in WPMU and WP 3.0 MultiSite
+* bugfix for link-options in WPMU and WP 3.0 MultiSite
+* bugfix for custom redirect after login
+* different bugfixes fpr php-warnings
+
 = v1.7.7 (03/18/2010) =
-* small fixes for redirect on deactivate Dashbaord
+* small fixes for redirect on deactivate Dashboard
 * add dutch language file
 
 = v1.7.6 (01/14/2010) =

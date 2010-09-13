@@ -10,7 +10,7 @@ if ( isset( $_GET['_mw_adminimize_export'] ) ) {
 }
 
 function _mw_adminimize_options() {
-	global $wpdb, $_wp_admin_css_colors, $wp_version, $wp_roles;
+	global $wpdb, $_wp_admin_css_colors, $wp_version, $wp_roles, $table_prefix;
 
 	$_mw_adminimize_user_info = '';
 
@@ -19,7 +19,7 @@ function _mw_adminimize_options() {
 	$user_roles_names = get_all_user_roles_names();
 
 	// update options
-	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
+	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
 
 		if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 			check_admin_referer('mw_adminimize_nonce');
@@ -34,7 +34,7 @@ function _mw_adminimize_options() {
 	}
 	
 	// import options
-	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_import') && $_POST['_mw_adminimize_save'] ) {
+	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_import') && $_POST['_mw_adminimize_save'] ) {
 
 		if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 			check_admin_referer('mw_adminimize_nonce');
@@ -49,14 +49,14 @@ function _mw_adminimize_options() {
 	}
 	
 	// deinstall options
-	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_deinstall') &&  ($_POST['_mw_adminimize_deinstall_yes'] != '_mw_adminimize_deinstall') ) {
+	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_deinstall') &&  ($_POST['_mw_adminimize_deinstall_yes'] != '_mw_adminimize_deinstall') ) {
 
 		$myErrors = new _mw_adminimize_message_class();
 		$myErrors = '<div id="message" class="error"><p>' . $myErrors->get_error('_mw_adminimize_deinstall_yes') . '</p></div>';
 		wp_die($myErrors);
 	}
 
-	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_deinstall') && $_POST['_mw_adminimize_deinstall'] && ($_POST['_mw_adminimize_deinstall_yes'] == '_mw_adminimize_deinstall') ) {
+	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_deinstall') && $_POST['_mw_adminimize_deinstall'] && ($_POST['_mw_adminimize_deinstall_yes'] == '_mw_adminimize_deinstall') ) {
 
 		if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 			check_admin_referer('mw_adminimize_nonce');
@@ -74,7 +74,7 @@ function _mw_adminimize_options() {
 	}
 	
 	// load theme user data
-	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_load_theme') && $_POST['_mw_adminimize_load'] ) {
+	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_load_theme') && $_POST['_mw_adminimize_load'] ) {
 		if ( function_exists('current_user_can') && current_user_can('edit_users') ) {
 			check_admin_referer('mw_adminimize_nonce');
 			
@@ -88,7 +88,7 @@ function _mw_adminimize_options() {
 		}
 	}
 	
-	if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_set_theme') && $_POST['_mw_adminimize_save'] ) {
+	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_set_theme') && $_POST['_mw_adminimize_save'] ) {
 		if ( function_exists('current_user_can') && current_user_can('edit_users') ) {
 			check_admin_referer('mw_adminimize_nonce');
 			
@@ -209,7 +209,7 @@ function _mw_adminimize_options() {
 								<td><?php _e('Change User-Info, redirect to', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_ui_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_ui_redirect'); ?>
-									<select name="_mw_adminimize_ui_redirect" <?php echo $disabled_item ?>>
+									<select name="_mw_adminimize_ui_redirect" <?php if ( isset($disabled_item) ) echo $disabled_item; ?>>
 										<option value="0"<?php if ($_mw_adminimize_ui_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_ui_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Frontpage of the Blog', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 									</select> <?php _e('When the &quot;User-Info-area&quot; change it, then it is possible to change the redirect.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
@@ -223,6 +223,16 @@ function _mw_adminimize_options() {
 										<option value="0"<?php if ($_mw_adminimize_footer == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										<option value="1"<?php if ($_mw_adminimize_footer == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 									</select> <?php _e('The Footer-area can hide, include all links and details.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+							</tr>
+							<tr valign="top">
+								<td><?php _e('Header', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
+								<td>
+									<?php $_mw_adminimize_header = _mw_adminimize_getOptionValue('_mw_adminimize_header'); ?>
+									<select name="_mw_adminimize_header">
+										<option value="0"<?php if ($_mw_adminimize_header == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_header == '1') { echo ' selected="selected"'; } ?>><?php _e('Hide', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('The Header-area can hide, include all links and details.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
 							</tr>
 							<tr valign="top">
@@ -308,7 +318,7 @@ function _mw_adminimize_options() {
 									<td><?php _e('Dashboard deactivate, redirect to', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 									<td>
 										<?php $_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect'); ?>
-										<select name="_mw_adminimize_db_redirect"<?php echo $disabled_item2; ?>>
+										<select name="_mw_adminimize_db_redirect"<?php if ( isset($disabled_item2) ) echo $disabled_item2; ?>>
 											<option value="0"<?php if ($_mw_adminimize_db_redirect == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (profile.php)</option>
 											<option value="1"<?php if ($_mw_adminimize_db_redirect == '1') { echo ' selected="selected"'; } ?>><?php _e('Manage Posts', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (edit.php)</option>
 											<option value="2"<?php if ($_mw_adminimize_db_redirect == '2') { echo ' selected="selected"'; } ?>><?php _e('Manage Pages', FB_ADMINIMIZE_TEXTDOMAIN ); ?> (edit-pages.php)</option>
@@ -1067,7 +1077,7 @@ function _mw_adminimize_options() {
 				<div class="inside">
 					<br class="clear" />
 					
-					<?php if ( !($_POST['_mw_adminimize_action'] == '_mw_adminimize_load_theme') ) { ?>
+					<?php if (  !isset($_POST['_mw_adminimize_action']) || !($_POST['_mw_adminimize_action'] == '_mw_adminimize_load_theme') ) { ?>
 					<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="?page=<?php echo $_GET['page'];?>" >
 							<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 							<p><?php _e('For better peformance with many users on your blog; load only userlist, when you will change the theme options for users.', FB_ADMINIMIZE_TEXTDOMAIN ); ?></p>
@@ -1077,7 +1087,7 @@ function _mw_adminimize_options() {
 							</p>
 					</form>
 					<?php }
-					if ( ($_POST['_mw_adminimize_action'] == '_mw_adminimize_load_theme') ) { ?>
+					if (  isset($_POST['_mw_adminimize_action']) && ($_POST['_mw_adminimize_action'] == '_mw_adminimize_load_theme') ) { ?>
 						<form name="set_theme" method="post" id="_mw_adminimize_set_theme" action="?page=<?php echo $_GET['page'];?>" >
 							<?php wp_nonce_field('mw_adminimize_nonce'); ?>
 							<table class="widefat">
