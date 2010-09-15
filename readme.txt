@@ -98,6 +98,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.9 (09/15/2010) =
+* Bugfix for new role-checking
+
 = v1.7.8 (09/13/2010) =
 * changes for WPMU and WP 3.0 MultiSite
 * bugfix for admin-menu in WPMU and WP 3.0 MultiSite

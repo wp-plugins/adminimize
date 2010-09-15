@@ -2,7 +2,7 @@
 /**
  * @package Adminimize
  * @author Frank B&uuml;ltge
- * @version 1.7.8
+ * @version 1.7.9
  */
  
 /*
@@ -11,9 +11,9 @@ Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.8
+Version: 1.7.9
 License: GNU
-Last Update: 13.09.2010 22:13:41
+Last Update: 15.09.2010 09:17:46
 */
 
 /**
@@ -801,7 +801,7 @@ function _mw_adminimize_set_global_option() {
 	foreach ($user_roles as $role) {
 		$user = wp_get_current_user();
 		if ( in_array($role, $user->roles) ) {
-			if ( current_user_can($role) ) {
+			if ( current_user_can($role) && is_array($disabled_global_option_[$role]) ) {
 				$global_options = implode(', ', $disabled_global_option_[$role]);
 			}
 		}
@@ -846,7 +846,7 @@ function _mw_adminimize_set_metabox_post_option() {
 		foreach ($user_roles as $role) {
 			$user = wp_get_current_user();
 			if ( in_array($role, $user->roles) ) {
-				if ( current_user_can($role) ) {
+				if ( current_user_can($role) && is_array($disabled_metaboxes_post_[$role]) ) {
 					$metaboxes = implode(',', $disabled_metaboxes_post_[$role]);
 				}
 			}
@@ -890,7 +890,7 @@ function _mw_adminimize_set_metabox_page_option() {
 		foreach ($user_roles as $role) {
 			$user = wp_get_current_user();
 			if ( in_array($role, $user->roles) ) {
-				if ( current_user_can($role) ) {
+				if ( current_user_can($role) && is_array($disabled_metaboxes_page_[$role]) ) {
 					$metaboxes = implode(',', $disabled_metaboxes_page_[$role]);
 				}
 			}
@@ -937,7 +937,7 @@ function _mw_adminimize_set_link_option() {
 	foreach ($user_roles as $role) {
 		$user = wp_get_current_user();
 		if ( in_array($role, $user->roles) ) {
-			if ( current_user_can($role) ) {
+			if ( current_user_can($role) && is_array($disabled_metaboxes_page_[$role]) ) {
 				$metaboxes = implode(',', $disabled_metaboxes_page_[$role]);
 			}
 		}
