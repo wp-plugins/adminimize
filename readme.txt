@@ -98,6 +98,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.11 (09/24/2010) =
+* Bugfix: for WP < 3.0; function get_post_type_object() is not exist
+
 = v1.7.10 (09/24/2010) =
 * Bugfix: link-page in admin
 * Bugfix: meta-boxes on link-page

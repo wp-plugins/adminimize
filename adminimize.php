@@ -13,9 +13,9 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.10
+Version: 1.7.11
 License: GNU
-Last Update: 24.09.2010 11:07:33
+Last Update: 24.09.2010 23:12:33
 */
 
 /**
@@ -170,36 +170,40 @@ function _mw_adminimize_control_flashloader() {
  */
 function _mw_adminimize_init() {
 	global $pagenow, $menu, $submenu, $adminimizeoptions, $wp_version;
-
-	if ( isset($_GET['post']) )
-		$post_id = (int) $_GET['post'];
-	elseif ( isset($_POST['post_ID']) )
-		$post_id = (int) $_POST['post_ID'];
-	else
-		$post_id = 0;
-	$post_ID = $post_id;
-	$post = null;
-	$post_type_object = null;
-	$post_type = null;
-	if ( $post_id ) {
-		$post = get_post($post_id);
-		if ( $post ) {
-			$post_type_object = get_post_type_object($post->post_type);
+	
+	if ( function_exists('get_post_type_object') )
+		if ( isset($_GET['post']) )
+			$post_id = (int) $_GET['post'];
+		elseif ( isset($_POST['post_ID']) )
+			$post_id = (int) $_POST['post_ID'];
+		else
+			$post_id = 0;
+		$post_ID = $post_id;
+		$post = null;
+		$post_type_object = null;
+		$post_type = null;
+		if ( $post_id ) {
+			$post = get_post($post_id);
+			if ( $post ) {
+				$post_type_object = get_post_type_object($post->post_type);
+				if ( $post_type_object ) {
+					$post_type = $post->post_type;
+					$current_screen->post_type = $post->post_type;
+					$current_screen->id = $current_screen->post_type;
+				}
+			}
+		} elseif ( isset($_POST['post_type']) ) {
+			$post_type_object = get_post_type_object($_POST['post_type']);
 			if ( $post_type_object ) {
-				$post_type = $post->post_type;
-				$current_screen->post_type = $post->post_type;
+				$post_type = $post_type_object->name;
+				$current_screen->post_type = $post_type;
 				$current_screen->id = $current_screen->post_type;
 			}
 		}
-	} elseif ( isset($_POST['post_type']) ) {
-		$post_type_object = get_post_type_object($_POST['post_type']);
-		if ( $post_type_object ) {
-			$post_type = $post_type_object->name;
-			$current_screen->post_type = $post_type;
-			$current_screen->id = $current_screen->post_type;
-		}
+	} else {
+		$post_type = '';
 	}
-
+	
 	$user_roles = get_all_user_roles();
 
 	$adminimizeoptions = get_option('mw_adminimize');
