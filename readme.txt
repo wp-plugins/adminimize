@@ -98,6 +98,15 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.10 (09/24/2010) =
+* Bugfix: link-page in admin
+* Bugfix: meta-boxes on link-page
+* Bugfix: check for post or page with WP 3.*
+* Maintenance: german language files
+* Maintenance: pot-file
+* Feature: new css for "User-info" in WP 3.0
+* Maintenance: incl. the new css-file
+
 = v1.7.9 (09/15/2010) =
 * Bugfix for new role-checking
 

@@ -491,6 +491,7 @@ function _mw_adminimize_options() {
 							$metaboxes = array(
 								'#contextual-help-link-wrap',
 								'#screen-options-link-wrap',
+								'#titlediv',
 								'#pageslugdiv',
 								'#tagsdiv,#tagsdivsb,#tagsdiv-post_tag',
 								'#categorydiv,#categorydivsb',
@@ -533,6 +534,7 @@ function _mw_adminimize_options() {
 							$metaboxes_names = array(
 								__('Help'),
 								__('Screen Options'),
+								__('Title', FB_ADMINIMIZE_TEXTDOMAIN),
 								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Tags', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Categories', FB_ADMINIMIZE_TEXTDOMAIN ),
@@ -591,14 +593,15 @@ function _mw_adminimize_options() {
 							$metaboxes_page = array(
 								'#contextual-help-link-wrap',
 								'#screen-options-link-wrap',
+								'#titlediv',
 								'#pageslugdiv',
 								'#pagepostcustom, #pagecustomdiv, #postcustom',
-								'#pagecommentstatusdiv',
+								'#pagecommentstatusdiv, #commentsdiv',
 								'#pagepassworddiv',
 								'#pageparentdiv',
 								'#pagetemplatediv',
 								'#pageorderdiv',
-								'#pageauthordiv',
+								'#pageauthordiv, #authordiv',
 								'#revisionsdiv',
 								'.side-info',
 								'#notice',
@@ -627,6 +630,7 @@ function _mw_adminimize_options() {
 							$metaboxes_names_page = array(
 								__('Help'),
 								__('Screen Options'),
+								__('Title', FB_ADMINIMIZE_TEXTDOMAIN),
 								__('Permalink', FB_ADMINIMIZE_TEXTDOMAIN ),
 								__('Custom Fields'),
 								__('Comments &amp; Pings', FB_ADMINIMIZE_TEXTDOMAIN ),
