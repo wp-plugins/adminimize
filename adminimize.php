@@ -171,7 +171,7 @@ function _mw_adminimize_control_flashloader() {
 function _mw_adminimize_init() {
 	global $pagenow, $menu, $submenu, $adminimizeoptions, $wp_version;
 	
-	if ( function_exists('get_post_type_object') )
+	if ( function_exists('get_post_type_object') ) {
 		if ( isset($_GET['post']) )
 			$post_id = (int) $_GET['post'];
 		elseif ( isset($_POST['post_ID']) )
