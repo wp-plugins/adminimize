@@ -98,6 +98,11 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.12 (10/02/2010) =
+* Bugfix: Fallback for deactivate profile.php on roles smaller administration
+* Bugfix: Redirect from Dashboard on different roles
+* Maintenance: small changes on code
+
 = v1.7.11 (09/24/2010) =
 * Bugfix: for WP < 3.0; function get_post_type_object() is not exist
 

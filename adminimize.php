@@ -13,9 +13,9 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.11
+Version: 1.7.12
 License: GNU
-Last Update: 24.09.2010 23:12:33
+Last Update: 02.10.2010 17:15:23
 */
 
 /**
@@ -657,28 +657,19 @@ function _mw_adminimize_remove_dashboard() {
 	}
 
 	// remove dashboard
-	if ( $disabled_menu_all != '' || $disabled_submenu_all  != '' ) {
+	if ( $disabled_menu_all != '' || $disabled_submenu_all != '' ) {
 
-		$i = 0;
 		foreach ($user_roles as $role) {
-
-			if ( current_user_can($role) && $i == 0 ) {
-				if (
-						recursive_in_array('index.php', $disabled_menu_[$role]) ||
-						recursive_in_array('index.php', $disabled_submenu_[$role])
-					 )
-					 $redirect = 'true';
-			} elseif ( current_user_can($role) ) {
-				if (
-						recursive_in_array('index.php', $disabled_menu_[$role]) ||
-						recursive_in_array('index.php', $disabled_submenu_[$role])
-					 )
-					$redirect = 'true';
+			
+			if ( current_user_can($role) ) {
+				if ( recursive_in_array('index.php', $disabled_menu_[$role]) || recursive_in_array('index.php', $disabled_submenu_[$role]) )
+					$redirect = TRUE;
+				else 
+					$redirect = FALSE;
 			}
-		$i++;
 		}
-
-		if ( isset($redirect) && $redirect == 'true' ) {
+		
+		if ( $redirect ) {
 			$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect');
 			switch ($_mw_adminimize_db_redirect) {
 			case 0:
@@ -806,16 +797,23 @@ function _mw_adminimize_set_menu_option() {
 			}
 		}
 		
+		// fallback on users.php on all userroles smaller admin
+		if ( in_array('users.php', $mw_adminimize_menu)  )
+			$mw_adminimize_menu[] = 'profile.php';
+		
 		foreach ($menu as $index => $item) {
-			if ($item == 'index.php')
+			if ( 'index.php' === $item )
 				continue;
-
-			if ( isset($mw_adminimize_menu) && in_array($item[2], $mw_adminimize_menu) )
+			
+			if ( isset($mw_adminimize_menu) && in_array($item[2], $mw_adminimize_menu) ) {
 				unset($menu[$index]);
-
+			}
+			
 			if ( isset($submenu) && !empty($submenu[$item[2]]) ) {
 				foreach ($submenu[$item[2]] as $subindex => $subitem) {
 					if ( isset($mw_adminimize_submenu) && in_array($subitem[2], $mw_adminimize_submenu))
+						//if ('profile.php' === $subitem[2])
+						//	unset($menu[70]);
 						unset($submenu[$item[2]][$subindex]);
 				}
 			}
@@ -1149,7 +1147,8 @@ function _mw_adminimize_getOptionValue($key) {
  */
 function _mw_adminimize_update() {
 	global $menu, $submenu, $adminimizeoptions;
-  $user_roles = get_all_user_roles();
+	
+	$user_roles = get_all_user_roles();
 
 	if (isset($_POST['_mw_adminimize_user_info'])) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes($_POST['_mw_adminimize_user_info']));

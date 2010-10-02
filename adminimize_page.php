@@ -722,7 +722,7 @@ function _mw_adminimize_options() {
 										echo '</tr>';
 										
 										// only for user smaller administrator, change user-Profile-File
-										if ( $item[2] === 'users.php' ) {
+										if ( 'users.php' === $item[2] ) {
 											$x++;
 											echo '<tr class="form-invalid">' . "\n";
 											echo "\t" . '<th>' . __('Profile') . ' <span style="color:#ccc; font-weight: 400;">(profile.php)</span> </th>';
