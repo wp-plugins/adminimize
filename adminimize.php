@@ -802,7 +802,7 @@ function _mw_adminimize_set_menu_option() {
 		}
 		
 		// fallback on users.php on all userroles smaller admin
-		if ( in_array('users.php', $mw_adminimize_menu)  )
+		if ( is_array($mw_adminimize_menu) && in_array('users.php', $mw_adminimize_menu)  )
 			$mw_adminimize_menu[] = 'profile.php';
 		
 		foreach ($menu as $index => $item) {
