@@ -13,9 +13,9 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.12
+Version: 1.7.13
 License: GNU
-Last Update: 02.10.2010 17:15:23
+Last Update: 25.10.2010 22:15:23
 */
 
 /**
@@ -679,7 +679,7 @@ function _mw_adminimize_remove_dashboard() {
 				$_mw_adminimize_db_redirect = 'edit.php';
 				break;
 			case 2:
-				$_mw_adminimize_db_redirect = 'edit-pages.php';
+				$_mw_adminimize_db_redirect = 'edit.php?post_type=page';
 				break;
 			case 3:
 				$_mw_adminimize_db_redirect = 'post-new.php';
@@ -694,7 +694,11 @@ function _mw_adminimize_remove_dashboard() {
 				$_mw_adminimize_db_redirect = _mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt');
 				break;
 			}
-
+			
+			// fallback for WP smaller 3.0
+			if ( version_compare($wp_version, "3.0alpha", "<") && 'edit.php?post_type=page' == $_mw_adminimize_db_redirect )
+				$_mw_adminimize_db_redirect = 'edit-pages.php';
+			
 			$the_user = new WP_User($user_ID);
 			reset($menu); $page = key($menu);
 
