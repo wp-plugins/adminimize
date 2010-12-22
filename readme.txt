@@ -3,11 +3,10 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 3.0-alpha
-Stable tag: 0.5
+Tested up to: 3.1-alpha
+Stable tag: 1.7.12
 
-At first: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area.
-At second. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. All is addicted from your rights, and other roles, also roles from Plugin [Role Manager](http://www.im-web-gefunden.de/wordpress-plugins/role-manager/ "Role Manager").
+Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress backend and many many more ...
 
 == Description ==
 Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. Compatible with WordPress 2.5 or later. 
@@ -73,6 +72,10 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
 * Thanks to [Rene](http://wpwebshop.com/ "wpwebshop.com") for dutch translation.
 * Thanks to [GeorgWP](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208 "wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208") for danish language files.
+* Thanks to [Scavenger](http://www.photos-marseille.fr) for french language files.
+
+= More Plugins = 
+Please see also my [Premium Plugins](http://wpplugins.com/author/malo.conny/). Maybe you find an solution for your requirement.
 
 = Interested in WordPress tips and tricks =
 You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
@@ -98,8 +101,40 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.13 () =
+* Maintenance: change edit-page redirect for WordPress 3.0 and higher
+
+= v1.7.12 (10/02/2010) =
+* Bugfix: Fallback for deactivate profile.php on roles smaller administration
+* Bugfix: Redirect from Dashboard on different roles
+* Maintenance: small changes on code
+
+= v1.7.11 (09/24/2010) =
+* Bugfix: for WP < 3.0; function get_post_type_object() is not exist
+
+= v1.7.10 (09/24/2010) =
+* Bugfix: link-page in admin
+* Bugfix: meta-boxes on link-page
+* Bugfix: check for post or page with WP 3.*
+* Maintenance: german language files
+* Maintenance: pot-file
+* Feature: new css for "User-info" in WP 3.0
+* Maintenance: incl. the new css-file
+
+= v1.7.9 (09/15/2010) =
+* Bugfix for new role-checking
+
+= v1.7.8 (09/13/2010) =
+* changes for WPMU and WP 3.0 MultiSite
+* bugfix for admin-menu in WPMU and WP 3.0 MultiSite
+* bugfix for metaboxes in WPMU and WP 3.0 MultiSite
+* bugfix for global settings in WPMU and WP 3.0 MultiSite
+* bugfix for link-options in WPMU and WP 3.0 MultiSite
+* bugfix for custom redirect after login
+* different bugfixes fpr php-warnings
+
 = v1.7.7 (03/18/2010) =
-* small fixes for redirect on deactivate Dashbaord
+* small fixes for redirect on deactivate Dashboard
 * add dutch language file
 
 = v1.7.6 (01/14/2010) =
