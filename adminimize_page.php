@@ -385,7 +385,7 @@ function _mw_adminimize_options() {
 																			__('Admin Color Scheme', FB_ADMINIMIZE_TEXTDOMAIN)
 																			);
 							
-							$_mw_adminimize_own_values  = _mw_adminimize_getOptionValue('_mw_adminimize_own_values');
+							$_mw_adminimize_own_values = _mw_adminimize_getOptionValue('_mw_adminimize_own_values');
 							$_mw_adminimize_own_values = preg_split( "/\r\n/", $_mw_adminimize_own_values );
 							foreach ( (array) $_mw_adminimize_own_values as $key => $_mw_adminimize_own_value ) {
 								$_mw_adminimize_own_value = trim($_mw_adminimize_own_value);

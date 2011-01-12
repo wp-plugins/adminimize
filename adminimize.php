@@ -15,7 +15,7 @@ Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
 Version: 1.7.13
 License: GNU
-Last Update: 25.10.2010 22:15:23
+Last Update: 12.01.2011
 */
 
 /**
@@ -57,6 +57,11 @@ function _mw_adminimize_textdomain() {
 	
 	if ( function_exists('load_plugin_textdomain') )
 		load_plugin_textdomain( FB_ADMINIMIZE_TEXTDOMAIN, false, dirname( FB_ADMINIMIZE_BASENAME ) . '/languages');
+}
+
+
+function _mw_adminimize_register_styles() {
+	wp_register_style( 'adminimize-style', plugins_url( 'css/style.css', __FILE__ ) );
 }
 
 
@@ -170,6 +175,12 @@ function _mw_adminimize_control_flashloader() {
  */
 function _mw_adminimize_init() {
 	global $pagenow, $menu, $submenu, $adminimizeoptions, $wp_version;
+	
+	// exclude super admin
+	if ( defined('WP_DEBUG') && !WP_DEBUG ) {
+		if ( is_super_admin() )
+			return NULL;
+	}
 	
 	if ( function_exists('get_post_type_object') ) {
 		if ( isset($_GET['post']) )
@@ -327,11 +338,11 @@ function _mw_adminimize_init() {
 		
 		// only pages
 		if ( 
-					( 'page-new.php' == $pagenow ) || 
-					( 'page.php' == $pagenow ) || 
-					( 'post_type=page' == esc_attr($_SERVER['QUERY_STRING']) ) ||
-					( 'page' == $post_type )
-			 ) {
+				( 'page-new.php' == $pagenow ) || 
+				( 'page.php' == $pagenow ) || 
+				( 'post_type=page' == esc_attr($_SERVER['QUERY_STRING']) ) ||
+				( 'page' == $post_type )
+		) {
 
 			// check for array empty
 			if ( !isset($disabled_metaboxes_page_['editor']['0']) )
@@ -371,8 +382,11 @@ function _mw_adminimize_init() {
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
 }
 
-add_action('init', '_mw_adminimize_textdomain');
-if ( is_admin() ) {
+// on init of WordPress
+add_action( 'init', '_mw_adminimize_textdomain' );
+add_action( 'init', '_mw_adminimize_register_styles' );
+
+if ( is_admin() ) { // exclude super admin of multisite
 	add_action('admin_menu', '_mw_adminimize_add_settings_page');
 	add_action('admin_menu', '_mw_adminimize_remove_dashboard');
 	add_action('admin_init', '_mw_adminimize_init', 1);
@@ -639,7 +653,13 @@ function _mw_adminimize_admin_styles($file) {
  * http://www.ilfilosofo.com/blog/2006/05/24/plugin-remove-the-wordpress-dashboard/
  */
 function _mw_adminimize_remove_dashboard() {
-	global $menu, $submenu, $user_ID;
+	global $menu, $submenu, $user_ID, $wp_version;
+	
+	// exclude super admin
+	if ( defined('WP_DEBUG') && !WP_DEBUG ) {
+		if ( is_super_admin() )
+			return NULL;
+	}
 	
 	$user_roles = get_all_user_roles();
 
@@ -786,7 +806,7 @@ function _mw_adminimize_set_menu_option() {
 		$_mw_adminimize_admin_head .= '</script>' . "\n";
 		break;
 	}
-
+	
 	// set menu
 	if ($disabled_menu_['editor'] != '') {
 
@@ -833,6 +853,7 @@ function _mw_adminimize_set_menu_option() {
  * set global options in backend in all areas
  */
 function _mw_adminimize_set_global_option() {
+	global $_wp_admin_css_colors;
 	
 	$user_roles = get_all_user_roles();
 
@@ -858,6 +879,8 @@ function _mw_adminimize_set_global_option() {
 			}
 		}
 	}
+	if ( 0 != strpos($global_options, '#your-profile .form-table fieldset') )
+		$_wp_admin_css_colors = 0;
 	$_mw_adminimize_admin_head .= '<!-- global options -->' . "\n";
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $global_options . ' {display: none !important;}</style>' . "\n";
 	
@@ -1105,13 +1128,16 @@ function _mw_adminimize_add_settings_page() {
 		$menutitle .= ' ' . __('Adminimize', FB_ADMINIMIZE_TEXTDOMAIN );
 
 		$pagehook = add_submenu_page('options-general.php', __('Adminimize Options', FB_ADMINIMIZE_TEXTDOMAIN ), $menutitle, 'unfiltered_html', __FILE__, '_mw_adminimize_options');
-		if ( version_compare( $wp_version, '2.7alpha', '>' ) )
-			add_contextual_help( $pagehook, __( '<a href="http://wordpress.org/extend/plugins/adminimize/">Documentation</a>', FB_ADMINIMIZE_TEXTDOMAIN ) );
-		else
-			add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
-			
+		add_action( 'load-' . $pagehook, '_mw_adminimize_on_load_page' );
 		add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_meta', 10, 2 );
 	}
+}
+
+
+function _mw_adminimize_on_load_page() {
+	add_filter( 'contextual_help', '_mw_adminimize_contextual_help' );
+	
+	wp_enqueue_style( 'adminimize-style' );
 }
 
 

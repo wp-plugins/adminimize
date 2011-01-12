@@ -103,6 +103,10 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 == Changelog ==
 = v1.7.13 () =
 * Maintenance: change edit-page redirect for WordPress 3.0 and higher
+* Feature: add style for better see the line on settings
+* Feature: exclude the Super Admin of WP Multisite from all rights of roles; only WP_DEBUG is false
+* Fix: remove entry on admin css color
+* Fix: warning on Multisite install
 
 = v1.7.12 (10/02/2010) =
 * Bugfix: Fallback for deactivate profile.php on roles smaller administration
