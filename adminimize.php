@@ -2,7 +2,6 @@
 /**
  * @package Adminimize
  * @author Frank B&uuml;ltge
-
  */
  
 /*
@@ -14,8 +13,7 @@ Description: Visually compresses the administratrive meta-boxes so that more adm
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
 Version: 1.7.13
-License: GNU
-Last Update: 12.01.2011
+License: GPL
 */
 
 /**
@@ -224,6 +222,7 @@ function _mw_adminimize_init() {
 		$disabled_metaboxes_post_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_post_'. $role .'_items');
 		$disabled_metaboxes_page_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_metaboxes_page_'. $role .'_items');
 		$disabled_link_option_[$role]    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_link_option_'. $role .'_items');
+		$disabled_nav_menu_option_[$role]    = _mw_adminimize_getOptionValue('mw_adminimize_disabled_nav_menu_option_'. $role .'_items');
 	}
 
 	$disabled_metaboxes_post_all = array();
@@ -375,6 +374,11 @@ function _mw_adminimize_init() {
 	$link_pages = array('link-manager.php', 'link-add.php', 'edit-link-categories.php');
 	if ( in_array( $pagenow, $link_pages ) )
 		add_action('admin_head', '_mw_adminimize_set_link_option', 1);
+
+	// set wp nav menu options
+	$nav_menu_pages = array('nav-menus.php');
+	if ( in_array( $pagenow, $nav_menu_pages ) )
+		add_action('admin_head', '_mw_adminimize_set_nav_menu_option', 1);
 
 	add_action('in_admin_footer', '_mw_adminimize_admin_footer');
 
@@ -825,20 +829,22 @@ function _mw_adminimize_set_menu_option() {
 		if ( is_array($mw_adminimize_menu) && in_array('users.php', $mw_adminimize_menu)  )
 			$mw_adminimize_menu[] = 'profile.php';
 		
-		foreach ($menu as $index => $item) {
-			if ( 'index.php' === $item )
-				continue;
-			
-			if ( isset($mw_adminimize_menu) && in_array($item[2], $mw_adminimize_menu) ) {
-				unset($menu[$index]);
-			}
-			
-			if ( isset($submenu) && !empty($submenu[$item[2]]) ) {
-				foreach ($submenu[$item[2]] as $subindex => $subitem) {
-					if ( isset($mw_adminimize_submenu) && in_array($subitem[2], $mw_adminimize_submenu))
-						//if ('profile.php' === $subitem[2])
-						//	unset($menu[70]);
-						unset($submenu[$item[2]][$subindex]);
+		if ( isset($menu) && !empty($menu) ) {
+			foreach ($menu as $index => $item) {
+				if ( 'index.php' === $item )
+					continue;
+				
+				if ( isset($mw_adminimize_menu) && in_array($item[2], $mw_adminimize_menu) ) {
+					unset($menu[$index]);
+				}
+				
+				if ( isset($submenu) && !empty($submenu[$item[2]]) ) {
+					foreach ($submenu[$item[2]] as $subindex => $subitem) {
+						if ( isset($mw_adminimize_submenu) && in_array($subitem[2], $mw_adminimize_submenu))
+							//if ('profile.php' === $subitem[2])
+							//	unset($menu[70]);
+							unset($submenu[$item[2]][$subindex]);
+					}
 				}
 			}
 		}
@@ -870,12 +876,15 @@ function _mw_adminimize_set_global_option() {
 			$disabled_global_option_[$role]['0'] = '';
 	}
 	
+	$remove_adminbar = FALSE;
 	// new 1.7.8
 	foreach ($user_roles as $role) {
 		$user = wp_get_current_user();
 		if ( in_array($role, $user->roles) ) {
 			if ( current_user_can($role) && is_array($disabled_global_option_[$role]) ) {
 				$global_options = implode(', ', $disabled_global_option_[$role]);
+				if ( recursive_in_array('.show-admin-bar', $disabled_global_option_[$role]) )
+					$remove_adminbar = TRUE;
 			}
 		}
 	}
@@ -883,6 +892,10 @@ function _mw_adminimize_set_global_option() {
 		$_wp_admin_css_colors = 0;
 	$_mw_adminimize_admin_head .= '<!-- global options -->' . "\n";
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $global_options . ' {display: none !important;}</style>' . "\n";
+	
+	// for deactivate admin bar
+	if ( $remove_adminbar )
+		add_filter( 'show_admin_bar','__return_false' );
 	
 	if ($global_options)
 		echo $_mw_adminimize_admin_head;
@@ -991,6 +1004,41 @@ function _mw_adminimize_set_link_option() {
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $link_options . ' {display: none !important;}</style>' . "\n";
 	
 	if ($link_options)
+		echo $_mw_adminimize_admin_head;
+}
+
+/**
+ * remove objects on wp nav menu
+ */
+function _mw_adminimize_set_nav_menu_option() {
+	
+	$user_roles = get_all_user_roles();
+
+	$_mw_adminimize_admin_head = '';
+	
+	remove_action('admin_head', 'index_js');
+	
+	foreach ($user_roles as $role) {
+		$disabled_nav_menu_option_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_nav_menu_option_'. $role .'_items');
+	}
+	
+	foreach ($user_roles as $role) {
+		if ( !isset($disabled_nav_menu_option_[$role]['0']) )
+			$disabled_nav_menu_option_[$role]['0'] = '';
+	}
+
+	// new 1.7.8
+	foreach ($user_roles as $role) {
+		$user = wp_get_current_user();
+		if ( in_array($role, $user->roles) ) {
+			if ( current_user_can($role) && is_array($disabled_nav_menu_option_[$role]) ) {
+				$nav_menu_options = implode(',', $disabled_nav_menu_option_[$role]);
+			}
+		}
+	}
+	$_mw_adminimize_admin_head .= '<style type="text/css">' . $nav_menu_options . ' {display: none !important;}</style>' . "\n";
+	
+	if ($nav_menu_options)
 		echo $_mw_adminimize_admin_head;
 }
 
@@ -1303,6 +1351,13 @@ function _mw_adminimize_update() {
 			$adminimizeoptions['mw_adminimize_disabled_link_option_'. $role . '_items']  = $_POST['mw_adminimize_disabled_link_option_'. $role . '_items'];
 		} else {
 			$adminimizeoptions['mw_adminimize_disabled_link_option_'. $role . '_items'] = array();
+		}
+		
+		// wp nav menu options
+		if (isset($_POST['mw_adminimize_disabled_nav_menu_option_'. $role . '_items'])) {
+			$adminimizeoptions['mw_adminimize_disabled_nav_menu_option_'. $role . '_items']  = $_POST['mw_adminimize_disabled_nav_menu_option_'. $role . '_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_nav_menu_option_'. $role . '_items'] = array();
 		}
 	}
 	
