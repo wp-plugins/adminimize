@@ -4,7 +4,7 @@ Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
 Tested up to: 3.1
-Stable tag: 1.7.13
+Stable tag: 1.7.14
 
 Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress backend and many many more ...
 
@@ -98,6 +98,11 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.14 (03/03/2011) =
+* Maintenance: remove php notice on role editor
+* Maintenance: Add fallback for dont load menu/submenu
+* Maintenance: Exclude all options in different files
+
 = v1.7.13 (03/02/2011) =
 * Maintenance: different changes on code
 * Maintenance: usable in WP 3.1
@@ -105,10 +110,6 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * Feature: Add options for WP Nav Menu
 * Bugfix: php warning for wrong datatype [WP Forum](http://wordpress.org/support/topic/plugin-adminimize-warning-in-array)
 * Bugfix: php warning on foreach [WP Forum](http://wordpress.org/support/topic/plugin-adminimize-warning-error-invalid-argument-supplied-for-foreach)
-* Feature: add style for better see the line on settings
-* Feature: exclude the Super Admin of WP Multisite from all rights of roles; only WP_DEBUG is false
-* Fix: remove entry on admin css color
-* Fix: warning on Multisite install
 
 = v1.7.12 (10/02/2010) =
 * Bugfix: Fallback for deactivate profile.php on roles smaller administration
