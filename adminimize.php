@@ -12,7 +12,7 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.14
+Version: 1.7.15
 License: GPL
 */
 
@@ -911,8 +911,12 @@ function _mw_adminimize_set_global_option() {
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $global_options . ' {display: none !important;}</style>' . "\n";
 	
 	// for deactivate admin bar
-	if ( $remove_adminbar )
-		add_filter( 'show_admin_bar','__return_false' );
+	if ( $remove_adminbar ) {
+		add_filter( 'show_admin_bar', '__return_false' );
+		wp_deregister_script( 'admin-bar' );
+		wp_deregister_style( 'admin-bar' );
+		remove_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
+	}
 	
 	if ($global_options)
 		echo $_mw_adminimize_admin_head;
@@ -1498,7 +1502,7 @@ function _mw_adminimize_export() {
 	header("Content-Type: application/download");
 	header('Content-Type: text/seq; charset=' . get_option('blog_charset'), TRUE);
 	flush();
-		
+	
 	$export_data = mysql_query("SELECT option_value FROM $wpdb->options WHERE option_name = 'mw_adminimize'");
 	$export_data = mysql_result($export_data, 0);
 	echo $export_data;
@@ -1528,10 +1532,16 @@ function _mw_adminimize_import() {
 		// SQL import
 		ini_set('default_socket_timeout', 120);
 		$import_file = file_get_contents($str_ziel);
+	//	$testmw = get_option('mw_adminimize');var_dump($testmw);echo 'ende vor löschen';
 		_mw_adminimize_deinstall();
 		$import_file = unserialize($import_file);
+		
+		if ( file_exists($str_ziel) )
+			unlink($str_ziel);
 		update_option('mw_adminimize', $import_file);
-		unlink($str_ziel);
+		if ( file_exists($str_ziel) )
+			unlink($str_ziel);
+		
 		$addreferer = 'true';
 	}
 
