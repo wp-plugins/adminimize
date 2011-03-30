@@ -161,7 +161,7 @@
 											<option value="6"<?php if ($_mw_adminimize_db_redirect == '6') { echo ' selected="selected"'; } ?>><?php _e('other Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
 										</select>
 										<textarea style="width: 85%;" class="code" rows="1" cols="60" name="_mw_adminimize_db_redirect_txt" id="_mw_adminimize_db_redirect_txt" ><?php echo htmlspecialchars(stripslashes(_mw_adminimize_getOptionValue('_mw_adminimize_db_redirect_txt'))); ?></textarea>
-										<br /><?php _e('You have deactivated the Dashboard, please select a page for redirection?', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+										<br /><?php _e('You have deactivated the Dashboard, please select a page for redirection or define custom url, include http://?', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 									</td>
 								</tr>
 								<?php
