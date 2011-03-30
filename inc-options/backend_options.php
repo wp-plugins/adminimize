@@ -13,6 +13,18 @@
 					<br class="clear" />
 					<table summary="config" class="widefat">
 						<tbody>
+							<?php if ( function_exists('is_super_admin') ) { ?>
+							<tr valign="top" class="form-invalid">
+								<td><?php _e('Exclude Super Admin', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
+								<td>
+									<?php $_mw_adminimize_exclude_super_admin = _mw_adminimize_getOptionValue('_mw_adminimize_exclude_super_admin'); ?>
+									<select name="_mw_adminimize_exclude_super_admin">
+										<option value="0"<?php if ($_mw_adminimize_exclude_super_admin == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ($_mw_adminimize_exclude_super_admin == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('Exclude the Super Admin on a WP Multisite Install from all limitations of this plugin.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
+								</td>
+							</tr>
+							<?php } ?>
 							<tr valign="top">
 								<td><?php _e('User-Info', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
