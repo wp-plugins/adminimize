@@ -105,23 +105,6 @@ function _mw_adminimize_options() {
 			wp_die($myErrors);
 		}
 	}
-	
-	// update wp nav menu
-	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_set_theme') && $_POST['_mw_adminimize_save'] ) {
-		if ( function_exists('current_user_can') && current_user_can('edit_users') ) {
-			check_admin_referer('mw_adminimize_nonce');
-			
-			_mw_adminimize_set_theme();
-			
-			$myErrors = new _mw_adminimize_message_class();
-			$myErrors = '<div id="message" class="updated fade"><p>' . $myErrors->get_error('_mw_adminimize_set_theme') . '</p></div>';
-			echo $myErrors;
-		} else {
-			$myErrors = new _mw_adminimize_message_class();
-			$myErrors = '<div id="message" class="error"><p>' . $myErrors->get_error('_mw_adminimize_access_denied') . '</p></div>';
-			wp_die($myErrors);
-		}
-	}
 ?>
 	<div class="wrap">
 		<?php 

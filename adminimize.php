@@ -193,7 +193,7 @@ function _mw_adminimize_init() {
 	
 	// exclude super admin
 	if ( defined('WP_DEBUG') && !WP_DEBUG ) {
-		if ( is_super_admin() )
+		if ( function_exists('is_super_admin') && is_super_admin() )
 			return NULL;
 	}
 	
@@ -677,7 +677,7 @@ function _mw_adminimize_remove_dashboard() {
 	
 	// exclude super admin
 	if ( defined('WP_DEBUG') && !WP_DEBUG ) {
-		if ( is_super_admin() )
+		if ( function_exists('is_super_admin') && is_super_admin() )
 			return NULL;
 	}
 	
@@ -1057,6 +1057,7 @@ function _mw_adminimize_set_nav_menu_option() {
 			}
 		}
 	}
+	//remove_meta_box($id, 'nav-menus', 'side');
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . $nav_menu_options . ' {display: none !important;}</style>' . "\n";
 	
 	if ($nav_menu_options)
@@ -1443,6 +1444,19 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['_mw_adminimize_own_link_options'] = stripslashes($_POST['_mw_adminimize_own_link_options']);
 	} else {
 		$adminimizeoptions['_mw_adminimize_own_link_options'] = 0;
+	}
+	
+	// wp nav menu options
+	if (isset($_POST['_mw_adminimize_own_nav_menu_values'])) {
+		$adminimizeoptions['_mw_adminimize_own_nav_menu_values'] = stripslashes($_POST['_mw_adminimize_own_nav_menu_values']);
+	} else {
+		$adminimizeoptions['_mw_adminimize_own_nav_menu_values'] = 0;
+	}
+	
+	if (isset($_POST['_mw_adminimize_own_nav_menu_options'])) {
+		$adminimizeoptions['_mw_adminimize_own_nav_menu_options'] = stripslashes($_POST['_mw_adminimize_own_nav_menu_options']);
+	} else {
+		$adminimizeoptions['_mw_adminimize_own_nav_menu_options'] = 0;
 	}
 	
 	// update

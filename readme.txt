@@ -98,6 +98,12 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.15 () =
+* Change functions for reduce WP Nav Menu
+* Maintenance: check for fucntions in Multisite, Superadmin for use the plugin smaller WP 3.0
+* Feature: add css for more usability on settings
+* Bugfix: custom values fpr WP Nav Menu
+
 = v1.7.14 (03/03/2011) =
 * Maintenance: remove php notice on role editor
 * Maintenance: Add fallback for dont load menu/submenu

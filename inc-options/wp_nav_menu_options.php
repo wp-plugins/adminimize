@@ -24,24 +24,42 @@
 							foreach ($user_roles as $role) {
 								$disabled_nav_menu_option_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_nav_menu_option_'. $role .'_items');
 							}
-								
+							
 							$nav_menu_options = array(
-																			'#add-custom-links',
-																			'#add-post',
-																			'#add-page',
-																			'#add-category',
-																			'#add-post_tag',
+																			'#contextual-help-link-wrap',
+																			'#screen-options-link-wrap',
+																			'#nav-menu-theme-locations',
 																			'.menu-add-new'
 																			);
 							
 							$nav_menu_options_names = array(
-																			__('Custom Links'),
-																			__('Posts'),
-																			__('Pages'),
-																			__('Categories'),
-																			__('Post Tags'),
+																			__('Help'),
+																			__('Screen Options'),
+																			__('Theme Locations'),
 																			__('#') . '(' . __('Add menu') . ')'
 																			);
+							
+							// taxonomies
+							$taxonomies = get_taxonomies( array( 'show_in_nav_menus' => true ), 'object' );
+							if ($taxonomies) {
+								foreach ( $taxonomies as $tax ) {
+									if ( $tax ) {
+										array_push($nav_menu_options, '#add-' . $tax->name);
+										array_push($nav_menu_options_names, $tax->labels->name);
+									}
+								}
+							}
+							
+							// post types
+							$post_types = get_post_types( array( 'show_in_nav_menus' => true ), 'object' );
+							if ($post_types) {
+								foreach ( $post_types as $post_type ) {
+									if ( $post_type ) {
+										array_push($nav_menu_options, '#add-' . $post_type->name);
+										array_push($nav_menu_options_names, $post_type->labels->name);
+									}
+								}
+							}
 							
 							$_mw_adminimize_own_nav_menu_values  = _mw_adminimize_getOptionValue('_mw_adminimize_own_nav_menu_values');
 							$_mw_adminimize_own_nav_menu_values = preg_split( "/\r\n/", $_mw_adminimize_own_nav_menu_values );
