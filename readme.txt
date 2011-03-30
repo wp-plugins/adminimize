@@ -98,12 +98,15 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
-= v1.7.15 () =
+= v1.7.15 (03/30/2011) =
 * Change functions for reduce WP Nav Menu
 * change to check for super admin; add new function and option on Global Options to set this
 * Maintenance: check for functions in Multisite, Superadmin for use the plugin smaller WP 3.0
 * Feature: add css for more usability on settings
 * Bugfix: custom values for WP Nav Menu
+* Add Option for Super Admin
+* Change option for rewrite, after deactivate Dashboard; now you use a custom url, incl. http://
+* Maintenance: Language File
 
 = v1.7.14 (03/03/2011) =
 * Maintenance: remove php notice on role editor
