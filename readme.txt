@@ -100,9 +100,10 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 == Changelog ==
 = v1.7.15 () =
 * Change functions for reduce WP Nav Menu
-* Maintenance: check for fucntions in Multisite, Superadmin for use the plugin smaller WP 3.0
+* change to check for super admin; add new function and option on Global Options to set this
+* Maintenance: check for functions in Multisite, Superadmin for use the plugin smaller WP 3.0
 * Feature: add css for more usability on settings
-* Bugfix: custom values fpr WP Nav Menu
+* Bugfix: custom values for WP Nav Menu
 
 = v1.7.14 (03/03/2011) =
 * Maintenance: remove php notice on role editor
