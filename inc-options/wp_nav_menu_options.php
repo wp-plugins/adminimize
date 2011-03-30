@@ -26,18 +26,26 @@
 							}
 							
 							$nav_menu_options = array(
-																			'#contextual-help-link-wrap',
-																			'#screen-options-link-wrap',
-																			'#nav-menu-theme-locations',
-																			'.menu-add-new'
-																			);
+								'#contextual-help-link-wrap',
+								'#screen-options-link-wrap',
+								'#nav-menu-theme-locations',
+								'#add-custom-links',
+								'.menu-add-new'
+							);
 							
+							if ( wp_get_nav_menus() )
+								array( $nav_menu_options, '#nav-menu-theme-locations' );
+								
 							$nav_menu_options_names = array(
-																			__('Help'),
-																			__('Screen Options'),
-																			__('Theme Locations'),
-																			__('#') . '(' . __('Add menu') . ')'
-																			);
+								__('Help'),
+								__('Screen Options'),
+								__('Theme Locations'),
+								__('Custom Links'),
+								__('#') . '(' . __('Add menu') . ')'
+							);
+							
+							if ( wp_get_nav_menus() )
+								array( $nav_menu_options_names, __( 'Theme Locations' ) );
 							
 							// taxonomies
 							$taxonomies = get_taxonomies( array( 'show_in_nav_menus' => true ), 'object' );
