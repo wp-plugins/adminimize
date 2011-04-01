@@ -12,7 +12,7 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.15
+Version: 1.7.16
 License: GPL
 */
 
@@ -200,7 +200,7 @@ function _mw_adminimize_control_flashloader() {
  * check user-option and add new style
  * @uses $pagenow
  */
-function _mw_adminimize_init() {
+function _mw_adminimize_admin_init() {
 	global $pagenow, $menu, $submenu, $adminimizeoptions, $wp_version;
 	
 	if ( function_exists('get_post_type_object') ) {
@@ -384,9 +384,6 @@ function _mw_adminimize_init() {
 	// global_options
 	add_action('admin_head', '_mw_adminimize_set_global_option', 1);
 	
-	// admin bar
-	_mw_adminimize_remove_admin_bar();
-	
 	// set metabox post option
 	$post_pages = array('post-new.php', 'post.php', 'post');
 	if ( in_array( $pagenow, $post_pages ) || in_array($post_type, $post_pages) ) {
@@ -418,9 +415,10 @@ function _mw_adminimize_init() {
 // on init of WordPress
 add_action( 'init', '_mw_adminimize_textdomain' );
 add_action( 'init', '_mw_adminimize_register_styles' );
-add_action( 'init', '_mw_adminimize_init', 1 );
+add_action( 'init', '_mw_adminimize_remove_admin_bar' );
 
 // on admin init
+add_action( 'admin_init', '_mw_adminimize_admin_init', 1 );
 add_action( 'admin_menu', '_mw_adminimize_add_settings_page' );
 add_action( 'admin_menu', '_mw_adminimize_remove_dashboard' );
 add_action( 'admin_init', '_mw_adminimize_admin_styles', 1 );
@@ -942,7 +940,7 @@ function _mw_adminimize_remove_admin_bar() {
 	foreach ($user_roles as $role) {
 		$disabled_global_option_[$role] = _mw_adminimize_getOptionValue('mw_adminimize_disabled_global_option_'. $role .'_items');
 	}
-
+	
 	foreach ($user_roles as $role) {
 		if ( !isset($disabled_global_option_[$role]['0']) )
 			$disabled_global_option_[$role]['0'] = '';
@@ -967,6 +965,7 @@ function _mw_adminimize_remove_admin_bar() {
 		wp_deregister_script( 'admin-bar' );
 		wp_deregister_style( 'admin-bar' );
 		remove_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
+		remove_action( 'wp_head', '_admin_bar_bump_cb' );
 	}
 }
 
