@@ -59,165 +59,165 @@ msgstr "Backend-Theme wurde zugewiesen!"
 msgid "Load user data to themes was successful."
 msgstr "Das Laden der User-Daten zum Theme war erfolgreich."
 
-#: adminimize.php:472
+#: adminimize.php:470
 #: inc-options/links_options.php:44
-#: inc-options/menu_options.php:93
+#: inc-options/menu_options.php:95
 #@ default
 #@ adminimize
 msgid "Categories"
 msgstr "Kategorien"
 
-#: adminimize.php:478
-#: adminimize.php:489
+#: adminimize.php:476
+#: adminimize.php:487
 #@ default
 msgid "+ Add New Category"
 msgstr "+ Add New Category"
 
-#: adminimize.php:480
-#: adminimize.php:491
+#: adminimize.php:478
+#: adminimize.php:489
 #@ default
 msgid "New category name"
 msgstr "New category name"
 
-#: adminimize.php:481
-#: adminimize.php:493
+#: adminimize.php:479
+#: adminimize.php:491
 #@ default
 msgid "Parent category"
 msgstr "Parent category"
 
-#: adminimize.php:482
-#: adminimize.php:494
+#: adminimize.php:480
+#: adminimize.php:492
 #@ default
 msgid "Add"
 msgstr "Add"
 
-#: adminimize.php:491
-#: inc-options/menu_options.php:94
+#: adminimize.php:489
+#: inc-options/menu_options.php:96
 #@ default
 #@ adminimize
 msgid "Add New Category"
 msgstr "Add New Category"
 
-#: adminimize.php:515
-#: adminimize.php:516
-#: inc-options/menu_options.php:92
+#: adminimize.php:513
+#: adminimize.php:514
+#: inc-options/menu_options.php:93
 #@ default
 #@ adminimize
 msgid "Tags"
 msgstr "Tags"
 
-#: adminimize.php:557
-#: adminimize.php:571
-#: adminimize.php:585
+#: adminimize.php:555
+#: adminimize.php:569
+#: adminimize.php:583
 #@ default
 msgid "Blue"
 msgstr "Blau"
 
-#: adminimize.php:564
-#: adminimize.php:578
-#: adminimize.php:592
+#: adminimize.php:562
+#: adminimize.php:576
+#: adminimize.php:590
 #@ default
 msgid "Gray"
 msgstr "Grau"
 
-#: adminimize.php:600
-#: adminimize.php:642
-#: adminimize.php:665
+#: adminimize.php:598
+#: adminimize.php:640
+#: adminimize.php:663
 #@ default
 msgid "Classic"
 msgstr "Classic"
 
-#: adminimize.php:607
-#: adminimize.php:649
-#: adminimize.php:672
+#: adminimize.php:605
+#: adminimize.php:647
+#: adminimize.php:670
 #@ default
 msgid "Fresh"
 msgstr "Fresh"
 
-#: adminimize.php:614
+#: adminimize.php:612
 #@ default
 msgid "WordPress 2.3"
 msgstr "WordPress 2.3"
 
-#: adminimize.php:621
+#: adminimize.php:619
 #@ default
 msgid "Maybe i'm colorblind"
 msgstr "Maybe i'm colorblind"
 
-#: adminimize.php:628
+#: adminimize.php:626
 #@ default
 msgid "Grey"
 msgstr "Grey"
 
-#: adminimize.php:753
-#: adminimize.php:756
+#: adminimize.php:751
+#: adminimize.php:754
 #@ default
 msgid "Dashboard"
 msgstr "Dashboard"
 
+#: adminimize.php:816
 #: adminimize.php:818
-#: adminimize.php:820
+#: adminimize.php:833
 #: adminimize.php:835
-#: adminimize.php:837
-#: adminimize.php:1139
+#: adminimize.php:1138
 #@ default
 msgid "Log Out"
 msgstr "Log Out"
 
-#: adminimize.php:1160
+#: adminimize.php:1159
 #@ default
 msgid "Visit plugin homepage"
 msgstr "Visit plugin homepage"
 
-#: adminimize.php:1163
+#: adminimize.php:1162
 #@ default
 msgid "plugin"
 msgstr "plugin"
 
-#: adminimize.php:1163
+#: adminimize.php:1162
 #@ default
 msgid "Version"
 msgstr "Version"
 
-#: adminimize.php:1163
+#: adminimize.php:1162
 #@ adminimize
 msgid "History"
 msgstr "Historie"
 
-#: adminimize.php:1163
+#: adminimize.php:1162
 #@ default
 msgid "Author"
 msgstr "Author"
 
-#: adminimize.php:1167
+#: adminimize.php:1166
 #@ adminimize
 msgid "plugin activate"
 msgstr "plugin activate"
 
-#: adminimize.php:1188
+#: adminimize.php:1187
 #@ default
 msgid "Settings"
 msgstr "Settings"
 
-#: adminimize.php:1251
+#: adminimize.php:1250
 #@ adminimize
 msgid "<a href=\"http://wordpress.org/extend/plugins/adminimize/\">Documentation</a>"
 msgstr "<a href=\"http://bueltge.de/wordpress-admin-theme-adminimize/674/\">Dokumentation</a> (<a href=\"http://wordpress.org/extend/plugins/adminimize/\">en</a>)"
 
 #. translators: plugin header field 'Name'
 #: adminimize.php:0
-#: adminimize.php:1269
+#: adminimize.php:1268
 #: inc-options/minimenu.php:6
 #@ adminimize
 msgid "Adminimize"
 msgstr "Adminimize"
 
-#: adminimize.php:1271
+#: adminimize.php:1270
 #@ adminimize
 msgid "Adminimize Options"
 msgstr "Adminimize Einstellungen"
 
-#: adminimize.php:1293
+#: adminimize.php:1292
 #@ default
 msgid "Cheatin&#8217; uh?"
 msgstr "Cheatin&#8217; uh?"
@@ -385,7 +385,7 @@ msgid "Write Page"
 msgstr "Schreiben Seite"
 
 #: inc-options/backend_options.php:160
-#: inc-options/menu_options.php:98
+#: inc-options/menu_options.php:100
 #@ adminimize
 msgid "Comments"
 msgstr "Kommentare"
@@ -398,7 +398,7 @@ msgstr "andere Seite"
 #: inc-options/backend_options.php:173
 #: inc-options/global_options.php:114
 #: inc-options/links_options.php:118
-#: inc-options/menu_options.php:334
+#: inc-options/menu_options.php:336
 #: inc-options/wp_nav_menu_options.php:139
 #: inc-options/write_page_options.php:79
 #: inc-options/write_post_options.php:80
@@ -445,8 +445,8 @@ msgid "Screen-Meta"
 msgstr "Screen-Meta"
 
 #: inc-options/global_options.php:42
-#: inc-options/menu_options.php:89
-#: inc-options/menu_options.php:185
+#: inc-options/menu_options.php:90
+#: inc-options/menu_options.php:187
 #: inc-options/wp_nav_menu_options.php:41
 #@ adminimize
 #@ default
@@ -517,182 +517,176 @@ msgstr "Menu Einstellungen"
 msgid "Menu options - Menu, <span style=\\\"font-weight: 400;\\\">Submenu</span>"
 msgstr "Menu Einstellungen - Menu, <span style=\"font-weight: 400;\">Submenu</span>"
 
-#: inc-options/menu_options.php:88
-#: inc-options/menu_options.php:184
+#: inc-options/menu_options.php:89
+#: inc-options/menu_options.php:186
 #: inc-options/wp_nav_menu_options.php:40
 #@ default
 msgid "Help"
 msgstr ""
 
-#: inc-options/menu_options.php:91
-#: inc-options/menu_options.php:187
+#: inc-options/menu_options.php:92
+#: inc-options/menu_options.php:189
 #@ adminimize
 msgid "Permalink"
 msgstr "Permalink"
 
-#: inc-options/menu_options.php:95
+#: inc-options/menu_options.php:97
 #@ adminimize
 msgid "Excerpt"
 msgstr "Auszug"
 
-#: inc-options/menu_options.php:96
+#: inc-options/menu_options.php:98
 #@ adminimize
 msgid "Trackbacks"
 msgstr "Trackbacks"
 
-#: inc-options/menu_options.php:97
-#: inc-options/menu_options.php:188
+#: inc-options/menu_options.php:99
+#: inc-options/menu_options.php:190
 #@ default
 msgid "Custom Fields"
 msgstr "Benutzerdefinierte Felder"
 
-#: inc-options/menu_options.php:99
+#: inc-options/menu_options.php:101
 #@ adminimize
 msgid "Password Protect This Post"
 msgstr "Diesen Artikel durch ein Passwort sch&uuml;tzen"
 
-#: inc-options/menu_options.php:100
+#: inc-options/menu_options.php:102
 #@ default
 msgid "Post Author"
 msgstr "Autor"
 
-#: inc-options/menu_options.php:101
+#: inc-options/menu_options.php:103
 #@ default
 msgid "Post Revisions"
 msgstr "Post Revisions"
 
-#: inc-options/menu_options.php:102
+#: inc-options/menu_options.php:104
 #@ adminimize
 msgid "Related, Shortcuts"
 msgstr "Siehe auch, Tastaturk&uuml;rzel"
 
-#: inc-options/menu_options.php:103
-#: inc-options/menu_options.php:197
-#@ adminimize
-msgid "Messenges"
-msgstr "Mitteilungen"
-
-#: inc-options/menu_options.php:104
-#: inc-options/menu_options.php:198
+#: inc-options/menu_options.php:106
+#: inc-options/menu_options.php:200
 #@ adminimize
 msgid "h2: Advanced Options"
 msgstr "h2: Erweiterte Einstellungen"
 
-#: inc-options/menu_options.php:105
-#: inc-options/menu_options.php:199
+#: inc-options/menu_options.php:107
+#: inc-options/menu_options.php:201
 #@ adminimize
 msgid "Media Buttons (all)"
 msgstr "Media Buttons (alle)"
 
-#: inc-options/menu_options.php:106
-#: inc-options/menu_options.php:200
+#: inc-options/menu_options.php:108
+#: inc-options/menu_options.php:202
 #@ adminimize
 msgid "Word count"
 msgstr "Word count"
 
-#: inc-options/menu_options.php:107
+#: inc-options/menu_options.php:109
 #@ default
 msgid "Post Slug"
 msgstr ""
 
 #: inc-options/links_options.php:48
-#: inc-options/menu_options.php:108
-#: inc-options/menu_options.php:202
+#: inc-options/menu_options.php:110
+#: inc-options/menu_options.php:204
 #@ adminimize
 msgid "Publish Actions"
 msgstr "Publish Actions"
 
-#: inc-options/menu_options.php:109
-#: inc-options/menu_options.php:203
+#: inc-options/menu_options.php:111
+#: inc-options/menu_options.php:205
 #@ default
 msgid "Discussion"
 msgstr ""
 
-#: inc-options/menu_options.php:114
+#: inc-options/menu_options.php:116
 #@ default
 msgid "Post Thumbnail"
 msgstr ""
 
-#: inc-options/menu_options.php:116
-#: inc-options/menu_options.php:210
+#: inc-options/menu_options.php:118
+#: inc-options/menu_options.php:212
 #@ default
 #@ adminimize
 msgid "Suggested tags from"
 msgstr "Suggested tags from"
 
-#: inc-options/menu_options.php:118
+#: inc-options/menu_options.php:120
 #@ default
 msgid "Text Control"
 msgstr "Text Control"
 
-#: inc-options/menu_options.php:120
-#: inc-options/menu_options.php:212
+#: inc-options/menu_options.php:122
+#: inc-options/menu_options.php:214
 #@ default
 msgid "HTML Special Characters"
 msgstr "HTML Special Characters"
 
-#: inc-options/menu_options.php:122
+#: inc-options/menu_options.php:124
 #@ default
 msgid "All in One SEO Pack"
 msgstr ""
 
-#: inc-options/menu_options.php:189
+#: inc-options/menu_options.php:191
 #@ adminimize
 msgid "Comments &amp; Pings"
 msgstr "Kommentare &amp; Pings"
 
-#: inc-options/menu_options.php:190
+#: inc-options/menu_options.php:192
 #@ adminimize
 msgid "Password Protect This Page"
 msgstr "Diese Seite mit einem Passwort versehen"
 
-#: inc-options/menu_options.php:191
+#: inc-options/menu_options.php:193
 #@ default
 msgid "Attributes"
 msgstr ""
 
-#: inc-options/menu_options.php:192
+#: inc-options/menu_options.php:194
 #@ adminimize
 msgid "Page Template"
 msgstr "Seiten Template"
 
-#: inc-options/menu_options.php:193
+#: inc-options/menu_options.php:195
 #@ adminimize
 msgid "Page Order"
 msgstr "Reihenfolge"
 
-#: inc-options/menu_options.php:194
+#: inc-options/menu_options.php:196
 #@ default
 msgid "Page Author"
 msgstr "Seitenautor"
 
-#: inc-options/menu_options.php:195
+#: inc-options/menu_options.php:197
 #@ default
 msgid "Page Revisions"
 msgstr "Page Revisions"
 
-#: inc-options/menu_options.php:196
+#: inc-options/menu_options.php:198
 #@ adminimize
 msgid "Related"
 msgstr "Siehe auch"
 
-#: inc-options/menu_options.php:201
+#: inc-options/menu_options.php:203
 #@ default
 msgid "Page Slug"
 msgstr ""
 
-#: inc-options/menu_options.php:208
+#: inc-options/menu_options.php:210
 #@ default
 msgid "Page Image"
 msgstr ""
 
-#: inc-options/menu_options.php:250
-#: inc-options/menu_options.php:298
+#: inc-options/menu_options.php:252
+#: inc-options/menu_options.php:300
 #@ adminimize
 msgid "After activate the check box it heavy attitudes will change."
 msgstr "Wenn die Checkbox aktiv ist, dann wird das Ändern von Einstellungen erschwert."
 
-#: inc-options/menu_options.php:281
+#: inc-options/menu_options.php:283
 #@ default
 msgid "Profile"
 msgstr "Profile"
@@ -893,7 +887,7 @@ msgstr "MiniMenu"
 #: inc-options/backend_options.php:175
 #: inc-options/global_options.php:116
 #: inc-options/links_options.php:121
-#: inc-options/menu_options.php:336
+#: inc-options/menu_options.php:338
 #: inc-options/wp_nav_menu_options.php:141
 #: inc-options/write_page_options.php:81
 #: inc-options/write_post_options.php:82
@@ -931,8 +925,8 @@ msgstr "Im Footer kann ein Hinweis auf die aktive Ver&auml;nderung des Standard-
 msgid "Dashboard deactivate, redirect to"
 msgstr "Dashboard inaktiv, Weiterleitung nach"
 
-#: inc-options/menu_options.php:110
-#: inc-options/menu_options.php:204
+#: inc-options/menu_options.php:112
+#: inc-options/menu_options.php:206
 #@ default
 msgid "HTML Editor Button"
 msgstr ""
@@ -976,17 +970,11 @@ msgstr "Header"
 msgid "The Header-area can hide, include all links and details."
 msgstr "Der header-Bereich kann ausgeblendet werden, inkl. aller Links und Details."
 
-#: inc-options/menu_options.php:90
-#: inc-options/menu_options.php:186
+#: inc-options/menu_options.php:91
+#: inc-options/menu_options.php:188
 #@ adminimize
 msgid "Title"
 msgstr "Title"
-
-#. translators: plugin header field 'Version'
-#: adminimize.php:0
-#@ adminimize
-msgid "1.7.15"
-msgstr ""
 
 #: inc-options/backend_options.php:18
 #@ adminimize
@@ -1038,4 +1026,21 @@ msgstr ""
 #@ default
 msgid "Add menu"
 msgstr ""
+
+#. translators: plugin header field 'Version'
+#: adminimize.php:0
+#@ adminimize
+msgid "1.7.16"
+msgstr ""
+
+#: inc-options/menu_options.php:94
+#@ default
+msgid "Format"
+msgstr ""
+
+#: inc-options/menu_options.php:105
+#: inc-options/menu_options.php:199
+#@ adminimize
+msgid "Messages"
+msgstr "Mitteilungen"
 
