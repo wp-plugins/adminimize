@@ -2305,7 +2305,6 @@ fieldset {
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	float: right;
-	background: transparent url( '../../../../wp-admin/images/screen-options-left.gif' ) no-repeat 0 0;
 	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	height: 22px;
 	padding: 0;
@@ -2975,14 +2974,6 @@ table.fixed {
 	border: 1px solid #ccc !important;
 	margin: 30px 15px 0 0;
 	}
-#favorite-actions {
-	position: absolute !important;
-	top: 0px;
-	left: 0px;
-	}
-	#header-logo {
-		margin-left: 160px !important;
-		}
 	
 #adminmenu .menu-top-first a.menu-top,
 .folded #adminmenu li.menu-top-first,

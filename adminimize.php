@@ -12,7 +12,7 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.16
+Version: 1.7.17
 License: GPL
 */
 
@@ -550,7 +550,25 @@ function _mw_adminimize_admin_styles($file) {
 
 	$_mw_adminimize_path = WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/';
 
-	if ( version_compare( $wp_version, '2.7alpha', '>=' ) ) {
+	if ( version_compare( $wp_version, '3.0alpha', '>=' ) ) {
+		
+		// MW Adminimize Classic Tweak
+		$styleName = 'Adminimize:' . ' Tweak ' . __('Blue');
+		wp_admin_css_color (
+			'mw_classic_tweak', $styleName, $_mw_adminimize_path . 'mw_classic28_tweak.css',
+			array('#073447', '#21759b', '#eaf3fa', '#bbd8e7')
+		);
+
+		// MW Adminimize Fresh Tweak
+		$styleName = 'Adminimize:' . ' Tweak ' . __('Gray');
+		wp_admin_css_color (
+			'mw_fresh_tweak', $styleName, $_mw_adminimize_path . 'mw_fresh28_tweak.css',
+			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
+		);
+	
+	}
+
+	if ( version_compare( $wp_version, '2.7alpha', '>=' ) && version_compare( $wp_version, '3.0alpha', '<' ) ) {
 		// MW Adminimize Classic
 		$styleName = 'Adminimize:' . ' ' . __('Blue');
 		wp_admin_css_color (
@@ -593,7 +611,7 @@ function _mw_adminimize_admin_styles($file) {
 			array('#464646', '#6d6d6d', '#f1f1f1', '#dfdfdf')
 		);
 		
-	} else {
+	} elseif ( version_compare( $wp_version, '2.7alpha', '<' ) ) {
 		// MW Adminimize Classic
 		$styleName = 'MW Adminimize:' . ' ' . __('Classic');
 		wp_admin_css_color (
