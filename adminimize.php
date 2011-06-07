@@ -12,7 +12,7 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.17
+Version: 1.7.18
 License: GPL
 */
 
@@ -822,6 +822,8 @@ function _mw_adminimize_set_menu_option() {
 		break;
 		case 2:
 			if ( version_compare($wp_version, "3.0alpha", ">=") ) {
+				if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
+					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
 				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info30.css" type="text/css" />' . "\n";
 			} elseif ( version_compare(substr($wp_version, 0, 3), '2.7', '>=') ) {
 				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info27.css" type="text/css" />' . "\n";
@@ -839,6 +841,8 @@ function _mw_adminimize_set_menu_option() {
 		break;
 		case 3:
 			if ( version_compare($wp_version, "3.0alpha", ">=") ) {
+				if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
+					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
 				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info30.css" type="text/css" />' . "\n";
 			} elseif ( version_compare(substr($wp_version, 0, 3), '2.7', '>=') ) {
 				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info27.css" type="text/css" />' . "\n";
@@ -862,7 +866,7 @@ function _mw_adminimize_set_menu_option() {
 		// set admin-menu
 		foreach ($user_roles as $role) {
 			$user = wp_get_current_user();
-			if ( in_array($role, $user->roles) ) {
+			if ( is_array($user->roles) && in_array($role, $user->roles) ) {
 				if ( current_user_can($role) ) {
 					$mw_adminimize_menu     = $disabled_menu_[$role];
 					$mw_adminimize_submenu  = $disabled_submenu_[$role];
@@ -929,7 +933,7 @@ function _mw_adminimize_set_global_option() {
 	// new 1.7.8
 	foreach ($user_roles as $role) {
 		$user = wp_get_current_user();
-		if ( in_array($role, $user->roles) ) {
+		if ( is_array($user->roles) && in_array($role, $user->roles) ) {
 			if ( current_user_can($role) && is_array($disabled_global_option_[$role]) ) {
 				$global_options = implode(', ', $disabled_global_option_[$role]);
 				if ( recursive_in_array('.show-admin-bar', $disabled_global_option_[$role]) )
@@ -968,7 +972,7 @@ function _mw_adminimize_remove_admin_bar() {
 	// new 1.7.8
 	foreach ($user_roles as $role) {
 		$user = wp_get_current_user();
-		if ( in_array($role, $user->roles) ) {
+		if ( is_array($user->roles) && in_array($role, $user->roles) ) {
 			if ( current_user_can($role) && is_array($disabled_global_option_[$role]) ) {
 				$global_options = implode(', ', $disabled_global_option_[$role]);
 				if ( recursive_in_array('.show-admin-bar', $disabled_global_option_[$role]) )
@@ -1012,7 +1016,7 @@ function _mw_adminimize_set_metabox_post_option() {
 		// new 1.7.8
 		foreach ($user_roles as $role) {
 			$user = wp_get_current_user();
-			if ( in_array($role, $user->roles) ) {
+			if ( is_array($user->roles) && in_array($role, $user->roles) ) {
 				if ( current_user_can($role) && isset($disabled_metaboxes_post_[$role]) && is_array($disabled_metaboxes_post_[$role]) ) {
 					$metaboxes = implode(',', $disabled_metaboxes_post_[$role]);
 				}
@@ -1051,7 +1055,7 @@ function _mw_adminimize_set_metabox_page_option() {
 		// new 1.7.8
 		foreach ($user_roles as $role) {
 			$user = wp_get_current_user();
-			if ( in_array($role, $user->roles) ) {
+			if ( is_array($user->roles) && in_array($role, $user->roles) ) {
 				if ( current_user_can($role) && is_array($disabled_metaboxes_page_[$role]) ) {
 					$metaboxes = implode(',', $disabled_metaboxes_page_[$role]);
 				}
@@ -1093,7 +1097,7 @@ function _mw_adminimize_set_link_option() {
 	// new 1.7.8
 	foreach ($user_roles as $role) {
 		$user = wp_get_current_user();
-		if ( in_array($role, $user->roles) ) {
+		if ( is_array($user->roles) && in_array($role, $user->roles) ) {
 			if ( current_user_can($role) && is_array($disabled_link_option_[$role]) ) {
 				$link_options = implode(',', $disabled_link_option_[$role]);
 			}
@@ -1132,7 +1136,7 @@ function _mw_adminimize_set_nav_menu_option() {
 	// new 1.7.8
 	foreach ($user_roles as $role) {
 		$user = wp_get_current_user();
-		if ( in_array($role, $user->roles) ) {
+		if ( is_array($user->roles) && in_array($role, $user->roles) ) {
 			if ( current_user_can($role) && is_array($disabled_nav_menu_option_[$role]) ) {
 				$nav_menu_options = implode(',', $disabled_nav_menu_option_[$role]);
 			}
