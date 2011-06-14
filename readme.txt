@@ -4,7 +4,7 @@ Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
 Tested up to: 3.1.1
-Stable tag: 1.7.17
+Stable tag: 1.7.18
 
 Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress backend and many many more ...
 
@@ -12,7 +12,11 @@ Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the
 Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. Compatible with WordPress 2.5 or later. 
 Configure all metaboxes and other areas in the write-area. The new theme move the Tags- and Categorys-box to the sidebar, switch off optional metaboxes and other areas in the write-area. Scoll automatocly to the Textbox, when you click the write-button. Many options for menu, submenu and all areas, metaboxes in the write-area, separated for all roles in WordPress.
 
+= Support Custom Options on all different post types =
 With version 1.6.1 it is possible to add own options for hide areas in the backend of WordPress. It is easy and you must only forgive ID or class of the tag. Also it is possible to use a fixed menu and header.
+
+= Support Custom Post Type =
+Also it is possible with version 1.7.18 to use on custom post types; hide 'unnecessary' areas on the custom post types for different roles and post types.
 
 = Compatibility with the drop-down menu plugins =
 1. [Ozh Admin Drop Down Menu](http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/ "Admin Drop Down Menu for WordPress 2.5") by Ozh
@@ -63,6 +67,8 @@ The plugin changes the administration backend and gives you the power to assign 
 1. you can set an role to view the areas on link page, edit post, edit page and global
 1. you can add own options for set rights to role
 1. it is possible to disable HTML-Editor on edit-area, only Visual-tab
+1. remove admin bar
+1. remove items on custom post types
 1. ... many more
 
 = Localizations =
@@ -90,6 +96,7 @@ Please use the `Deinstall-Function` in the option-area before update to version 
 See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize/674/ "Adminimize").
 
 == Screenshots ==
+1. Settings in WordPress 3.2-beta with two Custom Post Types
 1. configure-area for user/admin; options for metaboxes, areas in write-area and menu in WordPress 2.7/2.8
 1. configure-area for user in WordPress 2.7/2.8
 1. Small tweak for design higher WP 2.7, save 50px over the menu
@@ -98,6 +105,17 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.18 (06/07/2011) =
+* Fixes Small User info on right top with Admin Bar, also ready for WP 3.2
+* Fixes Error for xmlrpc
+* Add QuickEdit-Areas for hide this
+* Different changes on source
+* With WP 3.2 remove all Admin Styles !
+* Add support for custom post type
+* many small changes on source
+* update de_DE language files
+* tested only in version 3.1 and 3.2-beta; dont test in smaller version
+
 = v1.7.17 (04/11/2011) =
 * Fixes on Admin-CSS Styles for WP 3.*
 * Reduce backend Styles of the Plugins - Goal: kill all styles!!! (to heavy for Maintenance)
