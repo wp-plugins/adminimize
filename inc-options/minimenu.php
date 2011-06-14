@@ -1,5 +1,13 @@
 <?php
-// options for write page
+/**
+ * @package Adminimize
+ * @subpackage Menu on settings page
+ * @author Frank Bültge
+ */
+if ( ! function_exists( 'add_action' ) ) {
+	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
+	exit;
+}
 ?>
 
 		<?php screen_icon('tools'); ?>
@@ -53,6 +61,23 @@
 									<tr class="alternate">
 										<td class="row-title"><a href="#config_edit_page"><?php _e('Write options - Page', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
 									</tr>
+									<?php 
+									if ( function_exists( 'get_post_types' ) ) {
+										$args = array( 'public' => TRUE, '_builtin' => FALSE );
+										foreach ( get_post_types( $args ) as $post_type) {
+											$post_type_object = get_post_type_object($post_type);
+											?>
+											<tr class="form-invalid">
+												<td class="row-title">
+													<a href="#config_edit_<?php echo $post_type; ?>">
+													<?php _e('Write options', FB_ADMINIMIZE_TEXTDOMAIN ); echo ' - ' . $post_type_object->label ?>
+													</a>
+												</td>
+											</tr>
+											<?php
+										}
+									}
+									?>
 									<tr>
 										<td class="row-title"><a href="#links_options"><?php _e('Links options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
 									</tr>
@@ -67,9 +92,6 @@
 									</tr>
 									<tr>
 										<td class="row-title"><a href="#uninstall"><?php _e('Deinstall Options', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
-									</tr>
-									<tr class="alternate">
-										<td class="row-title"><a href="#about"><?php _e('About the plugin', FB_ADMINIMIZE_TEXTDOMAIN ); ?></a></td>
 									</tr>
 								</table>
 							</div>
