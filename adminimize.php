@@ -253,7 +253,7 @@ function _mw_adminimize_admin_init() {
 	$args = array( 'public' => TRUE, '_builtin' => FALSE );
 	$def_custom_types = get_post_types( $args );
 	// pages for link pages
-	$link_pages = array( 'link-manager.php', 'link-add.php', 'edit-link-categories.php' );
+	$link_pages = array( 'link.php', 'link-manager.php', 'link-add.php', 'edit-link-categories.php' );
 	// pages for nav menu
 	$nav_menu_pages = array( 'nav-menus.php' );
 	// get admin color for current user

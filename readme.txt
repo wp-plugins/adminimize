@@ -106,6 +106,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.19 =
+* fix page for links - `link.php`
+
 = v1.7.18 (06/07/2011) =
 * Fixes Small User info on right top with Admin Bar, also ready for WP 3.2
 * Fixes Error for xmlrpc
