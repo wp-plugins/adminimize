@@ -80,6 +80,10 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [GeorgWP](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208 "wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208") for danish language files.
 * Thanks to [Scavenger](http://www.photos-marseille.fr) for french language files.
 * Thanks to [Outshine Solutions](http://outshinesolutions.com/web-hosting/web-hosting-india.html) for hindi language files.
+* Thanks to [ray.s](http://letsbefamous.com/) for irish translation.
+
+= More Plugins = 
+Please see also my [Premium Plugins](http://wpplugins.com/author/malo.conny/). Maybe you find an solution for your requirement.
 
 = Interested in WordPress tips and tricks =
 You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
@@ -90,6 +94,8 @@ You may also be interested in WordPress tips and tricks at [WP Engineer](http://
 3. Activate the plugin through the `Plugins` menu in WordPress
 4. Selecting Colour Scheme and Theme, selection in Your Profile, go to your User Profile (under `Users` > `Your Profile` or by clicking on your name at the top right corner of the administration panel).
 5. Administrator can go to `Options` > `Adminimize` menu and configure the plugin (Menu, Submenu, Metaboxes, ...)
+
+* or use the automatic install via backend of WordPress
 
 = Advice =
 Please use the `Deinstall-Function` in the option-area before update to version 1.4! Version 1.4 and higher have only one database entry and the `Deinstall-Option` deinstall the old entrys.
@@ -108,6 +114,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 == Changelog ==
 = v1.7.19 =
 * fix page for links - `link.php`
+* add irish language files
 
 = v1.7.18 (06/07/2011) =
 * Fixes Small User info on right top with Admin Bar, also ready for WP 3.2
