@@ -3,8 +3,8 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 3.1.1
-Stable tag: 1.7.18
+Tested up to: 3.2-RC2
+Stable tag: 1.7.12
 
 Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress backend and many many more ...
 
