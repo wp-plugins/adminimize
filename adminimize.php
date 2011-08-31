@@ -12,14 +12,16 @@ Domain Path: /languages
 Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
 Author: Frank B&uuml;ltge
 Author URI: http://bueltge.de/
-Version: 1.7.19
-License: GPL
+Version: 1.7.20
+License: GPLv2
 */
 
 /**
  * The stylesheet and the initial idea is from Eric A. Meyer, http://meyerweb.com/
  * and i have written a plugin with many options on the basis
  * of differently user-right and a user-friendly range in admin-area.
+ * 
+ * :( grmpf i have so much wishes and hints form users, do use the plugin and its not possible to development this on my free time)
  */
 
 
@@ -66,7 +68,11 @@ function _mw_adminimize_get_plugin_data( $value = 'Version' ) {
 
 function _mw_adminimize_textdomain() {
 	
-	load_plugin_textdomain( FB_ADMINIMIZE_TEXTDOMAIN, FALSE, dirname( FB_ADMINIMIZE_BASENAME ) . '/languages' );
+	load_plugin_textdomain( 
+		_mw_adminimize_get_plugin_data( 'TextDomain' ), 
+		FALSE, 
+		dirname( FB_ADMINIMIZE_BASENAME ) . _mw_adminimize_get_plugin_data( 'DomainPath' )
+	);
 }
 
 
@@ -117,7 +123,7 @@ class _mw_adminimize_message_class {
 		
 		$errorMessage = $this->errors->get_error_message( $code );
 		
-		if ( $errorMessage == NULL )
+		if ( NULL == $errorMessage )
 			return __( 'Unknown error.', $this->localizion_name );
 		
 		return $errorMessage;
