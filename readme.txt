@@ -3,8 +3,8 @@ Contributors: Bueltge
 Donate link: http://bueltge.de/wunschliste/
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 3.2-RC2
-Stable tag: 1.7.12
+Tested up to: 3.3-aortic-dissection
+Stable tag: 1.7.19
 
 Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress backend and many many more ...
 
@@ -81,6 +81,7 @@ The plugin changes the administration backend and gives you the power to assign 
 * Thanks to [Scavenger](http://www.photos-marseille.fr) for french language files.
 * Thanks to [Outshine Solutions](http://outshinesolutions.com/web-hosting/web-hosting-india.html) for hindi language files.
 * Thanks to [ray.s](http://letsbefamous.com/) for irish translation.
+* Thanks for bulgarian language files to [Web Geek](http://webhostinggeeks.com/)
 
 = More Plugins = 
 Please see also my [Premium Plugins](http://wpplugins.com/author/malo.conny/). Maybe you find an solution for your requirement.
@@ -115,6 +116,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 = v1.7.19 =
 * fix page for links - `link.php`
 * add irish language files
+* add bulgarian language files
 
 = v1.7.18 (06/07/2011) =
 * Fixes Small User info on right top with Admin Bar, also ready for WP 3.2
