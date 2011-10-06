@@ -1307,7 +1307,7 @@ function _mw_adminimize_small_user_info() {
  * include options-page in wp-admin
  */
 require_once( 'adminimize_page.php' );
-
+require_once( 'inc-setup/dashboard.php' );
 
 /**
  * credit in wp-footer
@@ -1587,6 +1587,13 @@ function _mw_adminimize_update() {
 		} else {
 			$adminimizeoptions['mw_adminimize_disabled_nav_menu_option_' . $role . '_items'] = array();
 		}
+		
+		// wp dashboard option
+		if ( isset( $_POST['mw_adminimize_disabled_dashboard_option_' . $role . '_items'] ) ) {
+			$adminimizeoptions['mw_adminimize_disabled_dashboard_option_' . $role . '_items']  = $_POST['mw_adminimize_disabled_dashboard_option_' . $role . '_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_dashboard_option_' . $role . '_items'] = array();
+		}
 	}
 	
 	// own options
@@ -1668,6 +1675,21 @@ function _mw_adminimize_update() {
 	} else {
 		$adminimizeoptions['_mw_adminimize_own_nav_menu_options'] = 0;
 	}
+	
+	// own dashboard options	
+	if ( isset( $_POST['_mw_adminimize_own_dashboard_values'] ) ) {
+		$adminimizeoptions['_mw_adminimize_own_dashboard_values'] = stripslashes( $_POST['_mw_adminimize_own_dashboard_values'] );
+	} else {
+		$adminimizeoptions['_mw_adminimize_own_dashboard_values'] = 0;
+	}
+	
+	if ( isset( $_POST['_mw_adminimize_own_dashboard_options'] ) ) {
+		$adminimizeoptions['_mw_adminimize_own_dashboard_options'] = stripslashes( $_POST['_mw_adminimize_own_dashboard_options'] );
+	} else {
+		$adminimizeoptions['_mw_adminimize_own_dashboard_options'] = 0;
+	}
+	
+	$adminimizeoptions['mw_adminimize_dashboard_widgets'] = _mw_adminimize_get_option_value('mw_adminimize_dashboard_widgets');
 	
 	$adminimizeoptions['mw_adminimize_default_menu'] = $GLOBALS['menu'];
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $GLOBALS['submenu'];

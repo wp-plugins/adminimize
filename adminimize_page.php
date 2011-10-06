@@ -126,6 +126,9 @@ function _mw_adminimize_options() {
 		// global options on all pages in backend for diffferent roles
 		require_once('inc-options/global_options.php');
 		
+		// dashboard options for different roles
+		require_once('inc-options/dashboard_options.php');
+		
 		// Menu Submenu Options
 		require_once('inc-options/menu_options.php');
 		

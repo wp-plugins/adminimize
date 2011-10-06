@@ -113,6 +113,10 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.20 =
+* fix small bug for use plugin Localization
+* add Dashbaord Widgets to remove for different roles
+
 = v1.7.19 =
 * fix page for links - `link.php`
 * add irish language files
