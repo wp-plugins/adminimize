@@ -18,7 +18,8 @@ function _mw_adminimize_dashboard_setup () {
 	$adminimizeoptions = get_option( 'mw_adminimize' );
 	$widgets = _mw_adminimize_get_dashboard_widgets();
 	$adminimizeoptions['mw_adminimize_dashboard_widgets'] = $widgets;
-	update_option( 'mw_adminimize', $adminimizeoptions );
+	if ( current_user_can( 'manage_options' ) )
+		update_option( 'mw_adminimize', $adminimizeoptions );
 	
 	// exclude super admin
 	if ( _mw_adminimize_exclude_super_admin() )
@@ -42,7 +43,8 @@ function _mw_adminimize_dashboard_setup () {
 		if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
 			if ( current_user_can( $role ) && is_array( $disabled_dashboard_option_[$role] ) ) {
 				foreach( $disabled_dashboard_option_[$role] as $widget ) {
-					remove_meta_box( $widget, 'dashboard', $widgets[$widget]['context'] );
+					if ( isset( $widgets[$widget]['context']) )
+						remove_meta_box( $widget, 'dashboard', $widgets[$widget]['context'] );
 				}
 			}
 		}

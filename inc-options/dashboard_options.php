@@ -21,7 +21,9 @@ if ( ! function_exists( 'add_action' ) ) {
 							// get widgets
 							$widgets = _mw_adminimize_get_option_value('mw_adminimize_dashboard_widgets');
 							if ( ! isset( $widgets ) ) {
+								echo '<p class="form-invalid">';
 								_e( 'To complete the installation for Dashboard Widgets you must visit your dashboard once and then come back to Settings > Adminimize to configure who has access to each widget.', FB_ADMINIMIZE_TEXTDOMAIN );
+								echo '</p>';
 							} else {
 						?>
 

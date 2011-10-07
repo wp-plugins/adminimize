@@ -984,7 +984,7 @@ function _mw_adminimize_set_global_option() {
 	}
 
 	foreach ( $user_roles as $role ) {
-		if ( !isset( $disabled_global_option_[$role]['0'] ) )
+		if ( ! isset( $disabled_global_option_[$role]['0'] ) )
 			$disabled_global_option_[$role]['0'] = '';
 	}
 	
@@ -993,7 +993,10 @@ function _mw_adminimize_set_global_option() {
 	foreach ( $user_roles as $role ) {
 		$user = wp_get_current_user();
 		if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
-			if ( current_user_can( $role ) && is_array( $disabled_global_option_[$role] ) ) {
+			if ( current_user_can( $role ) 
+				 && isset( $disabled_global_option_[$role] ) 
+				 && is_array( $disabled_global_option_[$role] )
+				) {
 				$global_options = implode( ', ', $disabled_global_option_[$role] );
 				if ( _mw_adminimize_recursive_in_array( '.show-admin-bar', $disabled_global_option_[$role] ) )
 					$remove_adminbar = TRUE;
@@ -1025,7 +1028,7 @@ function _mw_adminimize_remove_admin_bar() {
 	}
 	
 	foreach ( $user_roles as $role ) {
-		if ( !isset( $disabled_global_option_[$role]['0'] ) )
+		if ( ! isset( $disabled_global_option_[$role]['0'] ) )
 			$disabled_global_option_[$role]['0'] = '';
 	}
 	
@@ -1034,7 +1037,9 @@ function _mw_adminimize_remove_admin_bar() {
 	foreach ( $user_roles as $role ) {
 		$user = wp_get_current_user();
 		if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
-			if ( current_user_can( $role ) && is_array( $disabled_global_option_[$role] ) ) {
+			if ( current_user_can( $role )
+				 && isset( $disabled_global_option_[$role] )
+				 && is_array( $disabled_global_option_[$role] ) ) {
 				$global_options = implode( ', ', $disabled_global_option_[$role] );
 				if ( _mw_adminimize_recursive_in_array( '.show-admin-bar', $disabled_global_option_[$role] ) )
 					$remove_adminbar = TRUE;
@@ -1073,7 +1078,7 @@ function _mw_adminimize_set_metabox_post_option() {
 			'mw_adminimize_disabled_metaboxes_post_' . $role . '_items'
 		);
 		
-		if ( !isset( $disabled_metaboxes_post_[$role]['0'] ) )
+		if ( ! isset( $disabled_metaboxes_post_[$role]['0'] ) )
 			$disabled_metaboxes_post_[$role]['0'] = '';
 		
 		// new 1.7.8
@@ -1118,14 +1123,17 @@ function _mw_adminimize_set_metabox_page_option() {
 			'mw_adminimize_disabled_metaboxes_page_' . $role . '_items'
 		);
 		
-		if ( !isset( $disabled_metaboxes_page_[$role]['0'] ) )
+		if ( ! isset( $disabled_metaboxes_page_[$role]['0'] ) )
 			$disabled_metaboxes_page_[$role]['0'] = '';
 
 		// new 1.7.8
 		foreach ( $user_roles as $role ) {
 			$user = wp_get_current_user();
 			if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
-				if ( current_user_can( $role ) && is_array( $disabled_metaboxes_page_[$role] ) ) {
+				if ( current_user_can( $role ) 
+					 && isset( $disabled_metaboxes_page_[$role] ) 
+					 && is_array( $disabled_metaboxes_page_[$role] )
+					) {
 					$metaboxes = implode( ',', $disabled_metaboxes_page_[$role] );
 				}
 			}
@@ -1229,7 +1237,10 @@ function _mw_adminimize_set_link_option() {
 	foreach ( $user_roles as $role ) {
 		$user = wp_get_current_user();
 		if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
-			if ( current_user_can( $role ) && is_array( $disabled_link_option_[$role] ) ) {
+			if ( current_user_can( $role ) 
+				 && isset( $disabled_link_option_[$role] ) 
+				 && is_array( $disabled_link_option_[$role] )
+				) {
 				$link_options = implode( ',', $disabled_link_option_[$role] );
 			}
 		}
@@ -1263,7 +1274,7 @@ function _mw_adminimize_set_nav_menu_option() {
 	}
 	
 	foreach ( $user_roles as $role ) {
-		if ( !isset( $disabled_nav_menu_option_[$role]['0'] ) )
+		if ( ! isset( $disabled_nav_menu_option_[$role]['0'] ) )
 			$disabled_nav_menu_option_[$role]['0'] = '';
 	}
 
@@ -1271,7 +1282,10 @@ function _mw_adminimize_set_nav_menu_option() {
 	foreach ( $user_roles as $role ) {
 		$user = wp_get_current_user();
 		if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
-			if ( current_user_can( $role ) && is_array( $disabled_nav_menu_option_[$role] ) ) {
+			if ( current_user_can( $role ) 
+				 && isset( $disabled_nav_menu_option_[$role] ) 
+				 && is_array( $disabled_nav_menu_option_[$role] )
+				) {
 				$nav_menu_options = implode( ',', $disabled_nav_menu_option_[$role] );
 			}
 		}
