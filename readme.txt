@@ -75,7 +75,7 @@ The plugin changes the administration backend and gives you the power to assign 
 * Also Thanks to [Ovidio](http://pacura.ru/ "pacaru.ru") for an translations the details in english and [G&uuml;rkan G&uuml;r](http://www.seqizz.net/ "G&uuml;rkan G&uuml;r") for translation in turkish.
 * Thanks to [Gabriel Scheffer](http://www.gabrielscheffer.com.ar "Gabriel Scheffer") for the spanish language files.
 * Thanks to [Andrea Piccinelli] for the italian language files.
-* Thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow") for the belarussian language files.
+* Thanks to Fat Cow for the belarussian language files.
 * Thanks to [Rene](http://wpwebshop.com/ "wpwebshop.com") for dutch translation.
 * Thanks to [GeorgWP](http://wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208 "wordpress.blogos.dk/s%C3%B8g-efter-downloads/?did=208") for danish language files.
 * Thanks to [Scavenger](http://www.photos-marseille.fr) for french language files.
@@ -221,7 +221,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * Add fix for deactive user.php/profile.php
 
 = v1.7.1 (17/06/2009) =
-* Add belarussian language file, thanks to [Fat Cow](http://www.fatcow.com/ "Fat Cow")
+* Add belarussian language file, thanks to Fat Cow
 
 = v1.7.1 (16/06/2009) =
 * changes for load userdate on settings themes; better for performance on blogs with many Users
