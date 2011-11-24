@@ -118,7 +118,7 @@ function _mw_adminimize_options() {
 		require_once('inc-options/minimenu.php');
 		?>
 		
-		<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo $_GET['page'];?>" >
+		<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo esc_attr( $_GET['page'] );?>" >
 		<?php 
 		// Backend Options for all roles
 		require_once('inc-options/backend_options.php');
