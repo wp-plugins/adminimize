@@ -91,12 +91,6 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 
 == Screenshots ==
 1. Settings in WordPress 3.2-beta with two Custom Post Types
-1. configure-area for user/admin; options for metaboxes, areas in write-area and menu in WordPress 2.7/2.8
-1. configure-area for user in WordPress 2.7/2.8
-1. Small tweak for design higher WP 2.7, save 50px over the menu
-1. minimize header after activate in WordPress 2.5
-1. configure-area for user in WordPress 2.5
-1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
 = v1.7.23 =
