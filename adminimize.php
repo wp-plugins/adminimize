@@ -4,17 +4,17 @@
  * @author Frank Bültge
  */
  
-/*
-Plugin Name: Adminimize
-Plugin URI: http://bueltge.de/wordpress-admin-theme-adminimize/674/
-Text Domain: adminimize
-Domain Path: /languages
-Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
-Author: Frank B&uuml;ltge
-Author URI: http://bueltge.de/
-Version: 1.7.23
-License: GPLv3
-*/
+/**
+ * Plugin Name: Adminimize
+ * Plugin URI:  http://bueltge.de/wordpress-admin-theme-adminimize/674/
+ * Text Domain: adminimize
+ * Domain Path: /languages
+ * Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
+ * Author:      Frank B&uuml;ltge
+ * Author URI:  http://bueltge.de/
+ * Version:     1.7.24
+ * License:     GPLv3
+ */
 
 /**
  * The stylesheet and the initial idea is from Eric A. Meyer, http://meyerweb.com/
@@ -359,11 +359,11 @@ function _mw_adminimize_admin_init() {
 			
 			// set default editor tinymce
 			if ( _mw_adminimize_recursive_in_array( 
-					'#editor-toolbar #edButtonHTML, #quicktags', 
+					'#editor-toolbar #edButtonHTML, #quicktags, #content-html', 
 					$disabled_metaboxes_page_all
 				)
 				|| _mw_adminimize_recursive_in_array(
-					'#editor-toolbar #edButtonHTML, #quicktags', 
+					'#editor-toolbar #edButtonHTML, #quicktags, #content-html', 
 					$disabled_metaboxes_post_all
 				) )
 				add_filter( 'wp_default_editor', create_function( '', 'return "tinymce";' ) );
@@ -388,7 +388,8 @@ function _mw_adminimize_admin_init() {
 	if ( version_compare( $wp_version, '3.3alpha', '>=' ) ) {
 		_mw_adminimize_set_menu_option_33();
 	} else {
-		_mw_adminimize_set_user_info();
+		add_action( 'admin_head', '_mw_adminimize_set_user_info' );
+		add_action( 'wp_head', '_mw_adminimize_set_user_info' );
 	}
 	// set menu option
 	add_action( 'admin_head', '_mw_adminimize_set_menu_option', 1 );
@@ -867,62 +868,61 @@ function _mw_adminimize_set_user_info() {
 	$_mw_adminimize_user_info        = _mw_adminimize_get_option_value( '_mw_adminimize_user_info' );
 	$_mw_adminimize_ui_redirect      = _mw_adminimize_get_option_value( '_mw_adminimize_ui_redirect' );
 	
-	if ( version_compare( $wp_version, "3.3alpha", "<=" ) ) {
-		// change user-info
-		switch ( $_mw_adminimize_user_info) {
-			case 1:
-				$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
-				$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\' ).remove(); });' . "\n";
-				$_mw_adminimize_admin_head .= '</script>' . "\n";
+
+	// change user-info
+	switch ( $_mw_adminimize_user_info) {
+		case 1:
+			$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+			$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\' ).remove(); });' . "\n";
+			$_mw_adminimize_admin_head .= '</script>' . "\n";
 			break;
-			case 2:
-				if ( version_compare( $wp_version, "3.2alpha", ">=") ) {
-					if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
-						$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
-					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info32.css" type="text/css" />' . "\n";
-				} elseif ( version_compare( $wp_version, "3.0alpha", ">=") ) {
-					if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
-						$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
+		case 2:
+			if ( version_compare( $wp_version, "3.2alpha", ">=") ) {
+				if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
+					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
+				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info32.css" type="text/css" />' . "\n";
+			} elseif ( version_compare( $wp_version, "3.0alpha", ">=") ) {
+				if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
+					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
 					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info30.css" type="text/css" />' . "\n";
 				} elseif ( version_compare(substr( $wp_version, 0, 3), '2.7', '>=' ) ) {
 					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info27.css" type="text/css" />' . "\n";
 				} else {
 					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
 				}
-				$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
-				$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\' ).remove();';
-				if ( $_mw_adminimize_ui_redirect == '1' ) {
-					$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout&amp;redirect_to=' ) . get_option( 'siteurl' ) , 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
-				} else {
-					$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout' ) , 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
-				}
-				$_mw_adminimize_admin_head .= '</script>' . "\n";
+			$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+			$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\' ).remove();';
+			if ( $_mw_adminimize_ui_redirect == '1' ) {
+				$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout&amp;redirect_to=' ) . get_option( 'siteurl' ) , 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
+			} else {
+				$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout' ) , 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
+			}
+			$_mw_adminimize_admin_head .= '</script>' . "\n";
 			break;
-			case 3:
-				if ( version_compare( $wp_version, "3.2alpha", ">=") ) {
-					if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
-						$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
-					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info32.css" type="text/css" />' . "\n";
-				} elseif ( version_compare( $wp_version, "3.0alpha", ">=") ) {
-					if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
-						$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
-					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info30.css" type="text/css" />' . "\n";
-				} elseif ( version_compare(substr( $wp_version, 0, 3), '2.7', '>=' ) ) {
-					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info27.css" type="text/css" />' . "\n";
-				} else {
-					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
-				}
-				$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
-				$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\' ).remove();';
-				if ( $_mw_adminimize_ui_redirect == '1' ) {
-					$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . ( '/wp-admin/profile.php' ) . '">' . $user_identity . '</a> | <a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout&amp;redirect_to=' ) . get_option( 'siteurl' ), 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
-				} else {
-					$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . ( '/wp-admin/profile.php' ) . '">' . $user_identity . '</a> | <a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout' ), 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
-				}
-				$_mw_adminimize_admin_head .= '</script>' . "\n";
+		case 3:
+			if ( version_compare( $wp_version, "3.2alpha", ">=") ) {
+				if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
+					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
+				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info32.css" type="text/css" />' . "\n";
+			} elseif ( version_compare( $wp_version, "3.0alpha", ">=") ) {
+				if ( function_exists( 'is_admin_bar_showing' ) && is_admin_bar_showing() )
+					$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info31.css" type="text/css" />' . "\n";
+				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info30.css" type="text/css" />' . "\n";
+			} elseif ( version_compare(substr( $wp_version, 0, 3), '2.7', '>=' ) ) {
+				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info27.css" type="text/css" />' . "\n";
+			} else {
+				$_mw_adminimize_admin_head .= '<link rel="stylesheet" href="' . WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/css/mw_small_user_info.css" type="text/css" />' . "\n";
+			}
+			$_mw_adminimize_admin_head .= '<script type="text/javascript">' . "\n";
+			$_mw_adminimize_admin_head .= "\t" . 'jQuery(document).ready(function() { jQuery(\'#user_info\' ).remove();';
+			if ( $_mw_adminimize_ui_redirect == '1' ) {
+				$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . ( '/wp-admin/profile.php' ) . '">' . $user_identity . '</a> | <a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout&amp;redirect_to=' ) . get_option( 'siteurl' ), 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
+			} else {
+				$_mw_adminimize_admin_head .= 'jQuery(\'div#wpcontent\' ).after(\'<div id="small_user_info"><p><a href="' . get_option( 'siteurl' ) . ( '/wp-admin/profile.php' ) . '">' . $user_identity . '</a> | <a href="' . get_option( 'siteurl' ) . wp_nonce_url( ( '/wp-login.php?action=logout' ), 'log-out' ) . '" title="' . __( 'Log Out' ) . '">' . __( 'Log Out' ) . '</a></p></div>\' ) });' . "\n";
+			}
+			$_mw_adminimize_admin_head .= '</script>' . "\n";
 			break;
-		}
-	} // end if < WP3.3 
+	}
 	
 	echo $_mw_adminimize_admin_head;
 }
