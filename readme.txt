@@ -95,8 +95,9 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 == Changelog ==
 = v1.7.23 =
 * Maintenance: change function to remove admin bar for WP 3.3, see [Forum item](http://wordpress.org/support/topic/694201)
-* New: if deactivate Admin bar in 3.3, add Link to Site and User on top
-* Maintenance: change for User Info to works also in WP 3.3
+* New: if deactivate Admin Bar in 3.3, add Link to Site and User on top
+* Maintenance: change for user Info to works also in WP 3.3
+* Bugfixes: fixing on changes for WP 3.2.1 :(
 
 = v1.7.22 =
 * Security fix for $_GET on the admin-settings-page
