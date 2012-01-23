@@ -33,12 +33,12 @@ if ( ! function_exists( 'add_action' ) ) {
 							$wp_menu    = _mw_adminimize_get_option_value('mw_adminimize_default_menu');
 							$wp_submenu = _mw_adminimize_get_option_value('mw_adminimize_default_submenu');
 							
-							if ( empty($wp_menu) ) {
+							if ( ! isset($wp_menu) || empty($wp_menu) ) {
 								global $menu;
 								
 								$wp_menu = $menu;
 							}
-							if ( !isset($wp_submenu) ) {
+							if ( ! isset($wp_submenu) || empty($wp_submenu) ) {
 								global $submenu;
 								
 								$wp_submenu = $submenu;
@@ -81,13 +81,13 @@ if ( ! function_exists( 'add_action' ) ) {
 										}
 	
 										echo '<tr class="form-invalid">' . "\n";
-										echo "\t" . '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $item[2] . ')</span> </th>';
+										echo "\t" . '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . htmlentities( $item[2] ) . ')</span> </th>';
 										foreach ($user_roles as $role) {
 											if ( $role != 'administrator' ) { // only admin disable items
 												$disabled_item_adm = '';
 												$disabled_item_adm_hint = '';
 											}
-											echo "\t" . '<td class="num">' . $disabled_item_adm_hint . '<input id="check_menu'. $role . $x .'" type="checkbox"' . $disabled_item_adm . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_menu_'. $role .'_items[]" value="' . $item[2] . '" />' . $disabled_item_adm_hint . '</td>' . "\n";
+											echo "\t" . '<td class="num">' . $disabled_item_adm_hint . '<input id="check_menu'. $role . $x .'" type="checkbox"' . $disabled_item_adm . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_menu_'. $role .'_items[]" value="' . htmlentities( $item[2] ) . '" />' . $disabled_item_adm_hint . '</td>' . "\n";
 										}
 										echo '</tr>';
 										
@@ -104,7 +104,7 @@ if ( ! function_exists( 'add_action' ) ) {
 
 										$x++;
 
-										if ( !isset($wp_submenu[$item[2]]) )
+										if ( ! isset($wp_submenu[$item[2]]) )
 											continue;
 
 										// submenu items
@@ -123,13 +123,13 @@ if ( ! function_exists( 'add_action' ) ) {
 												if ( isset($disabled_submenu_[$role]) )
 													$checked_user_role_[$role]  = ( in_array($subitem[2], $disabled_submenu_[$role] ) ) ? ' checked="checked"' : '';
 											}
-											echo '<td> &mdash; ' . $subitem[0] . ' <span style="color:#ccc; font-weight: 400;">(' . $subitem[2] . ')</span> </td>' . "\n";
+											echo '<td> &mdash; ' . $subitem[0] . ' <span style="color:#ccc; font-weight: 400;">(' . htmlentities( $subitem[2] ) . ')</span> </td>' . "\n";
 											foreach ($user_roles as $role) {
 												if ( $role != 'administrator' ) { // only admin disable items
 													$disabled_subitem_adm = '';
 													$disabled_subitem_adm_hint = '';
 												}
-												echo '<td class="num">' . $disabled_subitem_adm_hint . '<input id="check_menu'. $role.$x .'" type="checkbox"' . $disabled_subitem_adm . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_submenu_'. $role .'_items[]" value="' . $subitem[2] . '" />' . $disabled_subitem_adm_hint . '</td>' . "\n";
+												echo '<td class="num">' . $disabled_subitem_adm_hint . '<input id="check_menu'. $role.$x .'" type="checkbox"' . $disabled_subitem_adm . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_submenu_'. $role .'_items[]" value="' . htmlentities( $subitem[2] ) . '" />' . $disabled_subitem_adm_hint . '</td>' . "\n";
 											}
 											echo '</tr>' . "\n";
 											$x++;

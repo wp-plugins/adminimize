@@ -12,7 +12,7 @@
  * Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
  * Author:      Frank B&uuml;ltge
  * Author URI:  http://bueltge.de/
- * Version:     1.7.24
+ * Version:     1.7.25
  * License:     GPLv3
  */
 
@@ -416,7 +416,7 @@ function _mw_adminimize_admin_init() {
 		add_action( 'admin_head', '_mw_adminimize_set_nav_menu_option', 1 );
 
 	add_action( 'in_admin_footer', '_mw_adminimize_admin_footer' );
-
+	
 	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
 	
@@ -1434,7 +1434,7 @@ function _mw_adminimize_update() {
 	$user_roles = _mw_adminimize_get_all_user_roles();
 	$args = array( 'public' => TRUE, '_builtin' => FALSE );
 	$post_types = get_post_types( $args );
-			
+	
 	if ( isset( $_POST['_mw_adminimize_user_info'] ) ) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes( $_POST['_mw_adminimize_user_info'] ) );
 	} else {
@@ -1532,7 +1532,7 @@ function _mw_adminimize_update() {
 		} else {
 			$adminimizeoptions['mw_adminimize_disabled_menu_' . $role . '_items'] = array();
 		}
-
+		
 		if ( isset( $_POST['mw_adminimize_disabled_submenu_' . $role . '_items'] ) ) {
 			$adminimizeoptions['mw_adminimize_disabled_submenu_' . $role . '_items']  = $_POST['mw_adminimize_disabled_submenu_' . $role . '_items'];
 		} else {
