@@ -931,10 +931,13 @@ function _mw_adminimize_set_user_info() {
  * Set menu for settings
  */
 function _mw_adminimize_set_menu_option() {
-	global $pagenow, $menu, $submenu, $user_identity, $wp_version;
+	global $pagenow, $menu, $submenu, $user_identity, $wp_version, $current_screen;
 	
 	// exclude super admin
 	if ( _mw_adminimize_exclude_super_admin() )
+		return NULL;
+	
+	if ( 'settings_page_adminimize/adminimize' === $current_screen->id )
 		return NULL;
 	
 	$user_roles = _mw_adminimize_get_all_user_roles();
@@ -962,7 +965,7 @@ function _mw_adminimize_set_menu_option() {
 		if ( is_array( $mw_adminimize_menu) && in_array( 'users.php', $mw_adminimize_menu)  )
 			$mw_adminimize_menu[] = 'profile.php';
 		
-		if ( isset( $menu) && !empty( $menu) ) {
+		if ( isset( $menu) && ! empty($menu) ) {
 			foreach ( $menu as $index => $item) {
 				if ( 'index.php' === $item )
 					continue;
@@ -1294,13 +1297,14 @@ function _mw_adminimize_small_user_info() {
 <?php
 }
 
-
 /**
  * include options-page in wp-admin
  */
 require_once( 'adminimize_page.php' );
 require_once( 'inc-setup/dashboard.php' );
 require_once( 'inc-setup/admin-bar.php' );
+// globale settings
+require_once( 'inc-options/settings_notice.php' );
 
 /**
  * credit in wp-footer

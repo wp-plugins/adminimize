@@ -42,7 +42,12 @@ function _mw_adminimize_add_logout( $wp_admin_bar ) {
 	$user_id      = get_current_user_id();
 	$current_user = wp_get_current_user();
 	$profile_url  = get_edit_profile_url( $user_id );
-
+	$_mw_adminimize_ui_redirect = _mw_adminimize_get_option_value( '_mw_adminimize_ui_redirect' );
+	if ( '1' === $_mw_adminimize_ui_redirect )
+		$redirect = '&amp;redirect_to=' . get_option( 'siteurl' );
+	else
+		$redirect = '';
+	
 	if ( ! $user_id )
 		return;
 	
@@ -50,7 +55,7 @@ function _mw_adminimize_add_logout( $wp_admin_bar ) {
 		'id'        => 'mw-account',
 		'parent'    => 'top-secondary',
 		'title'     => __( 'Log Out' ),
-		'href'      => wp_logout_url(),
+		'href'      => wp_logout_url() . $redirect,
 	) );
 }
 
@@ -59,7 +64,12 @@ function _mw_adminimize_add_user_logout( $wp_admin_bar ) {
 	$user_id      = get_current_user_id();
 	$current_user = wp_get_current_user();
 	$profile_url  = get_edit_profile_url( $user_id );
-
+	$_mw_adminimize_ui_redirect = _mw_adminimize_get_option_value( '_mw_adminimize_ui_redirect' );
+	if ( '1' === $_mw_adminimize_ui_redirect )
+		$redirect = '&amp;redirect_to=' . get_option( 'siteurl' );
+	else
+		$redirect = '';
+	
 	if ( ! $user_id )
 		return;
 	
@@ -69,7 +79,7 @@ function _mw_adminimize_add_user_logout( $wp_admin_bar ) {
 		'id'        => 'mw-account',
 		'parent'    => 'top-secondary',
 		'title'     => $user_info . ' ' . __( 'Log Out' ),
-		'href'      => wp_logout_url(),
+		'href'      => wp_logout_url() . $redirect,
 	) );
 }
 

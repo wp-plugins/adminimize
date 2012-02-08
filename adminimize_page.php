@@ -19,7 +19,7 @@ if ( isset( $_GET['_mw_adminimize_export'] ) ) {
 
 function _mw_adminimize_options() {
 	global $wpdb, $_wp_admin_css_colors, $wp_version, $wp_roles, $table_prefix;
-
+	
 	$_mw_adminimize_user_info = '';
 
 	//get array with userroles
@@ -113,9 +113,9 @@ function _mw_adminimize_options() {
 	}
 ?>
 	<div class="wrap">
-		<?php 
+		<?php
 		// Backend Options for all roles
-		require_once('inc-options/minimenu.php');
+		require_once( 'inc-options/minimenu.php' );
 		?>
 		
 		<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo esc_attr( $_GET['page'] );?>" >

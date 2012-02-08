@@ -51,7 +51,7 @@ if ( ! function_exists( 'add_action' ) ) {
 							
 							// print menu, submenu
 							if ( isset($wp_menu) && '' != $wp_menu ) {
-
+								
 								$i = 0;
 								$x = 0;
 								$class = '';
@@ -70,7 +70,11 @@ if ( ! function_exists( 'add_action' ) ) {
 										$disabled_item_adm_hint = '';
 									}
 									
-									if ( $item[0] != '' ) {
+									if ( $item[2] != '' ) {
+										
+										if ( 'wp-menu-separator' === $item[4] )
+											$item[0] = 'Separator';
+										
 										foreach($user_roles as $role) {
 											// checkbox checked
 												if ( isset( $disabled_menu_[$role]) && in_array($item[2],  $disabled_menu_[$role]) ) {
@@ -83,7 +87,7 @@ if ( ! function_exists( 'add_action' ) ) {
 										echo '<tr class="form-invalid">' . "\n";
 										echo "\t" . '<th>' . $item[0] . ' <span style="color:#ccc; font-weight: 400;">(' . htmlentities( $item[2] ) . ')</span> </th>';
 										foreach ($user_roles as $role) {
-											if ( $role != 'administrator' ) { // only admin disable items
+											if ( $role !== 'administrator' ) { // only admin disable items
 												$disabled_item_adm = '';
 												$disabled_item_adm_hint = '';
 											}
