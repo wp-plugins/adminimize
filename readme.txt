@@ -10,7 +10,7 @@ Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the
 
 == Description ==
 Visually compresses the administratrive header so that more admin page content can be initially seen. Also moves 'Dashboard' onto the main administrative menu because having it sit in the tip-top black bar was ticking me off and many other changes in the edit-area. Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress administration menu, submenu and even the 'Dashboard', with forwarding to the Manage-page. On top of that, you can also hide post meta controls on the Write page and other areas in the admin-area and Write-page, so as to simplify the editing interface. Compatible with WordPress 2.5 or later. 
-Configure all metaboxes and other areas in the write-area. The new theme move the Tags- and Categorys-box to the sidebar, switch off optional metaboxes and other areas in the write-area. Scoll automatocly to the Textbox, when you click the write-button. Many options for menu, submenu and all areas, metaboxes in the write-area, separated for all roles in WordPress.
+Configure all metaboxes and other areas in the write-area. The new theme move the Tags- and Categorys-box to the sidebar, switch off optional metaboxes and other areas in the write-area. Many options for menu, submenu and all areas, metaboxes in the write-area, separated for all roles in WordPress.
 
 = Support Custom Options on all different post types =
 With version 1.6.1 it is possible to add own options for hide areas in the backend of WordPress. It is easy and you must only forgive ID or class of the tag. Also it is possible to use a fixed menu and header.

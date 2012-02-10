@@ -14,7 +14,7 @@ add_action( 'load-settings_page_adminimize/adminimize', '_mw_adminimize_add_sett
 
 function _mw_adminimize_add_settings_error() {
 	
-	$settings_hint_message = '<span style="font-size: 30px;">&#x261D;</span>' . __( 'Attention: The settings page ignores these Menu settings and views the menu with all entries!', FB_ADMINIMIZE_TEXTDOMAIN );
+	$settings_hint_message = '<span style="font-size: 30px;">&#x261D;</span>' . __( 'Please note: The Adminimize settings page ignores the Menu Options below and displays the menu with all entries.<br />To view your changes to the menu you need to navigate away from the Adminimize settings page.', FB_ADMINIMIZE_TEXTDOMAIN );
 	
 	add_settings_error(
 		'_mw_settings_hint_message',
