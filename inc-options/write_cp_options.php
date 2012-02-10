@@ -216,7 +216,7 @@ foreach ( get_post_types( $args ) as $post_type ) {
 									<textarea name="_mw_adminimize_own_options_<?php echo $post_type; ?>" 
 										cols="60" rows="3" 
 										id="_mw_adminimize_own_options_<?php echo $post_type; ?>" 
-										style="width: 95%;" ><?php echo _mw_adminimize_get_option_value('_mw_adminimize_own_' . $post_type . '_options'); ?></textarea>
+										style="width: 95%;" ><?php echo _mw_adminimize_get_option_value('_mw_adminimize_own_options_' . $post_type ); ?></textarea>
 									<br />
 									<?php _e('Possible nomination for ID or class. Separate multiple nominations through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>
@@ -224,8 +224,7 @@ foreach ( get_post_types( $args ) as $post_type ) {
 									<textarea class="code" name="_mw_adminimize_own_values_<?php echo $post_type; ?>" 
 										cols="60" rows="3" 
 										id="_mw_adminimize_own_values_<?php echo $post_type; ?>" 
-										style="width: 95%;" >
-										<?php echo _mw_adminimize_get_option_value('_mw_adminimize_own_' . $post_type . '_values'); ?></textarea>
+										style="width: 95%;" ><?php echo _mw_adminimize_get_option_value('_mw_adminimize_own_values_' . $post_type ); ?></textarea>
 									<br />
 									<?php _e('Possible IDs or classes. Separate multiple values through a carriage return.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
 								</td>

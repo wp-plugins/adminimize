@@ -14,7 +14,7 @@ add_action( 'load-settings_page_adminimize/adminimize', '_mw_adminimize_add_sett
 
 function _mw_adminimize_add_settings_error() {
 	
-	$settings_hint_message = '<span style="font-size: 30px;">&#x261D;</span>' . __( 'Attention: The settings page ignores this settings and view all areas!', FB_ADMINIMIZE_TEXTDOMAIN );
+	$settings_hint_message = '<span style="font-size: 30px;">&#x261D;</span>' . __( 'Attention: The settings page ignores these settings and views all areas!', FB_ADMINIMIZE_TEXTDOMAIN );
 	
 	add_settings_error(
 		'_mw_settings_hint_message',
