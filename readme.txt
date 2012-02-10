@@ -23,16 +23,10 @@ Also it is possible with version 1.7.18 to use on custom post types; hide 'unnec
 1. [Drop Down Admin Menus](http://www.stuff.yellowswordfish.com/ "Drop Down Admin Menus for WordPress 2.5") by Andy Staines
 
 = Compatibility with the plugins for MetaBoxes in Write-area =
-1. [Simple Tag](http://wordpress.org/extend/plugins/simple-tags "Simple Tag") by Amaury BALMER
-1. [Text Control](http://wordpress.org/extend/plugins/text-control-2/ "Text Control") by Jeff Minard and Frank Bueltge
-1. [All in One SEO Pack](http://semperfiwebdesign.com "All in One SEO Pack") by Michael Torbert
-1. [TDO Mini Forms](http://thedeadone.net/software/tdo-mini-forms-wordpress-plugin/ "TDO Mini Forms") by Mark Cunningham
-1. [Post Notification](http://pn.xn--strbe-mva.de/ "Post Notification") by Moritz Str&uuml;be
-1. [HTML Special Characters Helper](http://coffee2code.com/wp-plugins/html-special-characters-helper "HTML Special Characters Helper") by Scott Reilly
 1. You can add your own options, you must only see for css selectors
 
 = Requirements =
-1. WordPress version 2.5 and later
+1. WordPress version 2.8 and later
 
 = What does this plugin do? =
 The plugin changes the administration backend and gives you the power to assign rights on certain parts. Admins can activate/deactivate every part of the menu and even parts of the submenu. Meta fields can be administered separately for posts and pages. Certain parts of the write menu can be deactivated separately for admins or non-admins. The header of the backend is minimized and optimized to give you more space and the structure of the menu gets changed to make it more logical - this can all be done per user so each user can have his own settings.
@@ -101,7 +95,11 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 == Changelog ==
 = v1.7.26 =
 * Grammerfix for settings message [see thread](http://wordpress.org/support/topic/plugin-adminimize-what-does-the-settings-page-ignores-this-settings-mean?replies=4)
-* FIx for custom areas on Custom Post Types, [see thread](http://wordpress.org/support/topic/plugin-adminimize-bug-in-custom-metabox-ids-for-custom-types?replies=3)
+* Fix for custom areas on Custom Post Types, [see thread](http://wordpress.org/support/topic/plugin-adminimize-bug-in-custom-metabox-ids-for-custom-types?replies=3)
+* Exclude backend theme options, was used only smaller 2.0 of WP
+* Exclude Hint in Footer
+* Exclude writescroll options
+* Different cleaner actions
 
 = v1.7.25 =
 * Update for fix menu-items with entities
@@ -109,6 +107,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * Add Separator to settings of menu, for hide this for different roles
 * Add notice for settings page, that no settings work on this page
 * Fix rewrite, if change the user info area and define an rewrite
+* List Separator on menu-items; also possible to hide this
 
 = v1.7.24 =
 * Maintenance: add ID for hide html-tab on Edtior also in WP 3.3

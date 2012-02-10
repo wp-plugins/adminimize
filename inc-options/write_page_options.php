@@ -56,16 +56,6 @@ if ( ! function_exists( 'add_action' ) ) {
 
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'page' ) )
 								array_push($metaboxes_page, '#postimagediv' );
-							if (class_exists('SimpleTagsAdmin'))
-								array_push($metaboxes_page, '#suggestedtags');
-							if (class_exists('HTMLSpecialCharactersHelper'))
-								array_push($metaboxes_page, '#htmlspecialchars');
-							if (class_exists('All_in_One_SEO_Pack'))
-								array_push($metaboxes_page, '#postaiosp, #aiosp');
-							if (function_exists('tdomf_edit_post_panel_admin_head'))
-								array_push($metaboxes_page, '#tdomf');
-							if (function_exists('post_notification_form'))
-								array_push($metaboxes_page, '#post_notification');
 
 							// quick edit areas, id and class
 							$quickedit_page_areas = array(
@@ -108,16 +98,6 @@ if ( ! function_exists( 'add_action' ) ) {
 
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'page' ) )
 								array_push($metaboxes_names_page, __('Page Image', FB_ADMINIMIZE_TEXTDOMAIN) );
-							if (class_exists('SimpleTagsAdmin'))
-								array_push($metaboxes_names_page, __('Suggested tags from', FB_ADMINIMIZE_TEXTDOMAIN ));
-							if (class_exists('HTMLSpecialCharactersHelper'))
-								array_push($metaboxes_names_page, __('HTML Special Characters'));
-							if (class_exists('All_in_One_SEO_Pack'))
-								array_push($metaboxes_names_page, 'All in One SEO Pack');
-							if (function_exists('tdomf_edit_post_panel_admin_head'))
-								array_push($metaboxes_names_page, 'TDOMF');
-							if (function_exists('post_notification_form'))
-								array_push($metaboxes_names_page, 'Post Notification');
 							
 							// quick edit names
 							$quickedit_page_names = array(
