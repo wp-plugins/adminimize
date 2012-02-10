@@ -59,20 +59,6 @@ if ( ! function_exists( 'add_action' ) ) {
 
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'post' ) )
 								array_push($metaboxes, '#postimagediv');
-							if (class_exists('SimpleTagsAdmin'))
-								array_push($metaboxes, '#suggestedtags');
-							if (function_exists('tc_post'))
-								array_push($metaboxes, '#textcontroldiv');
-							if (class_exists('HTMLSpecialCharactersHelper'))
-								array_push($metaboxes, '#htmlspecialchars');
-							if (class_exists('All_in_One_SEO_Pack'))
-								array_push($metaboxes, '#postaiosp, #aiosp');
-							if (function_exists('tdomf_edit_post_panel_admin_head'))
-								array_push($metaboxes, '#tdomf');
-							if (function_exists('post_notification_form'))
-								array_push($metaboxes, '#post_notification');
-							if (function_exists('sticky_add_meta_box'))
-								array_push($metaboxes, '#poststickystatusdiv');
 
 							// quick edit areas, id and class
 							$quickedit_areas = array(
@@ -120,20 +106,6 @@ if ( ! function_exists( 'add_action' ) ) {
 							
 							if ( function_exists('current_theme_supports') && current_theme_supports( 'post-thumbnails', 'post' ) )
 								array_push($metaboxes_names, __('Post Thumbnail', FB_ADMINIMIZE_TEXTDOMAIN) );
-							if (class_exists('SimpleTagsAdmin'))
-								array_push($metaboxes_names, 'Suggested tags from');
-							if (function_exists('tc_post'))
-								array_push($metaboxes_names, 'Text Control');
-							if (class_exists('HTMLSpecialCharactersHelper'))
-								array_push($metaboxes_names, 'HTML Special Characters');
-							if (class_exists('All_in_One_SEO_Pack'))
-								array_push($metaboxes_names, 'All in One SEO Pack');
-							if (function_exists('tdomf_edit_post_panel_admin_head'))
-								array_push($metaboxes_names, 'TDOMF');
-							if (function_exists('post_notification_form'))
-								array_push($metaboxes_names, 'Post Notification');
-							if (function_exists('sticky_add_meta_box'))
-								array_push($metaboxes_names, 'Post Sticky Status');
 							
 							// quick edit names
 							$quickedit_names = array(

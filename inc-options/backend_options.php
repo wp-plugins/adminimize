@@ -77,16 +77,6 @@ if ( ! function_exists( 'add_action' ) ) {
 								</td>
 							</tr>
 							<tr valign="top">
-								<td><?php _e('WriteScroll', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
-								<td>
-									<?php $_mw_adminimize_writescroll = _mw_adminimize_get_option_value('_mw_adminimize_writescroll'); ?>
-									<select name="_mw_adminimize_writescroll">
-										<option value="0"<?php if ($_mw_adminimize_writescroll == '0') { echo ' selected="selected"'; } ?>><?php _e('Default', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
-										<option value="1"<?php if ($_mw_adminimize_writescroll == '1') { echo ' selected="selected"'; } ?>><?php _e('Activate', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
-									</select> <?php _e('With the WriteScroll option active, these pages will automatically scroll to an optimal position for editing, when you visit Write Post or Write Page.', FB_ADMINIMIZE_TEXTDOMAIN ); ?>
-								</td>
-							</tr>
-							<tr valign="top">
 								<td><?php _e('Timestamp', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
 									<?php $_mw_adminimize_timestamp = _mw_adminimize_get_option_value('_mw_adminimize_timestamp'); ?>
