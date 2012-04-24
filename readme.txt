@@ -93,6 +93,10 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
+= v1.7.27 =
+* Fix, if you dnt use redirect for php notice
+* Add romanian language
+
 = v1.7.26 =
 * Grammerfix for settings message [see thread](http://wordpress.org/support/topic/plugin-adminimize-what-does-the-settings-page-ignores-this-settings-mean?replies=4)
 * Fix for custom areas on Custom Post Types, [see thread](http://wordpress.org/support/topic/plugin-adminimize-bug-in-custom-metabox-ids-for-custom-types?replies=3)
@@ -375,6 +379,8 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 * Thanks to [Outshine Solutions](http://outshinesolutions.com/web-hosting/web-hosting-india.html) for hindi language files.
 * Thanks to [ray.s](http://letsbefamous.com/) for irish translation.
 * Thanks for bulgarian language files to [Web Geek](http://webhostinggeeks.com/)
+* Thanks for romanian language to [Alexander Ovsov - Web Geek](http://webhostinggeeks.com/)
+* Lithuanian translation files by [Vincent G](http://www.host1plus.com)
 
 
 == Frequently Asked Questions ==
