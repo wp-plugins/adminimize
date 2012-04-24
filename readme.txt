@@ -380,6 +380,7 @@ The plugin comes with various translations, please refer to the [WordPress Codex
 * Thanks to [ray.s](http://letsbefamous.com/) for irish translation.
 * Thanks for bulgarian language files to [Web Geek](http://webhostinggeeks.com/)
 * Thanks for romanian language to [Alexander Ovsov - Web Geek](http://webhostinggeeks.com/)
+* Lithuanian translation files by [Vincent G](http://www.host1plus.com)
 
 
 == Frequently Asked Questions ==
