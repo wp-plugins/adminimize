@@ -179,7 +179,7 @@ function _mw_adminimize_remove_admin_bar() {
 					$hook,
 					create_function(
 						'',
-						"echo '<style>body.admin-bar #wpcontent, body.admin-bar #adminmenu { padding-top: 0px !important; }</style>';"
+						"echo '<style>body.admin-bar, body.admin-bar #wpcontent, body.admin-bar #adminmenu { padding-top: 0px !important; }</style>';"
 					)
 				);
 			}

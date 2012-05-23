@@ -220,6 +220,32 @@ function _mw_adminimize_control_flashloader() {
 	}
 }
 
+/**
+ * return post type
+ */
+function _mw_get_current_post_type() {
+	global $post, $typenow, $current_screen;
+
+	//we have a post so we can just get the post type from that
+	if ( $post && $post->post_type )
+		return $post->post_type;
+	
+	//check the global $typenow - set in admin.php
+	else if( $typenow )
+		return $typenow;
+	
+	// check the global $current_screen object - set in sceen.php
+	else if( $current_screen && $current_screen->post_type )
+		return $current_screen->post_type;
+  
+	// lastly check the post_type querystring
+	else if( isset( $_REQUEST['post_type'] ) )
+		return sanitize_key( $_REQUEST['post_type'] );
+	
+	// we do not know the post type!
+	return NULL;
+}
+
 
 /**
  * check user-option and add new style
@@ -236,10 +262,10 @@ function _mw_adminimize_admin_init() {
 		$post_id = 0;
 	
 	$current_post_type = $post_type;
-	if ( ! isset( $current_post_type ) )
+	if ( ! isset( $current_post_type ) || empty( $current_post_type ) )
 		$current_post_type = get_post_type( $post_id );
-	if ( ! $current_post_type )
-		$current_post_type =  str_replace( 'post_type=', '', esc_attr( $_SERVER['QUERY_STRING'] ) );
+	if ( ! isset( $current_post_type ) || empty( $current_post_type ) )
+		$current_post_type = _mw_get_current_post_type();
 	if ( ! $current_post_type ) // set hard to post
 		$current_post_type = 'post';
 	
@@ -378,13 +404,6 @@ function _mw_adminimize_admin_init() {
 		}
 	}
 	
-	// change Admin Bar and user Info
-	if ( version_compare( $wp_version, '3.3alpha', '>=' ) ) {
-		_mw_adminimize_set_menu_option_33();
-	} else {
-		add_action( 'admin_head', '_mw_adminimize_set_user_info' );
-		add_action( 'wp_head', '_mw_adminimize_set_user_info' );
-	}
 	// set menu option
 	add_action( 'admin_head', '_mw_adminimize_set_menu_option', 1 );
 	// global_options
@@ -414,10 +433,26 @@ function _mw_adminimize_admin_init() {
 	
 }
 
+/**
+ * Init always with WP
+ */
+function _mw_adminimize_init() {
+	
+	// change Admin Bar and user Info
+	if ( version_compare( $GLOBALS['wp_version'], '3.3alpha', '>=' ) ) {
+		_mw_adminimize_set_menu_option_33();
+	} else {
+		add_action( 'admin_head', '_mw_adminimize_set_user_info' );
+		add_action( 'wp_head', '_mw_adminimize_set_user_info' );
+	}
+	
+}
+
 // on admin init
 add_action( 'admin_init', '_mw_adminimize_textdomain' );
 add_action( 'admin_init', '_mw_adminimize_register_styles', 1 );
 add_action( 'admin_init', '_mw_adminimize_admin_init', 2 );
+add_action( 'init', '_mw_adminimize_init', 2 );
 add_action( 'admin_menu', '_mw_adminimize_add_settings_page' );
 add_action( 'admin_menu', '_mw_adminimize_remove_dashboard' );
 
@@ -1048,12 +1083,9 @@ require_once( 'inc-setup/admin-footer.php' );
 require_once( 'inc-options/settings_notice.php' );
 
 
-
 /**
  * @version WP 2.8
  * Add action link(s) to plugins page
- *
- * @package Secure WordPress
  *
  * @param $links, $file
  * @return $links

@@ -17,6 +17,7 @@ function _mw_adminimize_dashboard_setup () {
 	
 	$adminimizeoptions = get_option( 'mw_adminimize' );
 	$widgets = _mw_adminimize_get_dashboard_widgets();
+	
 	$adminimizeoptions['mw_adminimize_dashboard_widgets'] = $widgets;
 	if ( current_user_can( 'manage_options' ) )
 		update_option( 'mw_adminimize', $adminimizeoptions );
@@ -32,7 +33,7 @@ function _mw_adminimize_dashboard_setup () {
 			'mw_adminimize_disabled_dashboard_option_' . $role . '_items'
 		);
 	}
-	//var_dump( get_option('mw_adminimize') );
+	
 	foreach ( $user_roles as $role ) {
 		if ( ! isset( $disabled_dashboard_option_[$role]['0'] ) )
 			$disabled_dashboard_option_[$role]['0'] = '';
