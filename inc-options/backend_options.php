@@ -22,6 +22,27 @@ if ( ! function_exists( 'add_action' ) ) {
 					<table summary="config" class="widefat">
 						<tbody>
 							<?php if ( function_exists('is_super_admin') ) { ?>
+							<!--
+							<tr valign="top" class="form-invalid">
+								<td><?php _e( 'Use Global Settings', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
+								<td>
+									<?php
+									$mw_adminimize_use_global = '0';
+									$select_active = '';
+									$message = '';
+									if ( is_multisite() && is_plugin_active_for_network( MW_ADMIN_FILE ) ) {
+										$mw_adminimize_use_global = 1;
+										$select_active = ' disabled="disabled"';
+										$message = __( 'The plugin is active in multiste.', FB_ADMINIMIZE_TEXTDOMAIN );
+									}
+									$mw_adminimize_use_global = get_option( 'mw_adminimize_use_global' ); ?>
+									<select name="_mw_adminimize_use_global"<?php echo $select_active; ?>>
+										<option value="0"<?php if ( '0' === $mw_adminimize_use_global ) { echo ' selected="selected"'; } ?>><?php _e( 'False', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+										<option value="1"<?php if ( '1' === $mw_adminimize_use_global ) { echo ' selected="selected"'; } ?>><?php _e('True', FB_ADMINIMIZE_TEXTDOMAIN ); ?></option>
+									</select> <?php _e('Use the settings global in your Multisite network.', FB_ADMINIMIZE_TEXTDOMAIN ); echo ' ' . $message; ?>
+								</td>
+							</tr>
+							-->
 							<tr valign="top" class="form-invalid">
 								<td><?php _e('Exclude Super Admin', FB_ADMINIMIZE_TEXTDOMAIN ); ?></td>
 								<td>
