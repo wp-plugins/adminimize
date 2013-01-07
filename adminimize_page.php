@@ -120,6 +120,9 @@ function _mw_adminimize_options() {
 		
 		<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo esc_attr( $_GET['page'] );?>" >
 		<?php 
+		// Admin Bar options
+		//require_once('inc-options/admin_bar.php');
+		
 		// Backend Options for all roles
 		require_once('inc-options/backend_options.php');
 		
@@ -143,7 +146,11 @@ function _mw_adminimize_options() {
 			require_once('inc-options/write_cp_options.php');
 		
 		// Links Options 
-		require_once('inc-options/links_options.php');
+		if ( 0 != get_option( 'link_manager_enabled' ) )
+			require_once('inc-options/links_options.php');
+		
+		// Widget options
+		require_once('inc-options/widget_options.php');
 		
 		// WP Nav Menu Options 
 		require_once('inc-options/wp_nav_menu_options.php');

@@ -167,6 +167,7 @@ function _mw_adminimize_remove_admin_bar() {
 			if ( ! is_admin_bar_showing() )
 				return false;
 			
+			add_filter( 'show_admin_bar', '__return_false' );
 			wp_deregister_script( 'admin-bar' );
 			wp_deregister_style( 'admin-bar' );
 			remove_action( 'init', '_wp_admin_bar_init' );
@@ -174,12 +175,17 @@ function _mw_adminimize_remove_admin_bar() {
 			remove_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
 			
 			// maybe also: 'wp_head'
-			foreach ( array( 'admin_head' ) as $hook ) {
+			foreach ( array( 'wp_head', 'admin_head' ) as $hook ) {
 				add_action(
 					$hook,
 					create_function(
 						'',
-						"echo '<style>body.admin-bar, body.admin-bar #wpcontent, body.admin-bar #adminmenu { padding-top: 0px !important; }</style>';"
+						"echo '<style>body.admin-bar, body.admin-bar #wpcontent, body.admin-bar #adminmenu {
+							 padding-top: 0px !important;
+						}
+						html.wp-toolbar {
+							padding-top: 0px !important;
+						}</style>';"
 					)
 				);
 			}

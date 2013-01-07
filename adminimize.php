@@ -12,7 +12,7 @@
  * Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
  * Author:      Frank B&uuml;ltge
  * Author URI:  http://bueltge.de/
- * Version:     1.8.0
+ * Version:     1.8.1
  * License:     GPLv3
  */
 
@@ -293,6 +293,8 @@ function _mw_adminimize_admin_init() {
 	$link_pages = array( 'link.php', 'link-manager.php', 'link-add.php', 'edit-link-categories.php' );
 	// pages for nav menu
 	$nav_menu_pages = array( 'nav-menus.php' );
+	// widget pages
+	$widget_pages = array( 'widgets.php' );
 	// get admin color for current user
 	$_mw_admin_color = get_user_option( 'admin_color' );
 	
@@ -316,6 +318,9 @@ function _mw_adminimize_admin_init() {
 		);
 		$disabled_nav_menu_option_[$role] = _mw_adminimize_get_option_value(
 			'mw_adminimize_disabled_nav_menu_option_' . $role . '_items'
+		);
+		$disabled_widget_option_[$role] = _mw_adminimize_get_option_value(
+			'mw_adminimize_disabled_widget_option_' . $role . '_items'
 		);
 		array_push( $disabled_metaboxes_post_all, $disabled_metaboxes_post_[$role] );
 		array_push( $disabled_metaboxes_page_all, $disabled_metaboxes_page_[$role] );
@@ -432,6 +437,9 @@ function _mw_adminimize_admin_init() {
 	// set wp nav menu options
 	if ( in_array( $pagenow, $nav_menu_pages ) )
 		add_action( 'admin_head', '_mw_adminimize_set_nav_menu_option', 1 );
+	// set widget options
+	if ( in_array( $pagenow, $widget_pages ) )
+		add_action( 'admin_head', '_mw_adminimize_set_widget_option', 1 );
 	
 	$adminimizeoptions['mw_adminimize_default_menu'] = $menu;
 	$adminimizeoptions['mw_adminimize_default_submenu'] = $submenu;
@@ -1059,10 +1067,55 @@ function _mw_adminimize_set_nav_menu_option() {
 	$_mw_adminimize_admin_head .= '<style type="text/css">' . 
 		$nav_menu_options . ' {display: none !important;}</style>' . "\n";
 	
-	if ( $nav_menu_options)
+	if ( $nav_menu_options )
 		echo $_mw_adminimize_admin_head;
 }
 
+/**
+ * Remove areas in Widget Settings
+ */
+function _mw_adminimize_set_widget_option() {
+	
+	// exclude super admin
+	if ( _mw_adminimize_exclude_super_admin() )
+		return NULL;
+	
+	$user_roles = _mw_adminimize_get_all_user_roles();
+
+	$_mw_adminimize_admin_head = '';
+	
+	// remove_action( 'admin_head', 'index_js' );
+	
+	foreach ( $user_roles as $role ) {
+		$disabled_widget_option_[$role] = _mw_adminimize_get_option_value( 
+			'mw_adminimize_disabled_widget_option_' . $role . '_items'
+		);
+	}
+	
+	foreach ( $user_roles as $role ) {
+		if ( ! isset( $disabled_widget_option_[$role]['0'] ) )
+			$disabled_widget_option_[$role]['0'] = '';
+	}
+
+	// new 1.7.8
+	foreach ( $user_roles as $role ) {
+		$user = wp_get_current_user();
+		if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
+			if ( current_user_can( $role ) 
+				 && isset( $disabled_widget_option_[$role] ) 
+				 && is_array( $disabled_widget_option_[$role] )
+				) {
+				$widget_options = implode( ',', $disabled_widget_option_[$role] );
+			}
+		}
+	}
+	//remove_meta_box( $id, 'nav-menus', 'side' );
+	$_mw_adminimize_admin_head .= '<style type="text/css">' . 
+		$widget_options . ' {display: none !important;}</style>' . "\n";
+	
+	if ( $widget_options )
+		echo $_mw_adminimize_admin_head;
+}
 
 /**
  * small user-info
@@ -1085,6 +1138,7 @@ function _mw_adminimize_small_user_info() {
  */
 require_once( 'adminimize_page.php' );
 require_once( 'inc-setup/dashboard.php' );
+require_once( 'inc-setup/widget.php' );
 require_once( 'inc-setup/admin-bar.php' );
 require_once( 'inc-setup/admin-footer.php' );
 // globale settings
@@ -1335,6 +1389,13 @@ function _mw_adminimize_update() {
 			$adminimizeoptions['mw_adminimize_disabled_nav_menu_option_' . $role . '_items'] = array();
 		}
 		
+		// widget options
+		if ( isset( $_POST['mw_adminimize_disabled_widget_option_' . $role . '_items'] ) ) {
+			$adminimizeoptions['mw_adminimize_disabled_widget_option_' . $role . '_items']  = $_POST['mw_adminimize_disabled_widget_option_' . $role . '_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_widget_option_' . $role . '_items'] = array();
+		}
+		
 		// wp dashboard option
 		if ( isset( $_POST['mw_adminimize_disabled_dashboard_option_' . $role . '_items'] ) ) {
 			$adminimizeoptions['mw_adminimize_disabled_dashboard_option_' . $role . '_items']  = $_POST['mw_adminimize_disabled_dashboard_option_' . $role . '_items'];
@@ -1421,6 +1482,19 @@ function _mw_adminimize_update() {
 		$adminimizeoptions['_mw_adminimize_own_nav_menu_options'] = stripslashes( $_POST['_mw_adminimize_own_nav_menu_options'] );
 	} else {
 		$adminimizeoptions['_mw_adminimize_own_nav_menu_options'] = 0;
+	}
+	
+	// widget options
+	if ( isset( $_POST['_mw_adminimize_own_widget_values'] ) ) {
+		$adminimizeoptions['_mw_adminimize_own_widget_values'] = stripslashes( $_POST['_mw_adminimize_own_widget_values'] );
+	} else {
+		$adminimizeoptions['_mw_adminimize_own_widget_values'] = 0;
+	}
+	
+	if ( isset( $_POST['_mw_adminimize_own_widget_options'] ) ) {
+		$adminimizeoptions['_mw_adminimize_own_widget_options'] = stripslashes( $_POST['_mw_adminimize_own_widget_options'] );
+	} else {
+		$adminimizeoptions['_mw_adminimize_own_widget_options'] = 0;
 	}
 	
 	// own dashboard options	
