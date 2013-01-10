@@ -1,10 +1,10 @@
 === Adminimize ===
 Contributors: Bueltge
-Donate link: http://bueltge.de/wunschliste/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4578111
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
 Tested up to: 3.6-alpha
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 
 Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress backend and many many more ...
 
@@ -17,10 +17,6 @@ With version 1.6.1 it is possible to add own options for hide areas in the backe
 
 = Support Custom Post Type =
 Also it is possible with version 1.7.18 to use on custom post types; hide 'unnecessary' areas on the custom post types for different roles and post types.
-
-= Compatibility with the drop-down menu plugins =
-1. [Ozh Admin Drop Down Menu](http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/ "Admin Drop Down Menu for WordPress 2.5") by Ozh
-1. [Drop Down Admin Menus](http://www.stuff.yellowswordfish.com/ "Drop Down Admin Menus for WordPress 2.5") by Andy Staines
 
 = Compatibility with the plugins for MetaBoxes in Write-area =
 1. You can add your own options, you must only see for css selectors
@@ -59,15 +55,15 @@ The plugin changes the administration backend and gives you the power to assign 
 1. you can set an role to view the areas on link page, edit post, edit page and global
 1. you can add own options for set rights to role
 1. it is possible to disable HTML-Editor on edit-area, only Visual-tab
-1. remove admin bar
-1. remove items on custom post types
-1. ... many more
+1. remove widgets in widgets settings for different role
+1. remove admin bar for different role
+1. remove admin bar items for different role
+1. remove items on custom post types for different role
+1. ... many many more
 
-= More Plugins = 
-Please see also my [Premium Plugins](http://wpplugins.com/author/malo.conny/). Maybe you find an solution for your requirement.
+**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
 
-= Interested in WordPress tips and tricks =
-You may also be interested in WordPress tips and tricks at [WP Engineer](http://wpengineer.com/) or for german people [bueltge.de](http://bueltge.de/) 
+Have a look at the premium plugins in our [market](http://marketpress.com).
 
 == Installation ==
 1. Unpack the download-package
@@ -96,8 +92,13 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 = 1.8.1 =
 * Fix PHP notice on message for network
 * Check for active links manager; change from WP 3.5
-* Add Widget settings
+* Add Widget settings (Beta)
 * Fix for remove admin bar in backend
+* Remove Backend options, there not usable with WP 3.5 and earlier
+* Fix 'Category Height' in post to use also in newer versions of WP
+* Fix to hide foorer, but it is usable to add custom content
+* Fix Hints, Options for Multisite install
+* Add Admin Bar options (Beta)
 
 = v1.8.0 =
 * Simple Support for WP Multisite

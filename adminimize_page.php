@@ -1,8 +1,8 @@
 <?php
 /**
- * @package Adminimize
+ * @package    Adminimize
  * @subpackage Settings page
- * @author Frank Bültge
+ * @author     Frank Bültge
  */
 if ( ! function_exists( 'add_action' ) ) {
 	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
@@ -14,8 +14,6 @@ if ( isset( $_GET['_mw_adminimize_export'] ) ) {
 	_mw_adminimize_export();
 	die();
 }
-
-//include( 'adminimize_admin_bar.php' );
 
 function _mw_adminimize_options() {
 	global $wpdb, $_wp_admin_css_colors, $wp_version, $wp_roles, $table_prefix;
@@ -117,11 +115,10 @@ function _mw_adminimize_options() {
 		// Backend Options for all roles
 		require_once( 'inc-options/minimenu.php' );
 		?>
-		
 		<form name="backend_option" method="post" id="_mw_adminimize_options" action="?page=<?php echo esc_attr( $_GET['page'] );?>" >
 		<?php 
 		// Admin Bar options
-		//require_once('inc-options/admin_bar.php');
+		require_once('inc-options/admin_bar.php');
 		
 		// Backend Options for all roles
 		require_once('inc-options/backend_options.php');

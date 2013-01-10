@@ -1,29 +1,14 @@
 <?php
 /**
- * @package Adminimize
- * @subpackage Widget Options
- * @author Frank Bültge
+ * @package    Adminimize
+ * @subpackage Widget Options, settings page
+ * @author     Frank Bültge
+ * @since      1.8.1  01/10/2013
  */
 if ( ! function_exists( 'add_action' ) ) {
 	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
 	exit;
 }
-
-$default_core_widgets = array(
-	'WP_Widget_Pages',
-	'WP_Widget_Calendar',
-	'WP_Widget_Archives',
-	'WP_Widget_Links',
-	'WP_Widget_Meta',
-	'WP_Widget_Search',
-	'WP_Widget_Text',
-	'WP_Widget_Categories',
-	'WP_Widget_Recent_Posts',
-	'WP_Widget_Recent_Comments',
-	'WP_Widget_Rss',
-	'WP_Widget_Tag_Cloud',
-	'WP_Nav_Menu_Widget'
-);
 ?>
 		<div id="poststuff" class="ui-sortable meta-box-sortables">
 			<div class="postbox">
@@ -95,16 +80,16 @@ $default_core_widgets = array(
 							}
 							
 							$x = 0;
-							foreach ($widget_options as $index => $nav_menu_option) {
-								if ( $nav_menu_option != '') {
+							foreach ($widget_options as $index => $widget_option) {
+								if ( $widget_option != '') {
 									$checked_user_role_ = array();
 									foreach ($user_roles as $role) {
-										$checked_user_role_[$role]  = ( isset($disabled_widget_option_[$role]) && in_array($nav_menu_option, $disabled_widget_option_[$role]) ) ? ' checked="checked"' : '';
+										$checked_user_role_[$role]  = ( isset($disabled_widget_option_[$role]) && in_array($widget_option, $disabled_widget_option_[$role]) ) ? ' checked="checked"' : '';
 									}
 									echo '<tr>' . "\n";
-									echo '<td>' . $widget_options_names[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $nav_menu_option . ')</span> </td>' . "\n";
+									echo '<td>' . $widget_options_names[$index] . ' <span style="color:#ccc; font-weight: 400;">(' . $widget_option . ')</span> </td>' . "\n";
 									foreach ($user_roles as $role) {
-										echo '<td class="num"><input id="check_post'. $role . $x .'" type="checkbox"' . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_widget_option_'. $role .'_items[]" value="' . $nav_menu_option . '" /></td>' . "\n";
+										echo '<td class="num"><input id="check_post'. $role . $x .'" type="checkbox"' . $checked_user_role_[$role] . ' name="mw_adminimize_disabled_widget_option_'. $role .'_items[]" value="' . $widget_option . '" /></td>' . "\n";
 									}
 									echo '</tr>' . "\n";
 									$x++;
