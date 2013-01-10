@@ -12,7 +12,7 @@ if ( ! function_exists( 'add_action' ) ) {
 // retrun registered widgets; only on page index/dashboard :(
 add_action( 'wp_dashboard_setup', '_mw_adminimize_dashboard_setup', 99 );
 
-function _mw_adminimize_dashboard_setup () {
+function _mw_adminimize_dashboard_setup() {
 	global $wp_meta_boxes;
 	
 	if ( is_multisite() && is_plugin_active_for_network( MW_ADMIN_FILE ) )

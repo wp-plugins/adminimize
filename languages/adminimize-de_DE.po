@@ -1087,12 +1087,12 @@ msgid "Your own page options"
 msgstr "Deine eigenen Seiten-Einstellungen"
 
 # @ default
-#: inc-setup/admin-bar.php:239
+#: inc-setup/remove-admin-bar.php:239
 msgid "Network Admin"
 msgstr "Netwerk-Admin"
 
 # @ default
-#: inc-setup/admin-bar.php:241
+#: inc-setup/remove-admin-bar.php:241
 msgid "Site Admin"
 msgstr "Site-Admin"
 

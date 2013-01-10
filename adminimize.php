@@ -300,6 +300,9 @@ function _mw_adminimize_admin_init() {
 	
 	foreach ( $user_roles as $role ) {
 		$disabled_global_option_[$role] = _mw_adminimize_get_option_value(
+			'mw_adminimize_disabled_admin_bar_' . $role . '_items'
+		);
+		$disabled_global_option_[$role] = _mw_adminimize_get_option_value(
 			'mw_adminimize_disabled_global_option_' . $role . '_items'
 		);
 		$disabled_metaboxes_post_[$role] = _mw_adminimize_get_option_value(
@@ -467,8 +470,10 @@ add_action( 'admin_init', '_mw_adminimize_textdomain' );
 add_action( 'admin_init', '_mw_adminimize_register_styles', 1 );
 add_action( 'admin_init', '_mw_adminimize_admin_init', 2 );
 add_action( 'init', '_mw_adminimize_init', 2 );
+/* maybe later
 if ( is_multisite() && is_plugin_active_for_network( MW_ADMIN_FILE ) )
 	add_action( 'network_admin_menu', '_mw_adminimize_add_settings_page' );
+*/
 add_action( 'admin_menu', '_mw_adminimize_add_settings_page' );
 add_action( 'admin_menu', '_mw_adminimize_remove_dashboard' );
 
@@ -1084,8 +1089,6 @@ function _mw_adminimize_set_widget_option() {
 
 	$_mw_adminimize_admin_head = '';
 	
-	// remove_action( 'admin_head', 'index_js' );
-	
 	foreach ( $user_roles as $role ) {
 		$disabled_widget_option_[$role] = _mw_adminimize_get_option_value( 
 			'mw_adminimize_disabled_widget_option_' . $role . '_items'
@@ -1096,7 +1099,7 @@ function _mw_adminimize_set_widget_option() {
 		if ( ! isset( $disabled_widget_option_[$role]['0'] ) )
 			$disabled_widget_option_[$role]['0'] = '';
 	}
-
+	
 	// new 1.7.8
 	foreach ( $user_roles as $role ) {
 		$user = wp_get_current_user();
@@ -1136,19 +1139,25 @@ function _mw_adminimize_small_user_info() {
 /**
  * include options-page in wp-admin
  */
+// inc. settings page
 require_once( 'adminimize_page.php' );
+// dashbaord options
 require_once( 'inc-setup/dashboard.php' );
+// widget options
 require_once( 'inc-setup/widget.php' );
-require_once( 'inc-setup/admin-bar.php' );
+// remove admin bar
+require_once( 'inc-setup/remove-admin-bar.php' );
 require_once( 'inc-setup/admin-footer.php' );
 // globale settings
 //require_once( 'inc-options/settings_notice.php' );
-
-
+// admin bar helper, setup
+require_once( 'inc-setup/admin-bar-items.php' );
+// meta boxes helper, setup
+//require_once( 'inc-setup/meta-boxes.php' );
 /**
  * @version WP 2.8
  * Add action link(s) to plugins page
- *
+ * 
  * @param $links, $file
  * @return $links
  */
@@ -1246,8 +1255,19 @@ function _mw_adminimize_get_option_value( $key) {
 function _mw_adminimize_update() {
 	
 	$user_roles = _mw_adminimize_get_all_user_roles();
-	$args = array( 'public' => TRUE, '_builtin' => FALSE );
+	$args       = array( 'public' => TRUE, '_builtin' => FALSE );
 	$post_types = get_post_types( $args );
+	
+	$adminimizeoptions['mw_adminimize_admin_bar_nodes'] = _mw_adminimize_get_option_value( 'mw_adminimize_admin_bar_nodes' );
+	// admin bar options
+	foreach ( $user_roles as $role ) {
+		// admin abr options
+		if ( isset( $_POST['mw_adminimize_disabled_admin_bar_' . $role . '_items'] ) ) {
+			$adminimizeoptions['mw_adminimize_disabled_admin_bar_' . $role . '_items']  = $_POST['mw_adminimize_disabled_admin_bar_' . $role . '_items'];
+		} else {
+			$adminimizeoptions['mw_adminimize_disabled_admin_bar_' . $role . '_items'] = array();
+		}
+	}
 	
 	if ( isset( $_POST['_mw_adminimize_user_info'] ) ) {
 		$adminimizeoptions['_mw_adminimize_user_info'] = strip_tags(stripslashes( $_POST['_mw_adminimize_user_info'] ) );
@@ -1350,6 +1370,8 @@ function _mw_adminimize_update() {
 
 	// global_options, metaboxes update
 	foreach ( $user_roles as $role ) {
+		
+		// global options
 		if ( isset( $_POST['mw_adminimize_disabled_global_option_' . $role . '_items'] ) ) {
 			$adminimizeoptions['mw_adminimize_disabled_global_option_' . $role . '_items']  = $_POST['mw_adminimize_disabled_global_option_' . $role . '_items'];
 		} else {
@@ -1547,11 +1569,12 @@ function _mw_adminimize_install() {
 	$adminimizeoptions = array();
 	
 	foreach ( $user_roles as $role ) {
-		$adminimizeoptions['mw_adminimize_disabled_menu_' . $role . '_items']           = array();
-		$adminimizeoptions['mw_adminimize_disabled_submenu_' . $role . '_items']        = array();
-		$adminimizeoptions['mw_adminimize_disabled_global_option_' . $role . '_items']  = array();
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_' . $role . '_items'] = array();
-		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_' . $role . '_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_menu_' . $role . '_items']             = array();
+		$adminimizeoptions['mw_adminimize_disabled_submenu_' . $role . '_items']          = array();
+		$adminimizeoptions['mw_adminimize_disabled_admin_bar_' . $role . '_items'] = array();
+		$adminimizeoptions['mw_adminimize_disabled_global_option_' . $role . '_items']    = array();
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_post_' . $role . '_items']   = array();
+		$adminimizeoptions['mw_adminimize_disabled_metaboxes_page_' . $role . '_items']   = array();
 		$args = array( 'public' => TRUE, '_builtin' => FALSE );
 		foreach ( get_post_types( $args ) as $post_type ) {
 			$adminimizeoptions['mw_adminimize_disabled_metaboxes_' . $post_type . '_' . $role . '_items'] = array();
@@ -1607,7 +1630,7 @@ function _mw_adminimize_import() {
 		$str_ziel = WP_CONTENT_DIR . '/' . $_FILES['datei']['name'];
 		// transfer
 		move_uploaded_file( $_FILES['datei']['tmp_name'], $str_ziel );
-		// access authorisation
+		// access authorization
 		chmod( $str_ziel, 0644);
 		// SQL import
 		ini_set( 'default_socket_timeout', 120);
@@ -1635,5 +1658,3 @@ function _mw_adminimize_import() {
 		$myErrors->get_error( '_mw_adminimize_import' ) . '</p></div>';
 	echo $myErrors;
 }
-
-?>
