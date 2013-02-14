@@ -44,7 +44,6 @@ if ( ! isset( $wp_admin_bar ) )
 				// add items to array for select
 				$admin_bar_items = _mw_adminimize_get_admin_bar_items();
 				foreach ( $admin_bar_items as $key => $value ) {
-					//var_dump($admin_bar_items);exit;
 					
 					$is_parent = ! empty( $value->parent );
 					$has_link  = ! empty( $node->href );
