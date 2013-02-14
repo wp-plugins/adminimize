@@ -62,7 +62,7 @@ function _mw_adminimize_get_admin_bar_items() {
 	return $admin_bar_items;
 }
 
-add_action( 'admin_bar_menu', '_mw_adminimize_change_admin_bar', 999 );
+add_action( 'admin_bar_menu', '_mw_adminimize_change_admin_bar', 99999 );
 /**
  * Remove items in Admin Bar for current role of current active user
  * Exclude Super Admin, if active
