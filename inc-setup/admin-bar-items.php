@@ -20,7 +20,9 @@ add_action( 'wp_before_admin_bar_render', '_mw_adminimize_get_admin_bar_nodes' )
 function _mw_adminimize_get_admin_bar_nodes() {
 	
 	// Update only on Adminimize Settings page
-	if ( 'settings_page_adminimize/adminimize' !== $GLOBALS['current_screen']->base )
+	if ( isset( $GLOBALS['current_screen']->base ) && 
+		'settings_page_adminimize/adminimize' !== $GLOBALS['current_screen']->base
+	)
 		return NULL;
 	
 	global $wp_admin_bar;
@@ -69,7 +71,9 @@ function _mw_adminimize_change_admin_bar( $wp_admin_bar ) {
 		return NULL;
 	
 	// exclude Adminimize Settings page
-	if ( 'settings_page_adminimize/adminimize' === $GLOBALS['current_screen']->base )
+	if ( isset( $GLOBALS['current_screen']->base ) && 
+		'settings_page_adminimize/adminimize' !== $GLOBALS['current_screen']->base
+	)
 		return NULL;
 	
 	$user_roles = _mw_adminimize_get_all_user_roles();
