@@ -10,6 +10,9 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit;
 }
 
+if ( ! is_admin() )
+	return NULL;
+
 function _mw_adminimize_get_all_widgets() {
 	global $wp_widget_factory;
 	

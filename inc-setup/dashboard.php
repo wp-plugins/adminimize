@@ -1,13 +1,16 @@
 <?php
 /**
- * @package Adminimize
- * @subpackage Dashboard Setup
- * @author Frank Bültge
+ * @package     Adminimize
+ * @subpackage  Dashboard Setup
+ * @author      Frank Bültge
  */
 if ( ! function_exists( 'add_action' ) ) {
 	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
 	exit;
 }
+
+if ( ! is_admin() )
+	return NULL;
 
 // retrun registered widgets; only on page index/dashboard :(
 add_action( 'wp_dashboard_setup', '_mw_adminimize_dashboard_setup', 99 );
@@ -49,6 +52,7 @@ function _mw_adminimize_dashboard_setup() {
 	
 	foreach ( $user_roles as $role ) {
 		$user = wp_get_current_user();
+		
 		if ( is_array( $user->roles) && in_array( $role, $user->roles) ) {
 			if ( current_user_can( $role ) && is_array( $disabled_dashboard_option_[$role] ) ) {
 				foreach( $disabled_dashboard_option_[$role] as $widget ) {
@@ -66,6 +70,7 @@ function _mw_adminimize_get_dashboard_widgets () {
 	
 	$widgets = array();
 	if ( isset($wp_meta_boxes['dashboard']) ) {
+		
 		foreach( $wp_meta_boxes['dashboard'] as $context => $data ) {
 			foreach( $data as $priority => $data ) {
 				foreach( $data as $widget => $data ) {
@@ -80,6 +85,8 @@ function _mw_adminimize_get_dashboard_widgets () {
 				}
 			}
 		}
+		
 	}
+	
 	return $widgets;
 }

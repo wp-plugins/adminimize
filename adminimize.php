@@ -12,7 +12,7 @@
  * Description: Visually compresses the administratrive meta-boxes so that more admin page content can be initially seen. The plugin that lets you hide 'unnecessary' items from the WordPress administration menu, for alle roles of your install. You can also hide post meta controls on the edit-area to simplify the interface. It is possible to simplify the admin in different for all roles.
  * Author:      Frank B&uuml;ltge
  * Author URI:  http://bueltge.de/
- * Version:     1.8.2
+ * Version:     1.8.2-alpha
  * License:     GPLv3
  */
 
@@ -21,39 +21,29 @@
  * and i have written a plugin with many options on the basis
  * of differently user-right and a user-friendly range in admin-area.
  * 
- * :( grmpf i have so much wishes and hints form users, do use the plugin and its not possible to development this on my free time)
+ * :( grmpf i have so much wishes and hints form users, do use the plugin and 
+ *    it is not possible to development this on my free time
  */
 
+if ( ! function_exists( 'add_action' ) ) {
+	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
+	exit;
+}
 
 global $wp_version;
-if ( ! function_exists( 'add_action' ) || version_compare( $wp_version, "2.5alpha", "<") ) {
-	if ( function_exists( 'add_action' ) )
-		$exit_msg = 'The plugin <em><a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">Adminimize</a></em> requires WordPress 2.5 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update WordPress</a> or delete the plugin.';
-	else
-		$exit_msg = '';
+if ( version_compare( $wp_version, "2.5alpha", "<" ) ) {
+	$exit_msg = 'The plugin <em><a href="http://bueltge.de/wordpress-admin-theme-adminimize/674/">Adminimize</a></em> requires WordPress 2.5 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update WordPress</a> or delete the plugin.';
 	
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit( $exit_msg );
 }
 
-if ( function_exists( 'add_action' ) ) {
-	
-	// Pre-2.6 compatibility
-	if ( ! defined( 'WP_CONTENT_URL' ) )
-		define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
-	if ( ! defined( 'WP_CONTENT_DIR' ) )
-		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-	if ( ! defined( 'WP_PLUGIN_URL' ) )
-		define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-	if ( ! defined( 'WP_PLUGIN_DIR' ) )
-		define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+// plugin definitions
+define( 'FB_ADMINIMIZE_BASENAME', plugin_basename( __FILE__ ) );
+define( 'FB_ADMINIMIZE_BASEFOLDER', plugin_basename( dirname( __FILE__ ) ) );
+define( 'FB_ADMINIMIZE_TEXTDOMAIN', _mw_adminimize_get_plugin_data( 'TextDomain' ) );
 
-	// plugin definitions
-	define( 'FB_ADMINIMIZE_BASENAME', plugin_basename( __FILE__ ) );
-	define( 'FB_ADMINIMIZE_BASEFOLDER', plugin_basename( dirname( __FILE__ ) ) );
-	define( 'FB_ADMINIMIZE_TEXTDOMAIN', _mw_adminimize_get_plugin_data( 'TextDomain' ) );
-}
 
 function _mw_adminimize_get_plugin_data( $value = 'Version' ) {
 	
@@ -73,12 +63,6 @@ function _mw_adminimize_textdomain() {
 		FALSE, 
 		dirname( FB_ADMINIMIZE_BASENAME ) . _mw_adminimize_get_plugin_data( 'DomainPath' )
 	);
-}
-
-
-function _mw_adminimize_register_styles() {
-	
-	wp_register_style( 'adminimize-style', plugins_url( 'css/style.css', __FILE__ ) );
 }
 
 
@@ -405,8 +389,6 @@ function _mw_adminimize_admin_init() {
 			if ( _mw_adminimize_recursive_in_array( 'media_buttons', $disabled_metaboxes_page_all )
 				|| _mw_adminimize_recursive_in_array( 'media_buttons', $disabled_metaboxes_post_all ) )
 				remove_action( 'media_buttons', 'media_buttons' );
-				
-			//add_filter( 'image_downsize', '_mw_adminimize_image_downsize', 1, 3);
 		}
 	
 		$_mw_adminimize_control_flashloader = _mw_adminimize_get_option_value( '_mw_adminimize_control_flashloader' );
@@ -466,50 +448,21 @@ function _mw_adminimize_init() {
 
 // on admin init
 define( 'MW_ADMIN_FILE', plugin_basename( __FILE__ ) );
-add_action( 'admin_init', '_mw_adminimize_textdomain' );
-add_action( 'admin_init', '_mw_adminimize_register_styles', 1 );
-add_action( 'admin_init', '_mw_adminimize_admin_init', 2 );
+if ( is_admin() ) {
+	add_action( 'admin_init', '_mw_adminimize_textdomain' );
+	add_action( 'admin_init', '_mw_adminimize_admin_init', 2 );
+	/* maybe later
+	if ( is_multisite() && is_plugin_active_for_network( MW_ADMIN_FILE ) )
+		add_action( 'network_admin_menu', '_mw_adminimize_add_settings_page' );
+	*/
+	add_action( 'admin_menu', '_mw_adminimize_add_settings_page' );
+	add_action( 'admin_menu', '_mw_adminimize_remove_dashboard' );
+}
 add_action( 'init', '_mw_adminimize_init', 2 );
-/* maybe later
-if ( is_multisite() && is_plugin_active_for_network( MW_ADMIN_FILE ) )
-	add_action( 'network_admin_menu', '_mw_adminimize_add_settings_page' );
-*/
-add_action( 'admin_menu', '_mw_adminimize_add_settings_page' );
-add_action( 'admin_menu', '_mw_adminimize_remove_dashboard' );
 
 register_activation_hook( __FILE__, '_mw_adminimize_install' );
 register_uninstall_hook( __FILE__, '_mw_adminimize_deinstall' );
 //register_deactivation_hook(__FILE__, '_mw_adminimize_deinstall' );
-
-
-/**
- * Uses WordPress filter for image_downsize, kill wp-image-dimension
- * code by Andrew Rickmann
- * http://www.wp-fun.co.uk/
- * @param $value, $id, $size
- */
-function _mw_adminimize_image_downsize( $value = FALSE, $id = 0, $size = 'medium' ) {
-
-	if ( ! wp_attachment_is_image( $id ) )
-		return FALSE;
-
-	$img_url = wp_get_attachment_url( $id);
-	
-	// Mimic functionality in image_downsize function in wp-includes/media.php
-	if ( $intermediate = image_get_intermediate_size( $id, $size ) ) {
-		$img_url = str_replace( basename( $img_url ), $intermediate['file'], $img_url );
-	} elseif ( $size == 'thumbnail' ) {
-		// fall back to the old thumbnail
-		if ( $thumb_file = wp_get_attachment_thumb_file() && $info = getimagesize( $thumb_file ) ) {
-			$img_url = str_replace( basename( $img_url ), basename( $thumb_file ), $img_url );
-		}
-	}
-		
-	if ( $img_url )
-		return array( $img_url, 0, 0);
-	
-	return FALSE;
-}
 
 
 /**
@@ -555,9 +508,10 @@ function _mw_adminimize_sidecat_list_category_box() {
 
 
 /**
- * remove the dashbord
- * @author of basic Austin Matzko
- * http://www.ilfilosofo.com/blog/2006/05/24/plugin-remove-the-wordpress-dashboard/
+ * Remove the dashboard
+ * 
+ * @author Basic Austin Matzko
+ * @see    http://www.ilfilosofo.com/blog/2006/05/24/plugin-remove-the-wordpress-dashboard/
  */
 function _mw_adminimize_remove_dashboard() {
 	global $menu, $submenu, $user_ID, $wp_version;
@@ -569,8 +523,8 @@ function _mw_adminimize_remove_dashboard() {
 		$disabled_submenu_[$role]  = _mw_adminimize_get_option_value( 'mw_adminimize_disabled_submenu_' . $role . '_items' );
 	}
 
-	$disabled_menu_all     = array();
-	$disabled_submenu_all  = array();
+	$disabled_menu_all    = array();
+	$disabled_submenu_all = array();
 
 	foreach ( $user_roles as $role ) {
 		array_push( $disabled_menu_all, $disabled_menu_[$role] );
@@ -632,13 +586,14 @@ function _mw_adminimize_remove_dashboard() {
 				unset( $menu[$page] );
 			reset( $menu); $page = key( $menu);
 
-			while ( !$the_user->has_cap( $menu[$page][1] ) && next( $menu) )
+			while ( ! $the_user->has_cap( $menu[$page][1] ) && next( $menu) )
 				$page = key( $menu);
 
 			if ( preg_match( '#wp-admin/?(index.php)?$#', $_SERVER['REQUEST_URI'] ) ) {
 				wp_redirect( $_mw_adminimize_db_redirect );
 			}
 		}
+	
 	}
 }
 
@@ -1145,15 +1100,17 @@ require_once( 'adminimize_page.php' );
 require_once( 'inc-setup/dashboard.php' );
 // widget options
 require_once( 'inc-setup/widget.php' );
-// remove admin bar
-require_once( 'inc-setup/remove-admin-bar.php' );
 require_once( 'inc-setup/admin-footer.php' );
 // globale settings
 //require_once( 'inc-options/settings_notice.php' );
+// remove admin bar
+require_once( 'inc-setup/remove-admin-bar.php' );
 // admin bar helper, setup
+// work always in frontend
 require_once( 'inc-setup/admin-bar-items.php' );
 // meta boxes helper, setup
 //require_once( 'inc-setup/meta-boxes.php' );
+
 /**
  * @version WP 2.8
  * Add action link(s) to plugins page
@@ -1207,6 +1164,7 @@ function _mw_adminimize_add_settings_page() {
 
 function _mw_adminimize_on_load_page() {
 	
+	wp_register_style( 'adminimize-style', plugins_url( 'css/style.css', __FILE__ ) );
 	wp_enqueue_style( 'adminimize-style' );
 }
 
@@ -1563,6 +1521,10 @@ function _mw_adminimize_deinstall() {
  * Install options in database
  */
 function _mw_adminimize_install() {
+	
+	if ( ! is_admin() )
+		return NULL;
+	
 	global $menu, $submenu;
 	
 	$user_roles = _mw_adminimize_get_all_user_roles();

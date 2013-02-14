@@ -9,6 +9,10 @@ if ( ! function_exists( 'add_action' ) ) {
 	echo "Hi there!  I'm just a part of plugin, not much I can do when called directly.";
 	exit;
 }
+
+if ( ! is_admin() )
+	return NULL;
+
 // The global var is only usable on edit Post Type page
 add_filter( 'do_meta_boxes', '_mw_adminimize_get_all_meta_boxes', 0, 3 );
 function _mw_adminimize_get_all_meta_boxes( $post_type, $priority, $post ) {

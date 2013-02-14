@@ -20,9 +20,12 @@ add_action( 'wp_before_admin_bar_render', '_mw_adminimize_get_admin_bar_nodes' )
 function _mw_adminimize_get_admin_bar_nodes() {
 	
 	// Update only on Adminimize Settings page
-	if ( isset( $GLOBALS['current_screen']->base ) && 
+	if ( ! isset( $GLOBALS['current_screen']->base ) || 
 		'settings_page_adminimize/adminimize' !== $GLOBALS['current_screen']->base
 	)
+		return NULL;
+	
+	if ( ! is_admin() )
 		return NULL;
 	
 	global $wp_admin_bar;
@@ -66,14 +69,14 @@ add_action( 'admin_bar_menu', '_mw_adminimize_change_admin_bar', 999 );
  */
 function _mw_adminimize_change_admin_bar( $wp_admin_bar ) {
 	
-	// exclude super admin
-	if ( _mw_adminimize_exclude_super_admin() )
+	// Don't filter on settings page
+	if ( isset( $GLOBALS['current_screen']->base ) && 
+		'settings_page_adminimize/adminimize' == $GLOBALS['current_screen']->base
+	)
 		return NULL;
 	
-	// exclude Adminimize Settings page
-	if ( isset( $GLOBALS['current_screen']->base ) && 
-		'settings_page_adminimize/adminimize' !== $GLOBALS['current_screen']->base
-	)
+	// Exclude super admin
+	if ( _mw_adminimize_exclude_super_admin() )
 		return NULL;
 	
 	$user_roles = _mw_adminimize_get_all_user_roles();

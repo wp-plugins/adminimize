@@ -89,8 +89,10 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
-= 1.8.2 (01/11/2013) =
+= 1.8.2 (01/17/2013) =
 * Fix PHP Notice message for empty var, see [support](http://wordpress.org/support/topic/undefined-index-current_screen)
+* Changes for load files and functions only, if it necessary
+* Fix, that the changes on Admin Bar work always in all admin pages
 
 = 1.8.1 (01/10/2013) =
 * Fix PHP notice on message for network
@@ -98,8 +100,8 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 * Add Widget settings (Beta)
 * Fix for remove admin bar in backend
 * Remove Backend options, there not usable with WP 3.5 and earlier
-* Fix 'Category Height' in post to use also in newer versions of WP
-* Fix to hide foorer, but it is usable to add custom content
+* Fix 'Category Height' on Meta Box on write post; See always all categories, without scolling inside Meta Box
+* Fix to hide footer, but this is still usable by adding custom content
 * Fix Hints, Options for Multisite install
 * Add Admin Bar options (Beta)
 
