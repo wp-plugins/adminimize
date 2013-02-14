@@ -159,10 +159,10 @@ if ( ! function_exists( 'add_action' ) ) {
 							<?php
 							// when remove dashboard
 							foreach ($user_roles as $role) {
-								$disabled_menu_[$role] = _mw_adminimize_get_option_value('mw_adminimize_disabled_menu_'. $role .'_items');
+								$disabled_menu_[$role]    = _mw_adminimize_get_option_value('mw_adminimize_disabled_menu_'. $role .'_items');
 								$disabled_submenu_[$role] = _mw_adminimize_get_option_value('mw_adminimize_disabled_submenu_'. $role .'_items');
 							}
-
+							
 							$disabled_menu_all = array();
 							foreach ($user_roles as $role) {
 								array_push($disabled_menu_all, $disabled_menu_[$role]);

@@ -1157,7 +1157,8 @@ function _mw_adminimize_add_settings_page() {
 		__FILE__, 
 		'_mw_adminimize_options'
 	);
-	add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_meta', 10, 2 );
+	if ( ! is_network_admin() )
+		add_filter( 'plugin_action_links', '_mw_adminimize_filter_plugin_meta', 10, 2 );
 	add_action( 'load-' . $pagehook, '_mw_adminimize_on_load_page' );
 }
 
@@ -1492,9 +1493,13 @@ function _mw_adminimize_update() {
 	
 	$adminimizeoptions['mw_adminimize_dashboard_widgets'] = _mw_adminimize_get_option_value('mw_adminimize_dashboard_widgets' );
 	
-	$adminimizeoptions['mw_adminimize_default_menu'] = $GLOBALS['menu'];
-	$adminimizeoptions['mw_adminimize_default_submenu'] = $GLOBALS['submenu'];
+	if ( isset( $GLOBALS['menu'] ) )
+		$adminimizeoptions['mw_adminimize_default_menu']    = $GLOBALS['menu'];
+	if ( isset( $GLOBALS['submenu'] ) )
+		$adminimizeoptions['mw_adminimize_default_submenu'] = $GLOBALS['submenu'];
 	
+	//update_option( 'mw_adminimize1', $adminimizeoptions['mw_adminimize_disabled_admin_bar_administrator_items'] );
+	//update_site_option( 'mw_adminimize1', $adminimizeoptions['mw_adminimize_disabled_admin_bar_administrator_items'] );
 	// update
 	if ( is_multisite() && is_plugin_active_for_network( MW_ADMIN_FILE ) )
 		update_site_option( 'mw_adminimize', $adminimizeoptions );

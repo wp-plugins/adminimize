@@ -21,9 +21,9 @@ function _mw_adminimize_options() {
 	$_mw_adminimize_user_info = '';
 
 	//get array with userroles
-	$user_roles = _mw_adminimize_get_all_user_roles();
+	$user_roles       = _mw_adminimize_get_all_user_roles();
 	$user_roles_names = _mw_adminimize_get_all_user_roles_names();
-
+	
 	// update options
 	if ( ( isset($_POST['_mw_adminimize_action']) && $_POST['_mw_adminimize_action'] == '_mw_adminimize_insert') && $_POST['_mw_adminimize_save'] ) {
 
@@ -181,4 +181,3 @@ function _mw_adminimize_options() {
 	</div>
 <?php
 }
-?>
