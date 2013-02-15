@@ -112,6 +112,7 @@ function _mw_adminimize_options() {
 ?>
 	<div class="wrap">
 		<?php
+		do_action( 'mw_adminimize_before_settings_form' );
 		// Backend Options for all roles
 		require_once( 'inc-options/minimenu.php' );
 		?>
@@ -151,10 +152,14 @@ function _mw_adminimize_options() {
 		
 		// WP Nav Menu Options 
 		require_once('inc-options/wp_nav_menu_options.php');
+		
+		do_action( 'mw_adminimize_settings_form' );
 		?>
 		</form>
 		
 		<?php
+		do_action( 'mw_adminimize_after_settings_form' );
+		
 		// Theme Options
 		require_once('inc-options/theme_options.php');
 		
