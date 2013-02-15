@@ -1,5 +1,5 @@
 === Adminimize ===
-Contributors: Bueltge
+Contributors: Bueltge, inpsyde
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4578111
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
@@ -89,7 +89,7 @@ See on [the official website](http://bueltge.de/wordpress-admin-theme-adminimize
 1. Adminimize Theme how in WordPress 2.3
 
 == Changelog ==
-= 1.8.2 (01/17/2013) =
+= 1.8.2 (02/15/2013) =
 * Fix PHP Notice message for empty var, see [support](http://wordpress.org/support/topic/undefined-index-current_screen)
 * Changes for load files and functions only, if it necessary
 * Fix, that the changes on Admin Bar work always in all admin pages
