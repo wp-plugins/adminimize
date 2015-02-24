@@ -1,9 +1,9 @@
 === Adminimize ===
-Contributors: Bueltge, inpsyde
+Contributors: Bueltge
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4578111
 Tags: color, scheme, theme, admin, dashboard, color scheme, plugin, interface, ui, metabox, hide, editor, minimal, menu, customization, interface, administration, lite, light, usability, lightweight, layout, zen
 Requires at least: 2.5
-Tested up to: 3.6-beta3
+Tested up to: 4.1
 Stable tag: 1.8.4
 
 Adminimize is a WordPress plugin that lets you hide 'unnecessary' items from the WordPress backend and many many more ...
@@ -60,10 +60,6 @@ The plugin changes the administration backend and gives you the power to assign 
 1. remove admin bar items for different role
 1. remove items on custom post types for different role
 1. ... many many more
-
-**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
-
-Have a look at the premium plugins in our [market](http://marketpress.com).
 
 == Installation ==
 1. Unpack the download-package
